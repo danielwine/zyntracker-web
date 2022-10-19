@@ -3,9 +3,11 @@ import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { defineComponent } from "vue";
 
+import BsNavBar from "../components/BsNavBar.vue";
+import BsToast from "@/components/BsToast.vue";
+
 import MainSide from "@/components/layouts/MainSide.vue";
 import Panel from "@/components/Panel.vue";
-import BsToast from "@/components/BsToast.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import TransportBar from "@/components/TransportBar.vue";
 import FileSelector from "@/components/FileSelector.vue";
@@ -14,6 +16,7 @@ import Tabs from "@/components/NavTab.vue";
 import { loadSong } from "@/library/Loader";
 import { AudioService } from "@/library/AudioService";
 import err from "@/library/Error";
+import NavTab from "../components/NavTab.vue";
 
 const audioService = AudioService.getInstance();
 
@@ -26,6 +29,8 @@ export default defineComponent({
     TransportBar,
     Tabs,
     FileSelector,
+    NavTab,
+    BsNavBar,
   },
   data() {
     return {
@@ -78,6 +83,9 @@ export default defineComponent({
 </script>
 
 <template>
+  <BsNavBar>
+    <template #brand>ZynTracker</template>
+  </BsNavBar>
   <MainSide
     v-if="main.song.patterns.length > 0"
     :header="false"
@@ -132,7 +140,8 @@ export default defineComponent({
   </MainSide>
 </template>
 
-<style scoped>
+<style>
+@import "@/assets/base.css";
 a {
   color: white;
   text-decoration: underline;
@@ -153,5 +162,4 @@ a {
 .help-text {
   height: 40px;
 }
-/* @import "@/assets/base.css"; */
 </style>

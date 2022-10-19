@@ -1,3 +1,5 @@
+import { production } from "@/config";
+
 /**
  * List of locally available sample sets
  */
@@ -24,6 +26,8 @@ export const noteMaps = {
   },
 };
 
-export const localhostIP = "http://localhost:5173";
+export const localhostIP = production
+  ? "https://zyntracker.web.app"
+  : "http://localhost:5173";
 export const pathSounds = "soundfonts";
 export const pathSongs = "songs";
