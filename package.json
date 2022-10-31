@@ -7,7 +7,8 @@
     "preview": "vite preview --port 4173",
     "test:unit": "vitest --environment jsdom",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
+    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.6",

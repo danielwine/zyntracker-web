@@ -15,6 +15,16 @@ const router = createRouter({
           component: () => import("@/views/ZynpadView.vue"),
         },
         {
+          path: "about",
+          name: "about",
+          component: () => import("@/views/AboutView.vue"),
+        },
+        {
+          path: "options",
+          name: "options",
+          component: () => import("@/views/OptionsView.vue"),
+        },
+        {
           path: "edit/:audioSeqID",
           name: "edit",
           props: true,

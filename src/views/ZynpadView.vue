@@ -18,7 +18,7 @@ export default defineComponent({
     Tile,
     TransportBar,
   },
-  emits: ["togglePlay", "nextPattern", "prevPattern"],
+  emits: ["togglePlay", "nextPattern", "prevPattern", "showHelp"],
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
@@ -75,7 +75,13 @@ export default defineComponent({
           if (pad) pad.togglePlay();
         } else this.navigateToEditor();
       }
-      if (event.key == "Backspace") this.navigateToEditor();
+      if (event.key == "Backspace" || event.key == "F2")
+        this.navigateToEditor();
+      if (event.key in this.ui.switches) {
+        this.ui.switches[event.key.toString()].state =
+          !this.ui.switches[event.key].state;
+        if (event.key == "F1") this.$emit("showHelp");
+      }
     },
     navigateToEditor() {
       this.$router.push("/edit/" + (this.ui.selectedPad - 1));

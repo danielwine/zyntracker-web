@@ -1,13 +1,13 @@
 <script lang="ts">
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
+import type { ISwitch } from "@/stores/ui";
 import { defineComponent } from "vue";
 
 import BsNavBar from "../components/BsNavBar.vue";
 import BsToast from "@/components/BsToast.vue";
 
 import MainSide from "@/components/layouts/MainSide.vue";
-import Panel from "@/components/Panel.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import TransportBar from "@/components/TransportBar.vue";
 import FileSelector from "@/components/FileSelector.vue";
@@ -17,12 +17,14 @@ import { loadSong } from "@/library/Loader";
 import { AudioService } from "@/library/AudioService";
 import err from "@/library/Error";
 import NavTab from "../components/NavTab.vue";
+import Footer from "../components/Footer.vue";
+import StatusBar from "../components/StatusBar.vue";
+import { storeToRefs } from "pinia";
 
 const audioService = AudioService.getInstance();
 
 export default defineComponent({
   components: {
-    Panel,
     BsToast,
     MainSide,
     LoadingScreen,
@@ -31,17 +33,37 @@ export default defineComponent({
     FileSelector,
     NavTab,
     BsNavBar,
+    Footer,
+    StatusBar,
   },
   data() {
     return {
       help: {
-        pad:
-          "Click on a pad to Start/Stop a sequence.\n" +
-          "Click-and-hold / Press Ctrl-Enter to edit.",
-        edit:
-          "Navigation: ↑ ↓ ← →  Edit: Esc  Octave: +/-\n" +
-          "To play a note: a-z. Back: Backspace.",
-      } as { [key: string]: string },
+        pad: {
+          keys: [
+            ["about", "F1 ABOUT"],
+            ["edit", "F2 EDIT"],
+          ],
+          text:
+            "CLICK on a pad -> seq start/stop \n" +
+            "LONG-CLICK / CTRL-ENTER -> edit.",
+        },
+        edit: {
+          keys: [
+            ["about", "F1 ABOUT"],
+            ["", "F2 PADS"],
+          ],
+          text:
+            "↑ ↓ ← →  ESC: edit  +/-\n: change octave" + "A-Z: play a note.",
+        },
+        about: {
+          keys: [
+            ["about", "F1 ABOUT"],
+            ["edit", "F2 EDIT"],
+          ],
+          text: "",
+        },
+      } as { [key: string]: { keys: string[][]; text: string } },
       tabList: ["Instruments", "Test songs"],
       windowWidth: window.innerWidth,
     };
@@ -64,14 +86,30 @@ export default defineComponent({
         console.debug("AudioSequences: ", audioService.sequences);
       }
     },
+    getSwitchActiveClass(item: ISwitch) {
+      return item.state ? "switch-active" : "";
+    },
+    nextPattern() {
+      this.currentPattern += 1;
+      this.routeToPattern(this.currentPattern);
+    },
+    previousPattern() {
+      this.currentPattern -= 1;
+      this.routeToPattern(this.currentPattern);
+    },
+    routeToPattern(patternNumber: number) {
+      this.$router.push(patternNumber.toString());
+    },
   },
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
+    let { currentPattern } = storeToRefs(ui);
 
     return {
       main,
       ui,
+      currentPattern,
     };
   },
   created() {
@@ -85,27 +123,23 @@ export default defineComponent({
 <template>
   <BsNavBar>
     <template #brand>ZynTracker</template>
-  </BsNavBar>
-  <MainSide
-    v-if="main.song.patterns.length > 0"
-    :header="false"
-    :padding="false"
-    background="black"
-    sideBackground="darkgray"
-  >
-    <template #main>
-      <Panel :bankId="0"></Panel>
+    <template #rawcontent>
+      <StatusBar :bankId="0"></StatusBar>
     </template>
-    <template #side>
-      <div class="help">
-        <p class="help-link">
-          <RouterLink to="/"> What is ZynTracker?</RouterLink>
-        </p>
-        <p v-if="$route.name" class="help-text">
-          {{ help[$route.name.toString()] }}
-        </p>
-        <p></p>
+  </BsNavBar>
+  <div class="container-fluid g-0">
+    <div class="row">
+      <div v-if="main.song.patterns.length > 0">
+        <RouterView
+          @nextPattern="nextPattern()"
+          @prevPattern="previousPattern()"
+          @showHelp="$router.push('/about')"
+        />
       </div>
+    </div>
+    <BsToast v-if="main.error.message"></BsToast>
+
+    <template v-if="$route.name != 'about'">
       <Tabs :tabList="tabList">
         <template v-slot:tabPanel-1>
           <div
@@ -132,12 +166,31 @@ export default defineComponent({
           </FileSelector>
         </template>
         <template v-slot:tabPanel-3> </template>
-        <!-- {{ windowWidth }} -->
       </Tabs>
-
       <TransportBar></TransportBar>
     </template>
-  </MainSide>
+  </div>
+  <Footer>
+    <template #content>
+      <div class="help">
+        <span
+          class="help-link"
+          v-if="$route.name"
+          v-for="item of Object.entries(ui.switches)"
+        >
+          <RouterLink
+            :class="getSwitchActiveClass(item[1])"
+            :to="'/' + item[1].name"
+            >{{ item[0] + " " + item[1].name.toUpperCase() }}</RouterLink
+          >&nbsp;
+        </span>
+        <span v-if="$route.name" class="help-text">
+          {{ help[$route.name.toString()].text }}
+        </span>
+        <p></p>
+      </div>
+    </template>
+  </Footer>
 </template>
 
 <style>
@@ -161,5 +214,9 @@ a {
 }
 .help-text {
   height: 40px;
+}
+
+.switch-active {
+  background-color: red;
 }
 </style>

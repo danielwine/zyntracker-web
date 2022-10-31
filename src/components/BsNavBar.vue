@@ -1,8 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-qlg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"> <slot name="brand"></slot> </a>
-      <button
+      <RouterLink class="navbar-brand" to="/"><slot name="brand"></slot> </RouterLink>&nbsp;
+      <!-- <a class="navbar-brand" href="/"> <slot name="brand"></slot> </a> -->
+      <!-- <button
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
@@ -12,9 +13,10 @@
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
-      </button>
-      <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      </button> -->
+      <slot name="rawcontent"></slot>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
@@ -58,7 +60,7 @@
           />
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-      </div> -->
+      </div>
     </div>
   </nav>
 </template>

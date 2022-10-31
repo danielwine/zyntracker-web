@@ -3,17 +3,6 @@ import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <!-- <HelloWorld msg="You did it!" /> -->
-
-      <!-- <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav> -->
-    </div>
-  </header>
-
   <RouterView />
 </template>
 
@@ -93,7 +82,7 @@ import { RouterLink, RouterView } from "vue-router";
 
 a.router-link-active {
   /* background-color: black; */
-  background-color: rgba(150, 150, 150, 0.5);
+  /* background-color: rgba(150, 150, 150, 0.5); */
   color: white;
   transition: 0.15s ease-in-out;
 }

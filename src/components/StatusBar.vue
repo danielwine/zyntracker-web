@@ -33,110 +33,94 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="statusbar-container container">
-    <div id="statusbar">
-      <div id="innerContent">
-        <div v-if="$route.name == 'pad'" class="d-flex justify-content-between">
-          <div>
-            <span class="pe-3"
-              ><i
-                class="header-nav-item fa fa-chevron-left fa-2x"
-                v-on:click="goBack()"
-              ></i
-            ></span>
-            <button
-              class="btn btn-dark"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="Previous bank"
-              disabled
-            >
-              <i class="fa fa-caret-left"></i>
-            </button>
-            <button
-              class="btn btn-dark ms-1"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="Next bank"
-              disabled
-            >
-              <i class="fa fa-caret-right"></i>
-            </button>
-            <code class="caption">
-              &nbsp; bank {{ String(bankId).padStart(2, "0") }}
-            </code>
-          </div>
-          <code class="song-info">
-            <span>[{{ main.song?.name }}]</span>
-            <span class="song-info-detail"
-              >:&nbsp;sequences: {{ main.song?.sequences.length }},</span
-            >
-            <span class="song-info-detail">
-              <span
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                :title="patterns"
-                >&nbsp;patterns: {{ main.song?.patterns.length }} &nbsp;
-              </span>
-            </span>
-          </code>
-        </div>
-
-        <div
-          v-if="$route.name == 'edit'"
-          class="d-flex justify-content-between"
-        >
-          <div>
-            <span class="pe-3"
-              ><i
-                class="header-nav-item fa fa-chevron-left fa-2x"
-                v-on:click="goBack()"
-              ></i
-            ></span>
-            <button
-              @click="$emit('prevPattern')"
-              class="btn btn-dark"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="Previous pattern"
-              :disabled="ui.currentPattern == 0"
-            >
-              <i class="fa fa-caret-left"></i>
-            </button>
-            <button
-              @click="$emit('nextPattern')"
-              class="btn btn-dark ms-1"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="Next pattern"
-              :disabled="
-                ui.currentPattern ==
-                Object.keys(audioService.sequences).length - 1
-              "
-            >
-              <i class="fa fa-caret-right"></i>
-            </button>
-            <code class="caption">
-              &nbsp; pattern {{ formatIndex(ui.currentPattern) }}
-            </code>
-          </div>
-          <code class="song-info">
-            <span>[{{ main.song?.name }}]</span>
-            <span class="song-info-detail"
-              >:&nbsp;sequences: {{ main.song?.sequences.length }},</span
-            >
-            <span class="song-info-detail">
-              <span
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                :title="patterns"
-                >&nbsp;patterns: {{ main.song?.patterns.length }} &nbsp;
-              </span>
-            </span>
-          </code>
-        </div>
-      </div>
+  <div v-if="$route.name == 'pad'">
+    <div>
+      <span class="pe-3"
+        ><i
+          class="header-nav-item fa fa-chevron-left fa-2x"
+          v-on:click="goBack()"
+        ></i
+      ></span>
+      <button
+        class="btn btn-dark"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Previous bank"
+        disabled
+      >
+        <i class="fa fa-caret-left"></i>
+      </button>
+      <button
+        class="btn btn-dark ms-1"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Next bank"
+        disabled
+      >
+        <i class="fa fa-caret-right"></i>
+      </button>
+      <code class="caption">
+        &nbsp; bank {{ String(bankId).padStart(2, "0") }}
+      </code>
     </div>
+    <code class="song-info">
+      <span>[{{ main.song?.name }}]</span>
+      <span class="song-info-detail"
+        >:&nbsp;sequences: {{ main.song?.sequences.length }},</span
+      >
+      <span class="song-info-detail">
+        <span data-bs-toggle="tooltip" data-bs-placement="top" :title="patterns"
+          >&nbsp;patterns: {{ main.song?.patterns.length }} &nbsp;
+        </span>
+      </span>
+    </code>
+  </div>
+
+  <div v-if="$route.name == 'edit'">
+    <div>
+      <span class="pe-3"
+        ><i
+          class="header-nav-item fa fa-chevron-left fa-2x"
+          v-on:click="goBack()"
+        ></i
+      ></span>
+      <button
+        @click="$emit('prevPattern')"
+        class="btn btn-dark"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Previous pattern"
+        :disabled="ui.currentPattern == 0"
+      >
+        <i class="fa fa-caret-left"></i>
+      </button>
+      <button
+        @click="$emit('nextPattern')"
+        class="btn btn-dark ms-1"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Next pattern"
+        :disabled="
+          ui.currentPattern == Object.keys(audioService.sequences).length - 1
+        "
+      >
+        <i class="fa fa-caret-right"></i>
+      </button>
+      <code class="caption">
+        &nbsp; pattern {{ formatIndex(ui.currentPattern) }}
+      </code>
+    </div>
+    <code class="song-info">
+      <span>[{{ main.song?.name }}]</span>
+      <span class="song-info-detail"
+        >:&nbsp;sequences: {{ main.song?.sequences.length }},</span
+      >
+      <span class="song-info-detail">
+        <span data-bs-toggle="tooltip" data-bs-placement="top" :title="patterns"
+          >&nbsp;patterns: {{ main.song?.patterns.length }} &nbsp;
+        </span>
+      </span>
+    </code>
   </div>
 </template>
 

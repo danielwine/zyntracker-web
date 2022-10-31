@@ -17,7 +17,7 @@ enum Direction {
 }
 
 export default defineComponent({
-  emits: ["nextPattern", "prevPattern"],
+  emits: ["nextPattern", "prevPattern", "showHelp"],
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
@@ -197,12 +197,13 @@ export default defineComponent({
         keymap.setOctave(this.octave);
       }
       if (key == "Escape") this.editMode = !this.editMode;
-      if (key == "Backspace") this.$router.push("/");
+      if (key == "Backspace" || key == "F2") this.$router.push("/");
       if (key == "Delete" && this.editMode) {
         this.editValue("");
         await this.$nextTick();
         this.setCursor(true);
       }
+      if (key == "F1") this.$emit("showHelp");
     },
     keyDown(event: KeyboardEvent) {
       if (this.keyPressed[event.key] == true) return;
