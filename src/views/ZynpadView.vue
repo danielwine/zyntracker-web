@@ -6,6 +6,7 @@ import TransportBar from "@/components/TransportBar.vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { RouterView } from "vue-router";
+import { toggleKey, checkFunctionKeys } from "@/common/keys";
 
 interface PlayAble {
   togglePlay(): Function;
@@ -18,7 +19,7 @@ export default defineComponent({
     Tile,
     TransportBar,
   },
-  emits: ["togglePlay", "nextPattern", "prevPattern", "showHelp"],
+  emits: ["togglePlay", "nextPattern", "prevPattern", "toggleHelp"],
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
@@ -31,6 +32,8 @@ export default defineComponent({
       console.debug("EVERYTHING IS RENDERED!!!");
       useMainStore().rendered = true;
     });
+    this.ui.switches['F2'].disabled = false
+    this.ui.switches['F8'].disabled = false
   },
   unmounted() {
     window.removeEventListener("keydown", this.keyDown);
@@ -75,15 +78,15 @@ export default defineComponent({
           if (pad) pad.togglePlay();
         } else this.navigateToEditor();
       }
-      if (event.key == "Backspace" || event.key == "F2")
+      if (event.key == "Backspace" || event.key == "F2") {
         this.navigateToEditor();
-      if (event.key in this.ui.switches) {
-        this.ui.switches[event.key.toString()].state =
-          !this.ui.switches[event.key].state;
-        if (event.key == "F1") this.$emit("showHelp");
+        return;
       }
+      const result = checkFunctionKeys(event.key, this.$route.name);
+      if (result) this.$emit(result);
     },
     navigateToEditor() {
+      toggleKey("F2");
       this.$router.push("/edit/" + (this.ui.selectedPad - 1));
     },
   },

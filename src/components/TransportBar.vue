@@ -7,6 +7,7 @@ import ZssService from "@/library/ZSSService";
 import { loadSong } from "@/library/Loader";
 import err from "@/library/Error";
 import { storeToRefs } from "pinia";
+import IconBack from "@/components/icons/IconBack.vue";
 
 const audioService = AudioService.getInstance();
 const ZSS = ZssService.getInstance();
@@ -14,7 +15,9 @@ const ZSS = ZssService.getInstance();
 export default defineComponent({
   name: "FileUpload",
   emits: ["fileloaded"],
-
+  components: {
+    IconBack,
+  },
   setup(props, { emit }) {
     const main = useMainStore();
     const ui = useUIStore();
@@ -114,6 +117,7 @@ export default defineComponent({
       data-bs-placement="top"
       title="Toggle transport"
     >
+    <!-- <IconBack></IconBack> -->
       <i
         :class="'fa fa-1x btn-green fa-' + (transportState ? 'stop' : 'play')"
       ></i>

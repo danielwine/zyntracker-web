@@ -6,9 +6,11 @@ export enum playStates {
 }
 
 export interface ISwitch {
+  [key: string]: any;
   name: string;
-  state: boolean;
-  view: boolean;
+  active: boolean;
+  isView: boolean;
+  disabled: boolean;
 }
 
 export const useUIStore = defineStore("ui", {
@@ -18,11 +20,11 @@ export const useUIStore = defineStore("ui", {
     currentPattern: -1,
     transportState: false,
     switches: {
-      F1: { name: "about", state: true, view: true },
-      F2: { name: "edit", state: false, view: true },
-      F4: { name: "solo", state: false, view: false },
-      F8: { name: "options", state: false, view: true },
-      F9: { name: "", state: false, view: true },
+      F1: { name: "about", active: false, isView: true, disabled: false },
+      F2: { name: "edit", active: false, isView: true, disabled: false },
+      F4: { name: "solo", active: false, isView: false, disabled: false },
+      F8: { name: "options", active: false, isView: true, disabled: false },
+      // F9: { name: "", active: false, isView: true, disabled: false },
     } as { [key: string]: ISwitch },
   }),
   getters: {},

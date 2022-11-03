@@ -1,7 +1,6 @@
 <script lang="ts">
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
-import type { ISwitch } from "@/stores/ui";
 import { defineComponent } from "vue";
 
 import BsNavBar from "../components/BsNavBar.vue";
@@ -38,32 +37,6 @@ export default defineComponent({
   },
   data() {
     return {
-      help: {
-        pad: {
-          keys: [
-            ["about", "F1 ABOUT"],
-            ["edit", "F2 EDIT"],
-          ],
-          text:
-            "CLICK on a pad -> seq start/stop \n" +
-            "LONG-CLICK / CTRL-ENTER -> edit.",
-        },
-        edit: {
-          keys: [
-            ["about", "F1 ABOUT"],
-            ["", "F2 PADS"],
-          ],
-          text:
-            "↑ ↓ ← →  ESC: edit  +/-\n: change octave" + "A-Z: play a note.",
-        },
-        about: {
-          keys: [
-            ["about", "F1 ABOUT"],
-            ["edit", "F2 EDIT"],
-          ],
-          text: "",
-        },
-      } as { [key: string]: { keys: string[][]; text: string } },
       tabList: ["Instruments", "Test songs"],
       windowWidth: window.innerWidth,
     };
@@ -86,9 +59,6 @@ export default defineComponent({
         console.debug("AudioSequences: ", audioService.sequences);
       }
     },
-    getSwitchActiveClass(item: ISwitch) {
-      return item.state ? "switch-active" : "";
-    },
     nextPattern() {
       this.currentPattern += 1;
       this.routeToPattern(this.currentPattern);
@@ -99,6 +69,11 @@ export default defineComponent({
     },
     routeToPattern(patternNumber: number) {
       this.$router.push(patternNumber.toString());
+    },
+    toggleAbout() {
+      const route = this.$route.name?.toString();
+      if (route == "pad") this.$router.push("about");
+      if (route == "about") this.$router.go(-1);
     },
   },
   setup() {
@@ -127,70 +102,56 @@ export default defineComponent({
       <StatusBar :bankId="0"></StatusBar>
     </template>
   </BsNavBar>
-  <div class="container-fluid g-0">
+  <div class="container-fluid">
+    <!-- <div class="container-fluid g-0"> -->
     <div class="row">
-      <div v-if="main.song.patterns.length > 0">
+      <div class="col-md-8" v-if="main.song.patterns.length > 0">
         <RouterView
           @nextPattern="nextPattern()"
           @prevPattern="previousPattern()"
-          @showHelp="$router.push('/about')"
+          @toggleHelp="toggleAbout()"
         />
       </div>
-    </div>
-    <BsToast v-if="main.error.message"></BsToast>
 
-    <template v-if="$route.name != 'about'">
-      <Tabs :tabList="tabList">
-        <template v-slot:tabPanel-1>
-          <div
-            v-for="(tone, index) in main.song.tones"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            :title="`(${tone.meta.originalPreset}@${tone.meta.originalEngine})`"
-          >
-            {{ formatIndex(index) }} - {{ tone.meta.originalPreset }} >
-            {{ tone.engine }}
-          </div>
-        </template>
-        <template v-slot:tabPanel-2>
-          <FileSelector
-            @fileselected="loadSong"
-            :names="[
-              'FieryRedSunset.zss',
-              'Exeunt.zss',
-              'CityInTheRain.zss',
-              'Zynthwave.zss',
-              // 'ThreeOnThree.zss',
-            ]"
-          >
-          </FileSelector>
-        </template>
-        <template v-slot:tabPanel-3> </template>
-      </Tabs>
-      <TransportBar></TransportBar>
-    </template>
-  </div>
-  <Footer>
-    <template #content>
-      <div class="help">
-        <span
-          class="help-link"
-          v-if="$route.name"
-          v-for="item of Object.entries(ui.switches)"
-        >
-          <RouterLink
-            :class="getSwitchActiveClass(item[1])"
-            :to="'/' + item[1].name"
-            >{{ item[0] + " " + item[1].name.toUpperCase() }}</RouterLink
-          >&nbsp;
-        </span>
-        <span v-if="$route.name" class="help-text">
-          {{ help[$route.name.toString()].text }}
-        </span>
-        <p></p>
+      <!-- <div class="col-md-4" v-if="$route.name != 'about'"> -->
+      <div class="col-md-4">
+        <Tabs :tabList="tabList">
+          <template v-slot:tabPanel-1>
+            <div
+              v-for="(tone, index) in main.song.tones"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              :title="`(${tone.meta.originalPreset}@${tone.meta.originalEngine})`"
+            >
+              {{ formatIndex(index) }} - {{ tone.meta.originalPreset }} >
+              {{ tone.engine }}
+            </div>
+          </template>
+          <template v-slot:tabPanel-2>
+            <FileSelector
+              @fileselected="loadSong"
+              :names="[
+                'FieryRedSunset.zss',
+                'Exeunt.zss',
+                'CityInTheRain.zss',
+                'Zynthwave.zss',
+                'factory/001-ThreeOnThree.zss',
+                'factory/002-House In RTP.zss',
+                'factory/003-FluidR3 GM.zss',
+                'factory/004-Mistic Arp.zss',
+                'factory/005-Techno Base 01.zss',
+              ]"
+            >
+            </FileSelector>
+          </template>
+          <template v-slot:tabPanel-3> </template>
+        </Tabs>
+        <TransportBar></TransportBar>
       </div>
-    </template>
-  </Footer>
+    </div>
+  </div>
+  <Footer></Footer>
+  <BsToast v-if="main.error.message"></BsToast>
 </template>
 
 <style>
@@ -215,8 +176,8 @@ a {
 .help-text {
   height: 40px;
 }
-
-.switch-active {
-  background-color: red;
+.content {
+  height: 20vh;
 }
+
 </style>

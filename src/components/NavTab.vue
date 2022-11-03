@@ -129,7 +129,8 @@ ul.container-vertical {
   background: black;
   border-radius: 0;
   padding: 10px 10px 6px 14px;
-  height: 305px;
+  height: 75vh;
+  /* height: 90%; */
   overflow: hidden;
 }
 </style>

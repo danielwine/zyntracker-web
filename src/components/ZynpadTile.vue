@@ -127,7 +127,7 @@ export default defineComponent({
 .tile {
   user-select: none;
   width: 25%;
-  padding-bottom: 13%;
+  padding-bottom: 15.6%;
   /* padding-bottom: 17.8%; */
   color: #fff;
   position: relative;

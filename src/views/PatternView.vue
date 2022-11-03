@@ -6,6 +6,7 @@ import { useUIStore } from "@/stores/ui";
 import * as keymap from "@/library/Keymap";
 import type { ToneSequenceEvents } from "@/library/interface/IPattern";
 import { storeToRefs } from "pinia";
+import { checkFunctionKeys, toggleKey } from "@/common/keys";
 
 const audioService = AudioService.getInstance();
 
@@ -17,7 +18,7 @@ enum Direction {
 }
 
 export default defineComponent({
-  emits: ["nextPattern", "prevPattern", "showHelp"],
+  emits: ["nextPattern", "prevPattern", "toggleHelp"],
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
@@ -46,7 +47,7 @@ export default defineComponent({
       octave: keymap.defaultOctave,
       editMode: false,
       offset: 0,
-      padding: 5,
+      padding: 8,
       eventIdx: 0,
     };
   },
@@ -131,6 +132,8 @@ export default defineComponent({
           this.moveActiveCell(Direction.Down, step);
           this.setCursor(true);
         } else {
+          console.log("Scrolling to last pos.");
+
           this.scrollTo(this.patternLength - 1);
         }
       }
@@ -146,25 +149,39 @@ export default defineComponent({
         }
       }
     },
-    editValue(note: string) {
+    async editValue(note: string) {
       console.log(this.view, this.events[this.offset]);
       console.log(this.activeCell, this.offset);
 
       if (this.events[this.offset]) {
         if (this.activeCell.slice(4, 6) == "1")
           this.events[this.offset]!.notes[this.getColumn() - 1] = note;
+        console.debug(
+          "New value is set for a slot: ",
+          this.events[this.offset]
+        );
       } else {
         this.events[this.offset] = {
           notes: [note],
           velocities: [1],
           durations: [1],
         };
+        console.debug(
+          "New value is set for an empty slot: ",
+          this.events[this.offset]
+        );
       }
       // audioService.sequences[2].sequence.events[0] = new ToneSequenceEvent(
       //   ["C5"],
       //   [1],
       //   ["8n"]
       // );
+      console.log(this.getRow());
+
+      this.setCursor(false);
+      await nextTick();
+      this.scroll(Direction.Down, 1);
+      this.setCursor(true);
     },
     async checkControllerKeys(key: string) {
       console.log(key);
@@ -197,13 +214,16 @@ export default defineComponent({
         keymap.setOctave(this.octave);
       }
       if (key == "Escape") this.editMode = !this.editMode;
-      if (key == "Backspace" || key == "F2") this.$router.push("/");
-      if (key == "Delete" && this.editMode) {
-        this.editValue("");
-        await this.$nextTick();
-        this.setCursor(true);
+      if (key == "Backspace" || key == "F2") {
+        if (key == "Backspace") toggleKey("F2");
+        this.$router.push("/");
       }
-      if (key == "F1") this.$emit("showHelp");
+      if (key == "Delete" && this.editMode) {
+        await this.editValue("");
+        return;
+      }
+      const result = checkFunctionKeys(key, this.$route.name);
+      if (result) this.$emit(result);
     },
     keyDown(event: KeyboardEvent) {
       if (this.keyPressed[event.key] == true) return;
@@ -294,7 +314,7 @@ export default defineComponent({
 .pattern {
   background-color: black;
   /* padding-top: 10px; */
-  padding-bottom: 73.25%;
+  padding-bottom: 61.66%;
   /* padding-left: 80px; */
   color: #fff;
   position: relative;
