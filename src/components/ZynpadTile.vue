@@ -126,11 +126,15 @@ export default defineComponent({
 <style scoped>
 .tile {
   user-select: none;
-  width: 25%;
-  padding-bottom: 15.6%;
+  width: 150px;
+  /* padding-bottom: 100px; */
+  height: 10vh;
+  /* width: 13%; */
+  /* padding-bottom: 8%; */
+  /* padding-bottom: 15.6%; */
   /* padding-bottom: 17.8%; */
   color: #fff;
-  position: relative;
+  /* position: relative; */
   border: 1px solid black;
 }
 

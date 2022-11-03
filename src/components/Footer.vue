@@ -47,12 +47,6 @@ export default defineComponent({
       if (attribute in item)
         return item[attribute] ? `switch-${attribute}` : "";
     },
-    // getSwitchActiveClass(item: ISwitch) {
-    //   return item.state ? "switch-active" : "";
-    // },
-    // getSwitchDisabledClass(item: ISwitch) {
-    //   return item.disabled ? "switch-disabled" : "";
-    // },
   },
 });
 </script>
@@ -60,9 +54,9 @@ export default defineComponent({
 <template>
   <div class="footer bg-dark p-2">
     <div class="help">
+      <!-- v-if="$route.name" -->
       <span
         class="help-link"
-        v-if="$route.name"
         v-for="item of Object.entries(ui.switches)"
       >
         <RouterLink
@@ -74,9 +68,9 @@ export default defineComponent({
           >{{ item[0] + " " + item[1].name.toUpperCase() }}</RouterLink
         >&nbsp;
       </span>
-      <span v-if="$route.name" class="help-text">
+      <!-- <span v-if="$route.name" class="help-text">
         {{ help[$route.name.toString()].text }}
-      </span>
+      </span> -->
       <p></p>
     </div>
   </div>

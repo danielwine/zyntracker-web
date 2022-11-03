@@ -5,7 +5,6 @@ import StatusBar from "@/components/StatusBar.vue";
 import TransportBar from "@/components/TransportBar.vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
-import { RouterView } from "vue-router";
 import { toggleKey, checkFunctionKeys } from "@/common/keys";
 
 interface PlayAble {
@@ -14,7 +13,6 @@ interface PlayAble {
 
 export default defineComponent({
   components: {
-    RouterView,
     StatusBar,
     Tile,
     TransportBar,
@@ -120,7 +118,7 @@ export default defineComponent({
   <div
     v-for="row in [0, 1, 2, 3]"
     ref="'row-' + row"
-    class="container d-flex align-items-center justify-content-center"
+    class="container d-flex align-items-center "
   >
     <Tile
       v-for="sequence in sequences.filter(

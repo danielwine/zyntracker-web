@@ -145,7 +145,7 @@ export class AudioService {
     return sequence;
   }
 
-  addBasicPatterns() {
+  async addBasicPatterns() {
     console.debug("ENGINES: ", this.engines);
     this.song.sequences.forEach((sequence, index) => {
       let firstPatternID = sequence.getFirstPatternID();

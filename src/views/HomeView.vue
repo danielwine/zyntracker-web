@@ -1,12 +1,12 @@
 <script lang="ts">
+import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
-import { defineComponent } from "vue";
+import { storeToRefs } from "pinia";
 
 import BsNavBar from "../components/BsNavBar.vue";
 import BsToast from "@/components/BsToast.vue";
 
-import MainSide from "@/components/layouts/MainSide.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import TransportBar from "@/components/TransportBar.vue";
 import FileSelector from "@/components/FileSelector.vue";
@@ -18,14 +18,12 @@ import err from "@/library/Error";
 import NavTab from "../components/NavTab.vue";
 import Footer from "../components/Footer.vue";
 import StatusBar from "../components/StatusBar.vue";
-import { storeToRefs } from "pinia";
-
-const audioService = AudioService.getInstance();
+import ZynpadView from "../views/ZynpadView.vue";
+import PatternEditor from "../components/PatternEditor.vue";
 
 export default defineComponent({
   components: {
     BsToast,
-    MainSide,
     LoadingScreen,
     TransportBar,
     Tabs,
@@ -34,29 +32,33 @@ export default defineComponent({
     BsNavBar,
     Footer,
     StatusBar,
+    ZynpadView,
+    PatternEditor,
   },
   data() {
     return {
       tabList: ["Instruments", "Test songs"],
       windowWidth: window.innerWidth,
+      audioReady: false,
     };
   },
   methods: {
     formatIndex(index: number): string {
       return index < 10 ? "0" + index.toString() : index.toString();
     },
-    async loadSong(fileName: string, release = true) {
-      if (release) audioService.release();
+    async load(fileName: string, release = true) {
+      if (release) this.audioService.release();
       this.main.error.message = "";
       const song = await loadSong(fileName);
       if (!song) this.main.error.message = err.import;
       else {
         this.ui.clear();
         this.main.song = song;
-        audioService.use(song);
-        await audioService.initEngines();
-        audioService.addBasicPatterns();
-        console.debug("AudioSequences: ", audioService.sequences);
+        this.audioService.use(song);
+        await this.audioService.initEngines();
+        await this.audioService.addBasicPatterns();
+        console.debug("AudioSequences: ", this.audioService.sequences);
+        this.audioReady = true;
       }
     },
     nextPattern() {
@@ -80,16 +82,19 @@ export default defineComponent({
     const main = useMainStore();
     const ui = useUIStore();
     let { currentPattern } = storeToRefs(ui);
-
+    const audioService = AudioService.getInstance();
+    const audioSequences = audioService.sequences;
     return {
       main,
       ui,
       currentPattern,
+      audioService,
+      audioSequences,
     };
   },
-  created() {
+  async created() {
     if (this.main.song.patterns.length == 0) {
-      this.loadSong("Zynthwave.zss", false);
+      await this.load("Zynthwave.zss", false);
     }
   },
 });
@@ -103,18 +108,15 @@ export default defineComponent({
     </template>
   </BsNavBar>
   <div class="container-fluid">
-    <!-- <div class="container-fluid g-0"> -->
     <div class="row">
-      <div class="col-md-8" v-if="main.song.patterns.length > 0">
-        <RouterView
-          @nextPattern="nextPattern()"
-          @prevPattern="previousPattern()"
-          @toggleHelp="toggleAbout()"
-        />
-      </div>
-
-      <!-- <div class="col-md-4" v-if="$route.name != 'about'"> -->
-      <div class="col-md-4">
+      <div class="col-md-4 splash">
+        <div v-if="main.song.patterns.length > 0">
+          <ZynpadView
+            @nextPattern="nextPattern()"
+            @prevPattern="previousPattern()"
+            @toggleHelp="toggleAbout()"
+          />
+        </div>
         <Tabs :tabList="tabList">
           <template v-slot:tabPanel-1>
             <div
@@ -129,7 +131,7 @@ export default defineComponent({
           </template>
           <template v-slot:tabPanel-2>
             <FileSelector
-              @fileselected="loadSong"
+              @fileselected="load"
               :names="[
                 'FieryRedSunset.zss',
                 'Exeunt.zss',
@@ -146,7 +148,10 @@ export default defineComponent({
           </template>
           <template v-slot:tabPanel-3> </template>
         </Tabs>
+      </div>
+      <div class="col-md-8" v-if="main.song.patterns.length > 0 && audioReady">
         <TransportBar></TransportBar>
+        <PatternEditor audioSeqID="0"></PatternEditor>
       </div>
     </div>
   </div>
@@ -176,8 +181,13 @@ a {
 .help-text {
   height: 40px;
 }
+
+.splash {
+  background-color: black;
+  height: 40vh;
+}
+
 .content {
   height: 20vh;
 }
-
 </style>

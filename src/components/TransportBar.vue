@@ -172,7 +172,7 @@ export default defineComponent({
 <style scoped>
 .transport-bar {
   background-color: #333;
-  position: absolute;
+  /* position: absolute; */
   left: 10px;
   right: 10px;
   bottom: 6px;

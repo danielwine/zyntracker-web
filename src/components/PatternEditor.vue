@@ -1,8 +1,9 @@
 <script lang="ts">
 import { defineComponent, nextTick, ref } from "vue";
-import { AudioService } from "@/library/AudioService";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
+import { AudioService } from "@/library/AudioService";
+
 import * as keymap from "@/library/Keymap";
 import type { ToneSequenceEvents } from "@/library/interface/IPattern";
 import { storeToRefs } from "pinia";
@@ -33,7 +34,7 @@ export default defineComponent({
     window.addEventListener("keydown", this.keyDown);
     window.addEventListener("keyup", this.keyUp);
     window.addEventListener("wheel", this.wheelScroll);
-    this.setCursor(true);
+    // this.setCursor(true);
   },
   unmounted() {
     window.removeEventListener("keydown", this.keyDown);
@@ -216,14 +217,14 @@ export default defineComponent({
       if (key == "Escape") this.editMode = !this.editMode;
       if (key == "Backspace" || key == "F2") {
         if (key == "Backspace") toggleKey("F2");
-        this.$router.push("/");
+        // this.$router.push("/");
       }
       if (key == "Delete" && this.editMode) {
         await this.editValue("");
         return;
       }
-      const result = checkFunctionKeys(key, this.$route.name);
-      if (result) this.$emit(result);
+      // const result = checkFunctionKeys(key, this.$route.name);
+      // if (result) this.$emit(result);
     },
     keyDown(event: KeyboardEvent) {
       if (this.keyPressed[event.key] == true) return;
