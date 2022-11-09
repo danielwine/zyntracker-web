@@ -27,7 +27,7 @@ export default defineComponent({
     PatternEditor,
     SideBar,
     Footer,
-},
+  },
   data() {
     return {
       tabList: ["Instruments", "Test songs"],
@@ -83,9 +83,12 @@ export default defineComponent({
 
 <template>
   <BsNavBar>
-    <template #brand>ZynTracker alpha</template>
-    <template #rawcontent>
+    <template #brand
+      >ZynTracker alpha
+      <!-- <font-awesome-icon class="btn-green" icon="music" /> &nbsp; -->
+      &nbsp;<font-awesome-icon class="btn-green" icon="align-justify" />
     </template>
+    <template #rawcontent> </template>
   </BsNavBar>
   <div class="container-fluid">
     <div class="row">

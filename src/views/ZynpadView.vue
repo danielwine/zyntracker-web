@@ -116,9 +116,9 @@ export default defineComponent({
 
 <template>
   <BlockHeader title="ZynPad">
-    <template #option>
+    <!-- <template #option>
       <Pager></Pager>
-    </template>
+    </template> -->
   </BlockHeader>
   <div class="mt-3"></div>
   <div

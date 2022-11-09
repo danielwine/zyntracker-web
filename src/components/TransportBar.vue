@@ -7,7 +7,6 @@ import ZssService from "@/library/ZSSService";
 import { loadSong } from "@/library/Loader";
 import err from "@/library/Error";
 import { storeToRefs } from "pinia";
-import IconBack from "@/components/icons/IconBack.vue";
 
 const audioService = AudioService.getInstance();
 const ZSS = ZssService.getInstance();
@@ -15,9 +14,6 @@ const ZSS = ZssService.getInstance();
 export default defineComponent({
   name: "FileUpload",
   emits: ["fileloaded"],
-  components: {
-    IconBack,
-  },
   setup(props, { emit }) {
     const main = useMainStore();
     const ui = useUIStore();
@@ -81,17 +77,17 @@ export default defineComponent({
     browse() {
       document.getElementById("FileInput")?.click();
     },
-    switchMode() {
-      let name = this.switchModeName;
-      console.log(name);
+    // switchMode() {
+    //   let name = this.switchModeName;
+    //   console.log(name);
 
-      name == "home"
-        ? this.$router.push("/")
-        : this.$router.push({
-            name,
-            params: { audioSeqID: this.selectedPad - 1 },
-          });
-    },
+    //   name == "home"
+    //     ? this.$router.push("/")
+    //     : this.$router.push({
+    //         name,
+    //         params: { audioSeqID: this.selectedPad - 1 },
+    //       });
+    // },
   },
   computed: {
     switchModeName() {
@@ -108,7 +104,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <!-- <div class="conta pt-0 mt-0"> -->
   <div class="transport-bar">
     <button
       class="btn btn-dark ms-2"
@@ -117,10 +112,10 @@ export default defineComponent({
       data-bs-placement="top"
       title="Toggle transport"
     >
-    <!-- <IconBack></IconBack> -->
-      <i
-        :class="'fa fa-1x btn-green fa-' + (transportState ? 'stop' : 'play')"
-      ></i>
+      <font-awesome-icon
+        class="btn-green"
+        :icon="['fas', transportState ? 'stop' : 'play']"
+      />
     </button>
     <button
       class="btn btn-dark"
@@ -129,7 +124,7 @@ export default defineComponent({
       disabled="true"
       title="Download snapshot file"
     >
-      <i class="fa fa-download fa-1x btn-green"></i>
+      <font-awesome-icon class="btn-green" icon="download" />
     </button>
     <input
       type="file"
@@ -144,7 +139,7 @@ export default defineComponent({
       data-bs-placement="top"
       title="Upload snapshot file"
     >
-      <i class="fa fa-upload fa-1x btn-green"></i>
+      <font-awesome-icon class="btn-green" icon="upload" />
     </button>
     <button
       class="btn btn-dark"
@@ -154,28 +149,45 @@ export default defineComponent({
       title="Save"
       disabled
     >
-      <i class="fa fa-save fa-1x btn-green"></i>
+      <font-awesome-icon class="btn-green" icon="save" />
     </button>
     <button
       class="btn btn-dark"
-      @click="switchMode"
+      v-on:click=""
       data-bs-toggle="tooltip"
       data-bs-placement="top"
-      title="Toggle pattern editor"
+      title="Help"
+      disabled
     >
-      <i :class="'fa fa-1x btn-green fa-' + switchModeName"></i>
+      <font-awesome-icon class="btn-green" icon="question" />
+    </button>
+    <span class="me-4"></span>
+    <button
+      class="btn btn-dark"
+      v-on:click=""
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Previous bank"
+      disabled
+    >
+      <font-awesome-icon class="btn-green" icon="caret-left" />
+    </button>
+    <button
+      class="btn btn-dark"
+      v-on:click=""
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Next bank"
+      disabled
+    >
+      <font-awesome-icon class="btn-green" icon="caret-right" />
     </button>
   </div>
-  <!-- </div> -->
 </template>
 
 <style scoped>
 .transport-bar {
   background-color: #333;
-  /* position: absolute; */
-  /* left: 10px;
-  right: 10px;
-  bottom: 6px; */
   margin: 1em 0 1em;
 }
 .transport-bar i {
