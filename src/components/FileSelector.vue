@@ -27,7 +27,8 @@ ul {
 
 .file-item {
   list-style: none;
-  padding: 0.2em 0.5em 0.2em 0.5em;
+  cursor: pointer;
+  padding: 0.1em 0.5em 0.1em 0.5em;
 }
 .file-item:hover {
   background-color: #333;

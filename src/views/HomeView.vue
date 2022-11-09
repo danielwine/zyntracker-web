@@ -3,38 +3,31 @@ import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
+import { load } from "@/library/Loader";
+import err from "@/library/Error";
 
 import BsNavBar from "../components/BsNavBar.vue";
 import BsToast from "@/components/BsToast.vue";
 
 import LoadingScreen from "@/components/LoadingScreen.vue";
-import TransportBar from "@/components/TransportBar.vue";
-import FileSelector from "@/components/FileSelector.vue";
-import Tabs from "@/components/NavTab.vue";
 
-import { loadSong } from "@/library/Loader";
-import { AudioService } from "@/library/AudioService";
-import err from "@/library/Error";
-import NavTab from "../components/NavTab.vue";
-import Footer from "../components/Footer.vue";
-import StatusBar from "../components/StatusBar.vue";
 import ZynpadView from "../views/ZynpadView.vue";
 import PatternEditor from "../components/PatternEditor.vue";
+import SideBar from "@/components/SideBar.vue";
+import Footer from "../components/Footer.vue";
+import Song from "@/components/Song.vue";
 
 export default defineComponent({
   components: {
+    BsNavBar,
     BsToast,
     LoadingScreen,
-    TransportBar,
-    Tabs,
-    FileSelector,
-    NavTab,
-    BsNavBar,
-    Footer,
-    StatusBar,
     ZynpadView,
+    Song,
     PatternEditor,
-  },
+    SideBar,
+    Footer,
+},
   data() {
     return {
       tabList: ["Instruments", "Test songs"],
@@ -43,22 +36,14 @@ export default defineComponent({
     };
   },
   methods: {
-    formatIndex(index: number): string {
-      return index < 10 ? "0" + index.toString() : index.toString();
-    },
     async load(fileName: string, release = true) {
-      if (release) this.audioService.release();
-      this.main.error.message = "";
-      const song = await loadSong(fileName);
+      const song = await load(fileName, release);
       if (!song) this.main.error.message = err.import;
       else {
         this.ui.clear();
         this.main.song = song;
-        this.audioService.use(song);
-        await this.audioService.initEngines();
-        await this.audioService.addBasicPatterns();
-        console.debug("AudioSequences: ", this.audioService.sequences);
         this.audioReady = true;
+        (this.$refs.padcolumn as HTMLElement).classList.remove("splash");
       }
     },
     nextPattern() {
@@ -82,14 +67,10 @@ export default defineComponent({
     const main = useMainStore();
     const ui = useUIStore();
     let { currentPattern } = storeToRefs(ui);
-    const audioService = AudioService.getInstance();
-    const audioSequences = audioService.sequences;
     return {
       main,
       ui,
       currentPattern,
-      audioService,
-      audioSequences,
     };
   },
   async created() {
@@ -102,56 +83,32 @@ export default defineComponent({
 
 <template>
   <BsNavBar>
-    <template #brand>ZynTracker</template>
+    <template #brand>ZynTracker alpha</template>
     <template #rawcontent>
-      <StatusBar :bankId="0"></StatusBar>
     </template>
   </BsNavBar>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-4 splash">
+      <div ref="padcolumn" class="col-md-4 splash g-0">
         <div v-if="main.song.patterns.length > 0">
           <ZynpadView
             @nextPattern="nextPattern()"
             @prevPattern="previousPattern()"
             @toggleHelp="toggleAbout()"
           />
+          <div class="mb-4"></div>
+          <div class="container">
+            <Song></Song>
+          </div>
         </div>
-        <Tabs :tabList="tabList">
-          <template v-slot:tabPanel-1>
-            <div
-              v-for="(tone, index) in main.song.tones"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              :title="`(${tone.meta.originalPreset}@${tone.meta.originalEngine})`"
-            >
-              {{ formatIndex(index) }} - {{ tone.meta.originalPreset }} >
-              {{ tone.engine }}
-            </div>
-          </template>
-          <template v-slot:tabPanel-2>
-            <FileSelector
-              @fileselected="load"
-              :names="[
-                'FieryRedSunset.zss',
-                'Exeunt.zss',
-                'CityInTheRain.zss',
-                'Zynthwave.zss',
-                'factory/001-ThreeOnThree.zss',
-                'factory/002-House In RTP.zss',
-                'factory/003-FluidR3 GM.zss',
-                'factory/004-Mistic Arp.zss',
-                'factory/005-Techno Base 01.zss',
-              ]"
-            >
-            </FileSelector>
-          </template>
-          <template v-slot:tabPanel-3> </template>
-        </Tabs>
       </div>
-      <div class="col-md-8" v-if="main.song.patterns.length > 0 && audioReady">
-        <TransportBar></TransportBar>
-        <PatternEditor audioSeqID="0"></PatternEditor>
+      <div ref="patterncolumn" class="col-md-6 w-30 splash">
+        <div v-if="main.song.patterns.length > 0 && audioReady">
+          <PatternEditor audioSeqID="0"></PatternEditor>
+        </div>
+      </div>
+      <div class="col-md-2 g-0">
+        <SideBar></SideBar>
       </div>
     </div>
   </div>
@@ -170,21 +127,9 @@ a {
   background: #333;
 }
 
-.help {
-  padding-top: 0.85em;
-  padding-bottom: 0.6em;
-}
-
-.help-link {
-  text-align: left;
-}
-.help-text {
-  height: 40px;
-}
-
 .splash {
   background-color: black;
-  height: 40vh;
+  height: 95vh;
 }
 
 .content {

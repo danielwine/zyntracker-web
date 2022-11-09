@@ -53,10 +53,13 @@ export default defineComponent({
         <ul>
             <li>Loading snapshot files containing sequence data</li>
             <li>Playing back patterns using a simple synth engine or a sampler (SFZ)</li>
-            <li>Pattern editor interface</li>
+            <li>Zynpad and pattern editor interface</li>
         </ul>
     </p>
-    <p>The application is intended <strong>for use with computers with a keyboard</strong> (keymap is similar to Renoise). </p><p><em>The project is in the early stages of development, the code base and available features may change rapidly.</em></p>
+    <p>The application is intended <strong>for use with computers with a 
+      keyboard</strong> (keymap is similar to Renoise). </p>
+       <p><em>The project is in the early stages of development, the code base and 
+        available features may change rapidly.</em></p>
     <p>(C) 2022 by danielwine</p>
   </div>
 </template>

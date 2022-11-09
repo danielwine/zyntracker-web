@@ -18,6 +18,7 @@ export default defineComponent({
     return {
       activeTab: 1,
       id: 123,
+      windowWidth: window.innerWidth,
     };
   },
 });
@@ -55,12 +56,8 @@ export default defineComponent({
       </li>
     </ul>
     <template v-for="(tab, index) in tabList">
-      <div
-        :key="index"
-        v-if="index + 1 === activeTab "
-        class="tab-panel"
-      >
-      <!-- && windowWidth < 992 -->
+      <div :key="index" v-if="index + 1 === activeTab" class="tab-panel">
+        <!-- && windowWidth < 992 -->
         <slot :name="`tabPanel-${index + 1}`" />
       </div>
     </template>

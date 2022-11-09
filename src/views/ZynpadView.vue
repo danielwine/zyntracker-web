@@ -1,11 +1,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Tile from "@/components/ZynpadTile.vue";
-import StatusBar from "@/components/StatusBar.vue";
-import TransportBar from "@/components/TransportBar.vue";
+import Pager from "@/components/Pager.vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { toggleKey, checkFunctionKeys } from "@/common/keys";
+import BlockHeader from "@/components/BlockHeader.vue";
 
 interface PlayAble {
   togglePlay(): Function;
@@ -13,9 +13,9 @@ interface PlayAble {
 
 export default defineComponent({
   components: {
-    StatusBar,
+    Pager,
     Tile,
-    TransportBar,
+    BlockHeader,
   },
   emits: ["togglePlay", "nextPattern", "prevPattern", "toggleHelp"],
   setup() {
@@ -30,8 +30,8 @@ export default defineComponent({
       console.debug("EVERYTHING IS RENDERED!!!");
       useMainStore().rendered = true;
     });
-    this.ui.switches['F2'].disabled = false
-    this.ui.switches['F8'].disabled = false
+    this.ui.switches["F2"].disabled = false;
+    this.ui.switches["F8"].disabled = false;
   },
   unmounted() {
     window.removeEventListener("keydown", this.keyDown);
@@ -115,10 +115,16 @@ export default defineComponent({
 </script>
 
 <template>
+  <BlockHeader title="ZynPad">
+    <template #option>
+      <Pager></Pager>
+    </template>
+  </BlockHeader>
+  <div class="mt-3"></div>
   <div
     v-for="row in [0, 1, 2, 3]"
     ref="'row-' + row"
-    class="container d-flex align-items-center "
+    class="container d-flex align-items-center"
   >
     <Tile
       v-for="sequence in sequences.filter(

@@ -2,12 +2,14 @@
 import { defineComponent, nextTick, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
-import { AudioService } from "@/library/AudioService";
-
-import * as keymap from "@/library/Keymap";
-import type { ToneSequenceEvents } from "@/library/interface/IPattern";
 import { storeToRefs } from "pinia";
+
+import { AudioService } from "@/library/AudioService";
+import type { ToneSequenceEvents } from "@/library/interface/IPattern";
 import { checkFunctionKeys, toggleKey } from "@/common/keys";
+import * as keymap from "@/library/Keymap";
+
+import BlockHeader from "./BlockHeader.vue";
 
 const audioService = AudioService.getInstance();
 
@@ -43,7 +45,9 @@ export default defineComponent({
   },
   data() {
     return {
-      keyPressed: {} as { [key: string]: boolean },
+      keyPressed: {} as {
+        [key: string]: boolean;
+      },
       activeCell: "00011",
       octave: keymap.defaultOctave,
       editMode: false,
@@ -134,7 +138,6 @@ export default defineComponent({
           this.setCursor(true);
         } else {
           console.log("Scrolling to last pos.");
-
           this.scrollTo(this.patternLength - 1);
         }
       }
@@ -153,7 +156,6 @@ export default defineComponent({
     async editValue(note: string) {
       console.log(this.view, this.events[this.offset]);
       console.log(this.activeCell, this.offset);
-
       if (this.events[this.offset]) {
         if (this.activeCell.slice(4, 6) == "1")
           this.events[this.offset]!.notes[this.getColumn() - 1] = note;
@@ -178,7 +180,6 @@ export default defineComponent({
       //   ["8n"]
       // );
       console.log(this.getRow());
-
       this.setCursor(false);
       await nextTick();
       this.scroll(Direction.Down, 1);
@@ -201,7 +202,6 @@ export default defineComponent({
         if (!this.keyPressed["Control"]) this.moveCursor(Direction.Left);
         else if (this.currentPattern != 0) this.$emit("prevPattern");
       }
-
       if (key == "PageUp") this.scroll(Direction.Up, 8);
       if (key == "PageDown") this.scroll(Direction.Down, 8);
       if (key == "Home") this.scrollTo(0);
@@ -229,7 +229,6 @@ export default defineComponent({
     keyDown(event: KeyboardEvent) {
       if (this.keyPressed[event.key] == true) return;
       const note = keymap.keys[event.key];
-
       if (note && event.code != "NumpadSubtract") {
         audioService.startNote(note, this.seqId);
         this.keyPressed[event.key] = true;
@@ -278,10 +277,12 @@ export default defineComponent({
       return this.audioService.getPolyphony(this.seqId);
     },
   },
+  components: { BlockHeader },
 });
 </script>
 
 <template>
+  <BlockHeader title="Pattern"></BlockHeader>
   <main>
     <div class="pattern">
       <div id="innerContent">
@@ -315,7 +316,8 @@ export default defineComponent({
 .pattern {
   background-color: black;
   /* padding-top: 10px; */
-  padding-bottom: 61.66%;
+  height: 85vh;
+  /* padding-bottom: 61.66%; */
   /* padding-left: 80px; */
   color: #fff;
   position: relative;

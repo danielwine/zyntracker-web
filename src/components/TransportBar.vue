@@ -173,9 +173,10 @@ export default defineComponent({
 .transport-bar {
   background-color: #333;
   /* position: absolute; */
-  left: 10px;
+  /* left: 10px;
   right: 10px;
-  bottom: 6px;
+  bottom: 6px; */
+  margin: 1em 0 1em;
 }
 .transport-bar i {
   padding: 0.6em 0.4em 0.5em 0.4em;

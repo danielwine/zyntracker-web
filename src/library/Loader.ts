@@ -1,6 +1,7 @@
+import ZssService from "./ZSSService";
+import { AudioService } from "./AudioService";
 import { pathSounds, pathSongs } from "./Samples";
 import { Song } from "./Song";
-import ZssService from "./ZSSService";
 
 export const downloadSong = async (songName: string) => {
   const path = `/${pathSongs}/${songName}`;
@@ -48,4 +49,18 @@ export const loadSong = async (songName: string, data = {}) => {
   console.debug("Song SEQUENCES: ", song.sequences);
   console.debug("getBankContent(0): ", song.getBankContent(0));
   return song;
+};
+
+export const load = async (fileName: string, release = true) => {
+  const as = AudioService.getInstance();
+  if (release) as.release();
+  const song = await loadSong(fileName);
+  if (!song) return false;
+  else {
+    as.use(song);
+    await as.initEngines();
+    await as.addBasicPatterns();
+    console.debug("AudioSequences: ", as.sequences);
+    return song;
+  }
 };
