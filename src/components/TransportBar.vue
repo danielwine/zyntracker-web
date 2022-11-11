@@ -1,6 +1,6 @@
 <script lang="ts">
 import { useMainStore } from "@/stores/zss";
-import { useUIStore } from "@/stores/ui";
+import { Panels, useUIStore } from "@/stores/ui";
 import { AudioService } from "@/library/AudioService";
 import { defineComponent, ref } from "vue";
 import ZssService from "@/library/ZSSService";
@@ -54,6 +54,7 @@ export default defineComponent({
     };
     return {
       loadFile,
+      ui,
       error: main.error,
       song: main.song,
       patterns: main.song.patterns,
@@ -74,25 +75,23 @@ export default defineComponent({
       if (audioService.isPlaying) audioService.stopTransport();
       else audioService.startTransport();
     },
+    toggleView() {
+      if (this.ui.activePanel == Panels.pattern)
+        this.ui.activePanel = Panels.pad;
+      else this.ui.activePanel = Panels.pattern;
+    },
     browse() {
       document.getElementById("FileInput")?.click();
     },
-    // switchMode() {
-    //   let name = this.switchModeName;
-    //   console.log(name);
-
-    //   name == "home"
-    //     ? this.$router.push("/")
-    //     : this.$router.push({
-    //         name,
-    //         params: { audioSeqID: this.selectedPad - 1 },
-    //       });
-    // },
   },
   computed: {
-    switchModeName() {
-      if (this.$route.name == "edit") return "home";
-      else return "edit";
+    getViewPopupText() {
+      return `Focus ${
+        this.ui.activePanel == Panels.pad ? "pattern editor" : "pads"
+      } (F2, backspace)`;
+    },
+    getViewIconClass() {
+      return this.ui.activePanel == Panels.pad ? "align-justify" : "th";
     },
   },
   watch: {
@@ -110,12 +109,22 @@ export default defineComponent({
       v-on:click="togglePlay"
       data-bs-toggle="tooltip"
       data-bs-placement="top"
-      title="Toggle transport"
+      title="Toggle transport (Space)"
     >
       <font-awesome-icon
         class="btn-green"
         :icon="['fas', transportState ? 'stop' : 'play']"
       />
+    </button>
+    <button
+      class="btn btn-dark ms-2"
+      v-on:click="toggleView"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      ref="button-toggleview"
+      :title="getViewPopupText"
+    >
+      <font-awesome-icon class="btn-green" :icon="getViewIconClass" />
     </button>
     <button
       class="btn btn-dark"
@@ -188,19 +197,15 @@ export default defineComponent({
 <style scoped>
 .transport-bar {
   background-color: #333;
-  margin: 1em 0 1em;
+  margin: 0.6em 0 0em;
 }
-.transport-bar i {
-  padding: 0.6em 0.4em 0.5em 0.4em;
-  /* padding: 0.6em 0.4em 0.5em 0.4em; */
-}
-
 .transport-bar button {
-  margin: 2% 2.85% 2% 0%;
+  margin: 0px 12px 0px 0;
+  /* margin: 2% 2.85% 2% 0%; */
 }
 
-.transport-bar button i {
-  width: 27px;
+.transport-bar button svg {
+  width: 15px;
 }
 
 .btn-green {

@@ -3,9 +3,9 @@ import { defineComponent } from "vue";
 import Tile from "@/components/ZynpadTile.vue";
 import Pager from "@/components/Pager.vue";
 import { useMainStore } from "@/stores/zss";
-import { useUIStore } from "@/stores/ui";
+import { useUIStore, Panels } from "@/stores/ui";
 import { toggleKey, checkFunctionKeys } from "@/common/keys";
-import BlockHeader from "@/components/BlockHeader.vue";
+import PanelHeader from "@/components/PanelHeader.vue";
 
 interface PlayAble {
   togglePlay(): Function;
@@ -15,13 +15,13 @@ export default defineComponent({
   components: {
     Pager,
     Tile,
-    BlockHeader,
+    PanelHeader,
   },
   emits: ["togglePlay", "nextPattern", "prevPattern", "toggleHelp"],
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
-    return { main, ui };
+    return { main, ui, Panels };
   },
   mounted() {
     window.addEventListener("keydown", this.keyDown);
@@ -53,10 +53,15 @@ export default defineComponent({
       if (event.key == "Control") this.CtrlPressed = false;
     },
     keyDown(event: KeyboardEvent) {
-      console.log(event.key);
       if (event.key == " ") {
         this.ui.transportState = !this.ui.transportState;
       }
+      if (this.ui.activePanel == Panels.pattern) return;
+      if (event.key == "Backspace" || event.key == "F2") {
+        this.ui.activePanel = Panels.pattern;
+        return;
+      }
+      console.log(event.key);
       if (event.key == "Control") this.CtrlPressed = true;
       if (event.key == "ArrowLeft" && this.ui.selectedPad > 4)
         this.ui.selectedPad -= 4;
@@ -74,18 +79,10 @@ export default defineComponent({
             this.$refs["pad-" + this.ui.selectedPad] as Array<PlayAble>
           )[0];
           if (pad) pad.togglePlay();
-        } else this.navigateToEditor();
-      }
-      if (event.key == "Backspace" || event.key == "F2") {
-        this.navigateToEditor();
-        return;
+        } else this.ui.activePanel = Panels.pattern;
       }
       const result = checkFunctionKeys(event.key, this.$route.name);
       if (result) this.$emit(result);
-    },
-    navigateToEditor() {
-      toggleKey("F2");
-      this.$router.push("/edit/" + (this.ui.selectedPad - 1));
     },
   },
   computed: {
@@ -115,11 +112,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <BlockHeader title="ZynPad">
+  <PanelHeader title="ZynPad" :id="Panels.pad">
     <!-- <template #option>
       <Pager></Pager>
     </template> -->
-  </BlockHeader>
+  </PanelHeader>
   <div class="mt-3"></div>
   <div
     v-for="row in [0, 1, 2, 3]"
@@ -132,7 +129,7 @@ export default defineComponent({
       :sequence="sequence"
       :selected="ui.selectedPad == sequence.id ? 'true' : 'false'"
       :ref="'pad-' + sequence.id"
-      @editRequest="navigateToEditor"
+      @editRequest="ui.activePanel = Panels.pattern"
     >
     </Tile>
   </div>

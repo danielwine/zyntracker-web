@@ -7,13 +7,13 @@ import { useUIStore } from "@/stores/ui";
 import Tabs from "@/components/NavTab.vue";
 import FileSelector from "@/components/FileSelector.vue";
 import { defineComponent } from "vue";
-import BlockHeader from "./BlockHeader.vue";
+import PanelHeader from "./PanelHeader.vue";
 
 export default defineComponent({
   components: {
     Tabs,
     FileSelector,
-    BlockHeader,
+    PanelHeader,
   },
   data() {
     return {
@@ -48,7 +48,7 @@ export default defineComponent({
 <template>
   <!-- <Tabs :tabList="tabList"> -->
   <!-- <template v-slot:tabPanel-1> -->
-  <BlockHeader title="Test snapshots"></BlockHeader>
+  <PanelHeader title="Test snapshots"></PanelHeader>
   <FileSelector
     @fileselected="load"
     :names="[
@@ -65,7 +65,7 @@ export default defineComponent({
   >
   </FileSelector>
 
-  <BlockHeader title="Instruments"></BlockHeader>
+  <PanelHeader title="Instruments"></PanelHeader>
   <div
     class="listbox-item"
     v-for="(tone, index) in main.song.tones"
@@ -83,4 +83,7 @@ export default defineComponent({
   <!-- </Tabs> -->
 </template>
 <style scoped>
+.listbox-item {
+  padding: 0.1em 0.5em 0.1em 0.5em;
+}
 </style>

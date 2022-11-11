@@ -100,9 +100,7 @@ export default defineComponent({
             @toggleHelp="toggleAbout()"
           />
           <div class="mb-4"></div>
-          <div class="container">
             <Song></Song>
-          </div>
         </div>
       </div>
       <div ref="patterncolumn" class="col-md-6 w-30 splash">

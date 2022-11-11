@@ -12,7 +12,7 @@ export const checkFunctionKeys = (
 ) => {
   // if (key in ui.switches) {
     const route = routeName?.toString();
-    console.log(route);
+    // console.log(route);
     toggleKey(key);
     if (key == "F1") return "toggleHelp";
   // }

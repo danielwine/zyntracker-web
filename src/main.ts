@@ -13,6 +13,7 @@ import {
   faCaretLeft,
   faCaretRight,
   faMusic,
+  faTh,
   faAlignJustify,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -27,7 +28,8 @@ library.add(
   faCaretLeft,
   faCaretRight,
   faMusic,
-  faAlignJustify,
+  faTh,
+  faAlignJustify
 );
 
 import { createApp } from "vue";

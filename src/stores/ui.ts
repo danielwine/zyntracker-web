@@ -1,8 +1,13 @@
 import { defineStore } from "pinia";
 
-export enum playStates {
+export enum PlayStates {
   "stopped",
   "playing",
+}
+
+export enum Panels {
+  "pad",
+  "pattern",
 }
 
 export interface ISwitch {
@@ -15,8 +20,9 @@ export interface ISwitch {
 
 export const useUIStore = defineStore("ui", {
   state: () => ({
-    isPadActive: [] as Array<playStates>,
+    isPadActive: [] as Array<PlayStates>,
     selectedPad: 1,
+    activePanel: Panels.pad,
     currentPattern: -1,
     transportState: false,
     switches: {
@@ -26,7 +32,12 @@ export const useUIStore = defineStore("ui", {
       F8: { name: "options", active: false, isView: true, disabled: false },
       F9: { name: "about", active: false, isView: true, disabled: false },
       // F9: { name: "", active: false, isView: true, disabled: false },
-      ESC: { name: "toggle edit", active: false, isView: true, disabled: false },
+      ESC: {
+        name: "toggle edit",
+        active: false,
+        isView: true,
+        disabled: false,
+      },
     } as { [key: string]: ISwitch },
   }),
   getters: {},

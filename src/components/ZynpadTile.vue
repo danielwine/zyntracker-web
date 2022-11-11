@@ -1,7 +1,7 @@
 <script lang="ts">
 import { AudioService } from "@/library/AudioService";
 import { defineComponent } from "vue";
-import { useUIStore, playStates } from "@/stores/ui";
+import { useUIStore, PlayStates } from "@/stores/ui";
 import { isNumber } from "tone";
 
 export default defineComponent({
@@ -41,16 +41,16 @@ export default defineComponent({
         this.sequence.group
       );
 
-      if (this.ui.isPadActive[this.sequence.id] != playStates.playing) {
+      if (this.ui.isPadActive[this.sequence.id] != PlayStates.playing) {
         if (active && active.meta.id) {
           console.log(this.sequence.id, active.meta.id);
-          this.ui.isPadActive[active.meta.id] = playStates.stopped;
+          this.ui.isPadActive[active.meta.id] = PlayStates.stopped;
           this.audioService.stopSequence(active.meta.id - 1);
         }
-        this.ui.isPadActive[this.sequence.id] = playStates.playing;
+        this.ui.isPadActive[this.sequence.id] = PlayStates.playing;
         this.audioService.startSequence(this.sequence.id - 1);
       } else {
-        this.ui.isPadActive[this.sequence.id] = playStates.stopped;
+        this.ui.isPadActive[this.sequence.id] = PlayStates.stopped;
         this.audioService.stopSequence(this.sequence.id - 1);
       }
       console.log(this.ui.isPadActive);
@@ -62,8 +62,8 @@ export default defineComponent({
     },
     playStateString() {
       let st = this.ui.isPadActive[this.sequence.id];
-      if (st == playStates.stopped) return "";
-      if (st == playStates.playing) return "playing";
+      if (st == PlayStates.stopped) return "";
+      if (st == PlayStates.playing) return "playing";
     },
     playState(): string {
       return this.ui.isPadActive[this.sequence.id] ? "playing" : "";

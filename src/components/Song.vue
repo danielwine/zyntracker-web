@@ -2,12 +2,12 @@
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
-import BlockHeader from "@/components/BlockHeader.vue";
+import PanelHeader from "@/components/PanelHeader.vue";
 import TransportBar from "./TransportBar.vue";
 
 export default defineComponent({
   emits: ["nextPattern", "prevPattern"],
-  components: { BlockHeader, TransportBar },
+  components: { PanelHeader, TransportBar },
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
@@ -31,8 +31,8 @@ export default defineComponent({
 
 <template>
   <div>
-    <BlockHeader title="Global"></BlockHeader>
-    <div class="ps-2">
+    <PanelHeader title="Global"></PanelHeader>
+    <div class="container">
      <span>[{{ main.song.name.toLowerCase() }}] &nbsp;&nbsp;</span>
       <code class="song-info">Total
         <span class="song-info-detail"
@@ -48,7 +48,7 @@ export default defineComponent({
         </span>
       </code>
     </div>
-    <TransportBar></TransportBar>
+    <!-- <TransportBar></TransportBar> -->
   </div>
 </template>
 

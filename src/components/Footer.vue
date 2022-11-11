@@ -3,6 +3,7 @@ import { useUIStore } from "@/stores/ui";
 import type { ISwitch } from "@/stores/ui";
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
+import TransportBar from "./TransportBar.vue";
 
 export default defineComponent({
   setup() {
@@ -13,52 +14,24 @@ export default defineComponent({
       ui,
     };
   },
-  data() {
-    return {
-      help: {
-        pad: {
-          keys: [
-            ["about", "F1 ABOUT"],
-            ["edit", "F2 EDIT"],
-          ],
-          text:
-            "CLICK on a pad -> seq start/stop \n" +
-            "LONG-CLICK / CTRL-ENTER -> edit.",
-        },
-        edit: {
-          keys: [
-            ["about", "F1 ABOUT"],
-            ["", "F2 PADS"],
-          ],
-          text:
-            "↑ ↓ ← →  ESC: edit  +/-\n: change octave" + "A-Z: play a note.",
-        },
-        about: {
-          keys: [
-            ["about", "F1 ABOUT"],
-            ["edit", "F2 EDIT"],
-          ],
-          text: "",
-        },
-      } as { [key: string]: { keys: string[][]; text: string } },
-    };
-  },
   methods: {
     getSwitchClass(item: ISwitch, attribute: string) {
       console.log(attribute, item);
-
       if (attribute in item)
         return item[attribute] ? `switch-${attribute}` : "";
     },
   },
+  components: { TransportBar },
 });
 </script>
 
 <template>
   <div class="footer bg-dark">
+    <TransportBar></TransportBar>
     <!-- <div class="help"> -->
     <!-- v-if="$route.name" -->
-    <span class="help-link" v-for="item of Object.entries(ui.switches)">
+
+    <!-- <span class="help-link" v-for="item of Object.entries(ui.switches)">
       <RouterLink
         :class="`${getSwitchClass(item[1], 'active')} ${getSwitchClass(
           item[1],
@@ -67,10 +40,12 @@ export default defineComponent({
         :to="'/' + item[1].name"
         >{{ item[0] + " " + item[1].name.toUpperCase() }}</RouterLink
       >&nbsp;
-    </span>
+    </span> -->
+
     <!-- <span v-if="$route.name" class="help-text">
         {{ help[$route.name.toString()].text }}
       </span> -->
+    <!-- <span class="flex-grow-2">0.0.1</span> -->
     <p></p>
   </div>
   <!-- </div> -->
@@ -79,8 +54,10 @@ export default defineComponent({
 .footer {
   position: fixed;
   bottom: 0;
-  padding: 0.75em 1.8em 0.75em 1.8em;
-  height: 3.2em;
+  padding-left: 0.8rem;
+  /* padding: 0.25rem 1.8em 0.25rem 1.8em; */
+  /* padding: 0.5rem; */
+  /* height: 3.2em; */
   margin: 0;
   width: 100%;
   /* height: 2em; */

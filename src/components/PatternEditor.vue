@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, nextTick, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
-import { useUIStore } from "@/stores/ui";
+import { Panels, useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
 
 import { AudioService } from "@/library/AudioService";
@@ -9,7 +9,7 @@ import type { ToneSequenceEvents } from "@/library/interface/IPattern";
 import { checkFunctionKeys, toggleKey } from "@/common/keys";
 import * as keymap from "@/library/Keymap";
 
-import BlockHeader from "./BlockHeader.vue";
+import PanelHeader from "./PanelHeader.vue";
 
 const audioService = AudioService.getInstance();
 
@@ -26,7 +26,7 @@ export default defineComponent({
     const main = useMainStore();
     const ui = useUIStore();
     let { currentPattern } = storeToRefs(ui);
-    return { main, ui, currentPattern, audioService };
+    return { main, ui, currentPattern, audioService, Panels };
   },
   props: {
     audioSeqID: String,
@@ -216,8 +216,7 @@ export default defineComponent({
       }
       if (key == "Escape") this.editMode = !this.editMode;
       if (key == "Backspace" || key == "F2") {
-        if (key == "Backspace") toggleKey("F2");
-        // this.$router.push("/");
+        this.ui.activePanel = Panels.pad;
       }
       if (key == "Delete" && this.editMode) {
         await this.editValue("");
@@ -236,9 +235,9 @@ export default defineComponent({
           this.editValue(note);
         }
       } else {
+        if (this.ui.activePanel == Panels.pad) return
         if (event.key == "Control") this.keyPressed[event.key] = true;
-        if (event.key == " ") this.ui.transportState = !this.ui.transportState;
-        this.checkControllerKeys(event.code);
+          this.checkControllerKeys(event.code);
       }
     },
     keyUp(event: KeyboardEvent) {
@@ -277,12 +276,12 @@ export default defineComponent({
       return this.audioService.getPolyphony(this.seqId);
     },
   },
-  components: { BlockHeader },
+  components: { PanelHeader },
 });
 </script>
 
 <template>
-  <BlockHeader title="Pattern"></BlockHeader>
+  <PanelHeader title="Pattern" :id="Panels.pattern"></PanelHeader>
   <main>
     <div class="pattern">
       <div id="innerContent">
