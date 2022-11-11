@@ -1,12 +1,14 @@
 <script lang="ts">
 import { useMainStore } from "@/stores/zss";
 import { Panels, useUIStore } from "@/stores/ui";
+import IconBar from "@/components/IconBar.vue";
 import { AudioService } from "@/library/AudioService";
 import { defineComponent, ref } from "vue";
 import ZssService from "@/library/ZSSService";
 import { loadSong } from "@/library/Loader";
 import err from "@/library/Error";
 import { storeToRefs } from "pinia";
+import IconBarButton from "./IconBarButton.vue";
 
 const audioService = AudioService.getInstance();
 const ZSS = ZssService.getInstance();
@@ -19,12 +21,9 @@ export default defineComponent({
     const ui = useUIStore();
     const { transportState, selectedPad } = storeToRefs(ui);
     const FileInput = ref<File | null>();
-
-    const loadFile = ($event: Event) => {
-      const target = $event.target as HTMLInputElement;
+    const loadFile = (file: File) => {
       let fileName = "";
-      if (target && target.files) FileInput.value = target.files[0];
-
+      FileInput.value = file;
       if (FileInput.value) {
         fileName = FileInput.value.name;
         let fileReader = new FileReader();
@@ -80,9 +79,6 @@ export default defineComponent({
         this.ui.activePanel = Panels.pad;
       else this.ui.activePanel = Panels.pattern;
     },
-    browse() {
-      document.getElementById("FileInput")?.click();
-    },
   },
   computed: {
     getViewPopupText() {
@@ -99,116 +95,63 @@ export default defineComponent({
       if (this.transportState != audioService.isPlaying) this.toggleAudioPlay();
     },
   },
+  components: { IconBar, IconBarButton },
 });
 </script>
 
 <template>
-  <div class="transport-bar">
-    <button
-      class="btn btn-dark ms-2"
-      v-on:click="togglePlay"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Toggle transport (Space)"
-    >
-      <font-awesome-icon
-        class="btn-green"
-        :icon="['fas', transportState ? 'stop' : 'play']"
-      />
-    </button>
-    <button
-      class="btn btn-dark ms-2"
-      v-on:click="toggleView"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      ref="button-toggleview"
-      :title="getViewPopupText"
-    >
-      <font-awesome-icon class="btn-green" :icon="getViewIconClass" />
-    </button>
-    <button
-      class="btn btn-dark"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      disabled="true"
-      title="Download snapshot file"
-    >
-      <font-awesome-icon class="btn-green" icon="download" />
-    </button>
-    <input
-      type="file"
-      style="display: none"
-      id="FileInput"
-      @change="loadFile"
-    />
-    <button
-      class="btn btn-dark"
-      @click="browse()"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Upload snapshot file"
-    >
-      <font-awesome-icon class="btn-green" icon="upload" />
-    </button>
-    <button
-      class="btn btn-dark"
-      v-on:click=""
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Save"
-      disabled
-    >
-      <font-awesome-icon class="btn-green" icon="save" />
-    </button>
-    <button
-      class="btn btn-dark"
-      v-on:click=""
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Help"
-      disabled
-    >
-      <font-awesome-icon class="btn-green" icon="question" />
-    </button>
-    <span class="me-4"></span>
-    <button
-      class="btn btn-dark"
-      v-on:click=""
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Previous bank"
-      disabled
-    >
-      <font-awesome-icon class="btn-green" icon="caret-left" />
-    </button>
-    <button
-      class="btn btn-dark"
-      v-on:click=""
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Next bank"
-      disabled
-    >
-      <font-awesome-icon class="btn-green" icon="caret-right" />
-    </button>
-  </div>
+  <IconBar>
+    <template #icons>
+      <IconBarButton
+        @buttonClicked="togglePlay"
+        hint="Toggle transport (Space)"
+        :iconName="transportState ? 'stop' : 'play'"
+      ></IconBarButton>
+
+      <IconBarButton
+        @buttonClicked="toggleView"
+        :hint="getViewPopupText"
+        :iconName="getViewIconClass"
+      ></IconBarButton>
+
+      <IconBarButton
+        hint="Download snapshot file"
+        iconName="download"
+        :disabled="true"
+      ></IconBarButton>
+
+      <IconBarButton
+        @fileSelected="loadFile"
+        hint="Upload snapshot file"
+        iconName="upload"
+        :fileinput="true"
+      ></IconBarButton>
+
+      <IconBarButton
+        hint="Save"
+        iconName="save"
+        :disabled="true"
+      ></IconBarButton>
+
+      <IconBarButton
+        hint="Help"
+        iconName="question"
+        :disabled="true"
+      ></IconBarButton>
+
+      <span class="me-4"></span>
+
+      <IconBarButton
+        hint="Previous bank"
+        iconName="caret-left"
+        :disabled="true"
+      ></IconBarButton>
+
+      <IconBarButton
+        hint="Next bank"
+        iconName="caret-right"
+        :disabled="true"
+      ></IconBarButton>
+    </template>
+  </IconBar>
 </template>
-
-<style scoped>
-.transport-bar {
-  background-color: #333;
-  margin: 0.6em 0 0em;
-}
-.transport-bar button {
-  margin: 0px 12px 0px 0;
-  /* margin: 2% 2.85% 2% 0%; */
-}
-
-.transport-bar button svg {
-  width: 15px;
-}
-
-.btn-green {
-  color: #66e969;
-}
-</style>

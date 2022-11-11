@@ -8,12 +8,16 @@ import Tabs from "@/components/NavTab.vue";
 import FileSelector from "@/components/FileSelector.vue";
 import { defineComponent } from "vue";
 import PanelHeader from "./PanelHeader.vue";
+import IconBar from "./IconBar.vue";
+import IconBarButton from "./IconBarButton.vue";
 
 export default defineComponent({
   components: {
     Tabs,
     FileSelector,
     PanelHeader,
+    IconBar,
+    IconBarButton,
   },
   data() {
     return {
@@ -49,6 +53,28 @@ export default defineComponent({
   <!-- <Tabs :tabList="tabList"> -->
   <!-- <template v-slot:tabPanel-1> -->
   <PanelHeader title="Test snapshots"></PanelHeader>
+  <!-- <IconBar>
+    <template #icons>
+      <IconBarButton
+      hint="Download snapshot file"
+      iconName="download"
+      :disabled="true"
+      ></IconBarButton>
+      
+      <IconBarButton
+      @fileSelected="loadFile"
+      hint="Upload snapshot file"
+      iconName="upload"
+      :fileinput="true"
+      ></IconBarButton>
+      
+      <IconBarButton
+      hint="Save"
+      iconName="save"
+      :disabled="true"
+      ></IconBarButton>
+    </template>
+  </IconBar> -->
   <FileSelector
     @fileselected="load"
     :names="[
@@ -64,11 +90,13 @@ export default defineComponent({
     ]"
   >
   </FileSelector>
-
+  
+  <!-- <span class="me-4"></span> -->
+  
   <PanelHeader title="Instruments"></PanelHeader>
   <div
-    class="listbox-item"
-    v-for="(tone, index) in main.song.tones"
+  class="listbox-item"
+  v-for="(tone, index) in main.song.tones"
     data-bs-toggle="tooltip"
     data-bs-placement="top"
     :title="`(${tone.meta.originalPreset}@${tone.meta.originalEngine})`"
