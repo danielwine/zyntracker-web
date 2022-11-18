@@ -5,7 +5,7 @@ import { defineComponent, type PropType } from "vue";
 export default defineComponent({
   props: {
     title: String,
-    id: { type: Object as PropType<Panels> },
+    id: Number,
   },
   setup() {
     return { ui: useUIStore() };

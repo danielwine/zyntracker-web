@@ -48,7 +48,8 @@ export default defineComponent({
         </span>
       </code>
     </div>
-    <!-- <TransportBar></TransportBar> -->
+    <span class="me-4"></span>
+    <TransportBar></TransportBar>
   </div>
 </template>
 

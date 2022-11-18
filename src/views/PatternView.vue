@@ -6,10 +6,9 @@ import { storeToRefs } from "pinia";
 
 import { AudioService } from "@/library/AudioService";
 import type { ToneSequenceEvents } from "@/library/interface/IPattern";
-import { checkFunctionKeys, toggleKey } from "@/common/keys";
 import * as keymap from "@/library/Keymap";
 
-import PanelHeader from "./PanelHeader.vue";
+import PanelHeader from "../components/PanelHeader.vue";
 
 const audioService = AudioService.getInstance();
 
@@ -21,12 +20,26 @@ enum Direction {
 }
 
 export default defineComponent({
-  emits: ["nextPattern", "prevPattern", "toggleHelp"],
+  emits: ["nextPattern", "prevPattern"],
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
-    let { currentPattern } = storeToRefs(ui);
-    return { main, ui, currentPattern, audioService, Panels };
+    let {
+      currentPattern,
+      activePanel,
+      afterPatternEditorLeave,
+      afterPatternEditorEnter,
+    } = storeToRefs(ui);
+    return {
+      main,
+      ui,
+      activePanel,
+      afterPatternEditorLeave,
+      afterPatternEditorEnter,
+      currentPattern,
+      audioService,
+      Panels,
+    };
   },
   props: {
     audioSeqID: String,
@@ -36,7 +49,7 @@ export default defineComponent({
     window.addEventListener("keydown", this.keyDown);
     window.addEventListener("keyup", this.keyUp);
     window.addEventListener("wheel", this.wheelScroll);
-    // this.setCursor(true);
+    if (this.activePanel == Panels.pattern) this.setCursor(true);
   },
   unmounted() {
     window.removeEventListener("keydown", this.keyDown);
@@ -50,7 +63,7 @@ export default defineComponent({
       },
       activeCell: "00011",
       octave: keymap.defaultOctave,
-      editMode: false,
+      editMode: true,
       offset: 0,
       padding: 8,
       eventIdx: 0,
@@ -214,16 +227,10 @@ export default defineComponent({
         this.octave -= 1;
         keymap.setOctave(this.octave);
       }
-      if (key == "Escape") this.editMode = !this.editMode;
-      if (key == "Backspace" || key == "F2") {
-        this.ui.activePanel = Panels.pad;
-      }
       if (key == "Delete" && this.editMode) {
         await this.editValue("");
         return;
       }
-      // const result = checkFunctionKeys(key, this.$route.name);
-      // if (result) this.$emit(result);
     },
     keyDown(event: KeyboardEvent) {
       if (this.keyPressed[event.key] == true) return;
@@ -231,13 +238,13 @@ export default defineComponent({
       if (note && event.code != "NumpadSubtract") {
         audioService.startNote(note, this.seqId);
         this.keyPressed[event.key] = true;
-        if (this.editMode) {
+        if (this.editMode && this.ui.activePanel == Panels.pattern) {
           this.editValue(note);
         }
       } else {
-        if (this.ui.activePanel == Panels.pad) return
+        if (this.ui.activePanel == Panels.pad) return;
         if (event.key == "Control") this.keyPressed[event.key] = true;
-          this.checkControllerKeys(event.code);
+        this.checkControllerKeys(event.code);
       }
     },
     keyUp(event: KeyboardEvent) {
@@ -274,6 +281,20 @@ export default defineComponent({
     },
     polyphonyLevel() {
       return this.audioService.getPolyphony(this.seqId);
+    },
+  },
+  watch: {
+    afterPatternEditorEnter() {
+      this.setCursor(true);
+    },
+    afterPatternEditorLeave() {
+      this.setCursor(false);
+
+      // console.log(this.activePanel);
+      // if (this.activePanel == Panels.pattern) {
+      //   console.log("PatternEditor is in focus.");
+      //   this.setCursor(true);
+      // }
     },
   },
   components: { PanelHeader },
@@ -377,7 +398,8 @@ export default defineComponent({
 }
 
 .p-editable {
-  background-image: linear-gradient(180deg, #202320, #202320);
+  background-image: linear-gradient(180deg, #101310, #202320);
+  /* background-image: linear-gradient(180deg, #202320, #202320); */
   /* background-color: rgba(40, 53, 40, 0.8); */
   /* background-color: hsla(160, 100%, 37%, 0.5); */
   /* background-color: #666; */

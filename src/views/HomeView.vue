@@ -12,7 +12,6 @@ import BsToast from "@/components/BsToast.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 
 import ZynpadView from "../views/ZynpadView.vue";
-import PatternEditor from "../components/PatternEditor.vue";
 import SideBar from "@/components/SideBar.vue";
 import Footer from "../components/Footer.vue";
 import Song from "@/components/Song.vue";
@@ -24,10 +23,9 @@ export default defineComponent({
     LoadingScreen,
     ZynpadView,
     Song,
-    PatternEditor,
     SideBar,
     Footer,
-  },
+},
   data() {
     return {
       tabList: ["Instruments", "Test songs"],
@@ -97,7 +95,6 @@ export default defineComponent({
           <ZynpadView
             @nextPattern="nextPattern()"
             @prevPattern="previousPattern()"
-            @toggleHelp="toggleAbout()"
           />
           <div class="mb-4"></div>
             <Song></Song>
@@ -105,7 +102,8 @@ export default defineComponent({
       </div>
       <div ref="patterncolumn" class="col-md-6 w-30 splash">
         <div v-if="main.song.patterns.length > 0 && audioReady">
-          <PatternEditor audioSeqID="0"></PatternEditor>
+          <RouterView></RouterView>
+          <!-- <PatternEditor audioSeqID="0"></PatternEditor> -->
         </div>
       </div>
       <div class="col-md-2 g-0">
@@ -113,7 +111,7 @@ export default defineComponent({
       </div>
     </div>
   </div>
-  <Footer></Footer>
+  <!-- <Footer></Footer> -->
   <BsToast v-if="main.error.message"></BsToast>
 </template>
 

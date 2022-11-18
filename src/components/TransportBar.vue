@@ -4,59 +4,22 @@ import { Panels, useUIStore } from "@/stores/ui";
 import IconBar from "@/components/IconBar.vue";
 import { AudioService } from "@/library/AudioService";
 import { defineComponent, ref } from "vue";
-import ZssService from "@/library/ZSSService";
-import { loadSong } from "@/library/Loader";
-import err from "@/library/Error";
 import { storeToRefs } from "pinia";
 import IconBarButton from "./IconBarButton.vue";
 
 const audioService = AudioService.getInstance();
-const ZSS = ZssService.getInstance();
 
 export default defineComponent({
-  name: "FileUpload",
-  emits: ["fileloaded"],
-  setup(props, { emit }) {
+  setup(props) {
     const main = useMainStore();
     const ui = useUIStore();
     const { transportState, selectedPad } = storeToRefs(ui);
-    const FileInput = ref<File | null>();
-    const loadFile = (file: File) => {
-      let fileName = "";
-      FileInput.value = file;
-      if (FileInput.value) {
-        fileName = FileInput.value.name;
-        let fileReader = new FileReader();
-        fileReader.onload = async (event) => {
-          let res =
-            event.target && event.target.result ? event.target.result : null;
-          if (res && typeof res === "string") {
-            console.log(res);
-            try {
-              let song = await loadSong(fileName, JSON.parse(res));
-              if (song) {
-                ui.clear();
-                main.song = song;
-                audioService.use(song);
-                await audioService.initEngines();
-                audioService.addBasicPatterns();
-              } else main.error.message = err.import;
-            } catch {
-              main.error.message = err.json;
-            }
-            emit("fileloaded", fileName);
-          }
-        };
-        let content = FileInput.value;
-        fileReader.readAsText(FileInput.value);
-      }
-    };
     return {
-      loadFile,
       ui,
       error: main.error,
       song: main.song,
       patterns: main.song.patterns,
+      Panels,
       transportState,
       selectedPad,
     };
@@ -65,6 +28,13 @@ export default defineComponent({
     this.transportState = audioService.isPlaying;
   },
   methods: {
+    async navigateToPattern() {
+      await new Promise((r) => setTimeout(r, 30));
+      if (this.$route.name != "") {
+        this.$router.push("/");
+        this.ui.activePanel = Panels.pattern;
+      } else this.ui.activePanel = Panels.pad;
+    },
     togglePlay() {
       this.toggleAudioPlay();
       this.transportState = !this.transportState;
@@ -109,39 +79,44 @@ export default defineComponent({
       ></IconBarButton>
 
       <IconBarButton
-        @buttonClicked="toggleView"
-        :hint="getViewPopupText"
-        :iconName="getViewIconClass"
-      ></IconBarButton>
-
-      <IconBarButton
-        hint="Download snapshot file"
-        iconName="download"
-        :disabled="true"
-      ></IconBarButton>
-
-      <IconBarButton
-        @fileSelected="loadFile"
-        hint="Upload snapshot file"
-        iconName="upload"
-        :fileinput="true"
-      ></IconBarButton>
-
-      <IconBarButton
-        hint="Save"
-        iconName="save"
-        :disabled="true"
-      ></IconBarButton>
-
-      <IconBarButton
-        hint="Help"
-        iconName="question"
-        :disabled="true"
+        @buttonClicked="togglePlay"
+        hint="Play current pattern (F2)"
+        iconName="play-circle"
       ></IconBarButton>
 
       <span class="me-4"></span>
 
       <IconBarButton
+        @buttonClicked="ui.activePanel = Panels.pad"
+        hint="Focus Zynpad (ESC)"
+        iconName="th"
+      ></IconBarButton>
+
+      <IconBarButton
+        @buttonClicked="navigateToPattern()"
+        hint="Focus Pattern editor (ESC)"
+        iconName="align-justify"
+      ></IconBarButton>
+
+      <!-- <IconBarButton
+        @buttonClicked="toggleView"
+        :hint="getViewPopupText"
+        :iconName="getViewIconClass"
+      ></IconBarButton> -->
+
+      <IconBarButton
+        @buttonClicked="$router.push('/options')"
+        hint="Options (F8)"
+        iconName="wrench"
+      ></IconBarButton>
+
+      <IconBarButton
+        @buttonClicked="$router.push('/about')"
+        hint="Help (F9)"
+        iconName="question"
+      ></IconBarButton>
+
+      <!-- <IconBarButton
         hint="Previous bank"
         iconName="caret-left"
         :disabled="true"
@@ -151,7 +126,7 @@ export default defineComponent({
         hint="Next bank"
         iconName="caret-right"
         :disabled="true"
-      ></IconBarButton>
+      ></IconBarButton> -->
     </template>
   </IconBar>
 </template>

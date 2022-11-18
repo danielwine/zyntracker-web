@@ -5,6 +5,7 @@ import "bootstrap/dist/js/bootstrap.js";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faPlay,
+  faPlayCircle,
   faStop,
   faDownload,
   faUpload,
@@ -15,11 +16,13 @@ import {
   faMusic,
   faTh,
   faAlignJustify,
+  faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(
   faPlay,
+  faPlayCircle,
   faStop,
   faDownload,
   faUpload,
@@ -29,7 +32,8 @@ library.add(
   faCaretRight,
   faMusic,
   faTh,
-  faAlignJustify
+  faAlignJustify,
+  faWrench,
 );
 
 import { createApp } from "vue";

@@ -8,6 +8,8 @@ export enum PlayStates {
 export enum Panels {
   "pad",
   "pattern",
+  "options",
+  "help",
 }
 
 export interface ISwitch {
@@ -23,22 +25,11 @@ export const useUIStore = defineStore("ui", {
     isPadActive: [] as Array<PlayStates>,
     selectedPad: 1,
     activePanel: Panels.pad,
+    lastActivePanel: Panels.pad,
+    afterPatternEditorLeave: false,
+    afterPatternEditorEnter: false,
     currentPattern: -1,
     transportState: false,
-    switches: {
-      F1: { name: "solo", active: false, isView: true, disabled: false },
-      F2: { name: "pattern", active: false, isView: true, disabled: false },
-      F4: { name: "", active: false, isView: false, disabled: false },
-      F8: { name: "options", active: false, isView: true, disabled: false },
-      F9: { name: "about", active: false, isView: true, disabled: false },
-      // F9: { name: "", active: false, isView: true, disabled: false },
-      ESC: {
-        name: "toggle edit",
-        active: false,
-        isView: true,
-        disabled: false,
-      },
-    } as { [key: string]: ISwitch },
   }),
   getters: {},
   actions: {

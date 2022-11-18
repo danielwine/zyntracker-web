@@ -27,25 +27,7 @@ export default defineComponent({
 
 <template>
   <div class="footer bg-dark">
-    <TransportBar></TransportBar>
-    <!-- <div class="help"> -->
-    <!-- v-if="$route.name" -->
-
-    <!-- <span class="help-link" v-for="item of Object.entries(ui.switches)">
-      <RouterLink
-        :class="`${getSwitchClass(item[1], 'active')} ${getSwitchClass(
-          item[1],
-          'disabled'
-        )}`"
-        :to="'/' + item[1].name"
-        >{{ item[0] + " " + item[1].name.toUpperCase() }}</RouterLink
-      >&nbsp;
-    </span> -->
-
-    <!-- <span v-if="$route.name" class="help-text">
-        {{ help[$route.name.toString()].text }}
-      </span> -->
-    <!-- <span class="flex-grow-2">0.0.1</span> -->
+  
     <p></p>
   </div>
   <!-- </div> -->

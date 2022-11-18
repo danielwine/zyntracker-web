@@ -9,22 +9,24 @@ const router = createRouter({
       name: "home",
       // component: HomeView,
       component: () => import("@/views/HomeView.vue"),
-      // children: [
-      //   {
-      //     path: "",
-      //     name: "pad",
-      //     component: () => import("@/views/ZynpadView.vue"),
-      //   },
-      //   {
-      //     path: "about",
-      //     name: "about",
-      //     component: () => import("@/views/AboutView.vue"),
-      //   },
-      //   {
-      //     path: "options",
-      //     name: "options",
-      //     component: () => import("@/views/OptionsView.vue"),
-      //   },
+      children: [
+        {
+          path: "",
+          name: "pattern",
+          props: true,
+          component: () => import("@/views/PatternView.vue"),
+        },
+        {
+          path: "about",
+          name: "about",
+          component: () => import("@/views/AboutView.vue"),
+        },
+        {
+          path: "options",
+          name: "options",
+          component: () => import("@/views/OptionsView.vue"),
+        },
+      ],
       //   {
       //     path: "edit/:audioSeqID",
       //     name: "edit",

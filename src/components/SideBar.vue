@@ -52,8 +52,8 @@ export default defineComponent({
 <template>
   <!-- <Tabs :tabList="tabList"> -->
   <!-- <template v-slot:tabPanel-1> -->
-  <PanelHeader title="Test snapshots"></PanelHeader>
-  <!-- <IconBar>
+  <PanelHeader title="Snapshots"></PanelHeader>
+  <IconBar>
     <template #icons>
       <IconBarButton
       hint="Download snapshot file"
@@ -74,7 +74,7 @@ export default defineComponent({
       :disabled="true"
       ></IconBarButton>
     </template>
-  </IconBar> -->
+  </IconBar>
   <FileSelector
     @fileselected="load"
     :names="[

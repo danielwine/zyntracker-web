@@ -1,11 +1,13 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, nextTick } from "vue";
 import Tile from "@/components/ZynpadTile.vue";
 import Pager from "@/components/Pager.vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore, Panels } from "@/stores/ui";
-import { toggleKey, checkFunctionKeys } from "@/common/keys";
 import PanelHeader from "@/components/PanelHeader.vue";
+import IconBar from "@/components/IconBar.vue";
+import IconBarButton from "@/components/IconBarButton.vue";
+import { storeToRefs } from "pinia";
 
 interface PlayAble {
   togglePlay(): Function;
@@ -16,12 +18,15 @@ export default defineComponent({
     Pager,
     Tile,
     PanelHeader,
+    IconBar,
+    IconBarButton,
   },
-  emits: ["togglePlay", "nextPattern", "prevPattern", "toggleHelp"],
+  emits: ["togglePlay", "nextPattern", "prevPattern"],
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
-    return { main, ui, Panels };
+    let { activePanel } = storeToRefs(ui);
+    return { main, ui, activePanel, Panels };
   },
   mounted() {
     window.addEventListener("keydown", this.keyDown);
@@ -30,8 +35,6 @@ export default defineComponent({
       console.debug("EVERYTHING IS RENDERED!!!");
       useMainStore().rendered = true;
     });
-    this.ui.switches["F2"].disabled = false;
-    this.ui.switches["F8"].disabled = false;
   },
   unmounted() {
     window.removeEventListener("keydown", this.keyDown);
@@ -49,18 +52,31 @@ export default defineComponent({
     };
   },
   methods: {
+    async navigateToPattern() {
+      await new Promise((r) => setTimeout(r, 30));
+      if (this.ui.activePanel == Panels.pad) {
+        if (this.$route.name != "") this.$router.push("/");
+        this.ui.activePanel = Panels.pattern;
+      } else this.ui.activePanel = Panels.pad;
+    },
     keyUp(event: KeyboardEvent) {
       if (event.key == "Control") this.CtrlPressed = false;
     },
-    keyDown(event: KeyboardEvent) {
+    async keyDown(event: KeyboardEvent) {
       if (event.key == " ") {
         this.ui.transportState = !this.ui.transportState;
       }
-      if (this.ui.activePanel == Panels.pattern) return;
-      if (event.key == "Backspace" || event.key == "F2") {
-        this.ui.activePanel = Panels.pattern;
-        return;
+      if (event.key == "Escape") {
+        if (this.ui.activePanel == Panels.pad) this.navigateToPattern();
+        else this.ui.activePanel = Panels.pad;
       }
+      if (event.key == "F8") {
+        this.$router.push("/options");
+      }
+      if (event.key == "F9") {
+        this.$router.push("/about");
+      }
+      if (this.ui.activePanel == Panels.pattern) return;
       console.log(event.key);
       if (event.key == "Control") this.CtrlPressed = true;
       if (event.key == "ArrowLeft" && this.ui.selectedPad > 4)
@@ -81,8 +97,6 @@ export default defineComponent({
           if (pad) pad.togglePlay();
         } else this.ui.activePanel = Panels.pattern;
       }
-      const result = checkFunctionKeys(event.key, this.$route.name);
-      if (result) this.$emit(result);
     },
   },
   computed: {
@@ -108,6 +122,19 @@ export default defineComponent({
       return matrix;
     },
   },
+  watch: {
+    activePanel() {
+      if (
+        this.ui.lastActivePanel == Panels.pattern &&
+        this.activePanel != Panels.pattern
+      )
+        this.ui.afterPatternEditorLeave = !this.ui.afterPatternEditorLeave;
+
+      if (this.ui.activePanel == Panels.pattern)
+        this.ui.afterPatternEditorEnter = !this.ui.afterPatternEditorEnter;
+      this.ui.lastActivePanel = this.activePanel;
+    },
+  },
 });
 </script>
 
@@ -117,6 +144,23 @@ export default defineComponent({
       <Pager></Pager>
     </template> -->
   </PanelHeader>
+
+  <IconBar>
+    <template #icons>
+      <IconBarButton
+        hint="Previous bank"
+        iconName="caret-left"
+        :disabled="true"
+      ></IconBarButton>
+
+      <IconBarButton
+        hint="Next bank"
+        iconName="caret-right"
+        :disabled="true"
+      ></IconBarButton>
+    </template>
+  </IconBar>
+
   <div class="mt-3"></div>
   <div
     v-for="row in [0, 1, 2, 3]"
