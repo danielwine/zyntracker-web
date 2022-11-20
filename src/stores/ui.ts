@@ -28,7 +28,7 @@ export const useUIStore = defineStore("ui", {
     lastActivePanel: Panels.pad,
     afterPatternEditorLeave: false,
     afterPatternEditorEnter: false,
-    currentPattern: -1,
+    currentPattern: 0,
     transportState: false,
   }),
   getters: {},
@@ -36,7 +36,7 @@ export const useUIStore = defineStore("ui", {
     clear() {
       this.isPadActive = [];
       this.selectedPad = 1;
-      this.currentPattern = -1;
+      this.currentPattern = 0;
     },
   },
 });

@@ -51,10 +51,10 @@ export const loadSong = async (songName: string, data = {}) => {
   return song;
 };
 
-export const load = async (fileName: string, release = true) => {
+export const load = async (fileName: string, release = true, data = {}) => {
   const as = AudioService.getInstance();
   if (release) as.release();
-  const song = await loadSong(fileName);
+  const song = await loadSong(fileName, data);
   if (!song) return false;
   else {
     as.use(song);

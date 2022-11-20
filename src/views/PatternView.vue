@@ -9,6 +9,7 @@ import type { ToneSequenceEvents } from "@/library/interface/IPattern";
 import * as keymap from "@/library/Keymap";
 
 import PanelHeader from "../components/PanelHeader.vue";
+import Pager from "@/components/Pager.vue";
 
 const audioService = AudioService.getInstance();
 
@@ -20,7 +21,6 @@ enum Direction {
 }
 
 export default defineComponent({
-  emits: ["nextPattern", "prevPattern"],
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
@@ -41,11 +41,8 @@ export default defineComponent({
       Panels,
     };
   },
-  props: {
-    audioSeqID: String,
-  },
+
   mounted() {
-    this.currentPattern = this.audioSeqID ? parseFloat(this.audioSeqID) : -1;
     window.addEventListener("keydown", this.keyDown);
     window.addEventListener("keyup", this.keyUp);
     window.addEventListener("wheel", this.wheelScroll);
@@ -205,15 +202,12 @@ export default defineComponent({
       if (key == "ArrowUp") this.scroll(Direction.Up);
       if (key == "ArrowRight") {
         if (!this.keyPressed["Control"]) this.moveCursor(Direction.Right);
-        else if (
-          this.currentPattern !=
-          Object.keys(audioService.sequences).length - 1
-        )
-          this.$emit("nextPattern");
+        else if (this.currentPattern != this.lastPatternId)
+          this.currentPattern += 1;
       }
       if (key == "ArrowLeft") {
         if (!this.keyPressed["Control"]) this.moveCursor(Direction.Left);
-        else if (this.currentPattern != 0) this.$emit("prevPattern");
+        else if (this.currentPattern != 0) this.currentPattern -= 1;
       }
       if (key == "PageUp") this.scroll(Direction.Up, 8);
       if (key == "PageDown") this.scroll(Direction.Down, 8);
@@ -236,7 +230,7 @@ export default defineComponent({
       if (this.keyPressed[event.key] == true) return;
       const note = keymap.keys[event.key];
       if (note && event.code != "NumpadSubtract") {
-        audioService.startNote(note, this.seqId);
+        audioService.startNote(note, this.currentPattern);
         this.keyPressed[event.key] = true;
         if (this.editMode && this.ui.activePanel == Panels.pattern) {
           this.editValue(note);
@@ -250,7 +244,7 @@ export default defineComponent({
     keyUp(event: KeyboardEvent) {
       const note = keymap.keys[event.key];
       if (note && event.code != "NumpadSubtract")
-        audioService.stopNote(note, this.seqId);
+        audioService.stopNote(note, this.currentPattern);
       this.keyPressed[event.key] = false;
     },
     wheelScroll(event: WheelEvent) {
@@ -262,11 +256,14 @@ export default defineComponent({
     },
   },
   computed: {
-    seqId() {
-      return this.audioSeqID ? Number.parseFloat(this.audioSeqID) : 0;
+    formattedPatternId() {
+      return this.currentPattern.toString().padStart(2, "0");
+    },
+    lastPatternId() {
+      return Object.keys(audioService.sequences).length - 1;
     },
     events() {
-      const events = this.audioService.sequences[this.seqId].sequence
+      const events = this.audioService.sequences[this.currentPattern].sequence
         .events as ToneSequenceEvents;
       console.log(events);
       return events;
@@ -277,10 +274,10 @@ export default defineComponent({
       );
     },
     patternLength() {
-      return this.audioService.getSequenceLength(this.seqId);
+      return this.audioService.getSequenceLength(this.currentPattern);
     },
     polyphonyLevel() {
-      return this.audioService.getPolyphony(this.seqId);
+      return this.audioService.getPolyphony(this.currentPattern);
     },
   },
   watch: {
@@ -289,20 +286,28 @@ export default defineComponent({
     },
     afterPatternEditorLeave() {
       this.setCursor(false);
-
-      // console.log(this.activePanel);
-      // if (this.activePanel == Panels.pattern) {
-      //   console.log("PatternEditor is in focus.");
-      //   this.setCursor(true);
-      // }
     },
   },
-  components: { PanelHeader },
+  components: { PanelHeader, Pager },
 });
 </script>
 
 <template>
-  <PanelHeader title="Pattern" :id="Panels.pattern"></PanelHeader>
+  <PanelHeader title="Pattern" :id="Panels.pattern">
+    <template #option>
+      {{ formattedPatternId }}
+    </template>
+    <template #control>
+      <Pager
+        @next="currentPattern += 1"
+        @previous="currentPattern -= 1"
+        title="pattern"
+        :value="currentPattern"
+        :min="0"
+        :max="lastPatternId"
+      ></Pager>
+    </template>
+  </PanelHeader>
   <main>
     <div class="pattern">
       <div id="innerContent">
@@ -335,10 +340,7 @@ export default defineComponent({
 <style>
 .pattern {
   background-color: black;
-  /* padding-top: 10px; */
   height: 85vh;
-  /* padding-bottom: 61.66%; */
-  /* padding-left: 80px; */
   color: #fff;
   position: relative;
   border: 1px solid black;
@@ -399,10 +401,6 @@ export default defineComponent({
 
 .p-editable {
   background-image: linear-gradient(180deg, #101310, #202320);
-  /* background-image: linear-gradient(180deg, #202320, #202320); */
-  /* background-color: rgba(40, 53, 40, 0.8); */
-  /* background-color: hsla(160, 100%, 37%, 0.5); */
-  /* background-color: #666; */
 }
 
 @media (min-width: 1024px) {

@@ -23,31 +23,49 @@ export default defineComponent({
 
 <template>
   <div
-    class="block-label"
+    class="panel-header"
     :class="
-      ui.activePanel == id ? 'block-label-active' : 'block-label-inactive'
+      ui.activePanel == id ? 'panel-header-active' : 'panel-header-inactive'
     "
     @click="setState"
   >
-    {{ title }}
-    <span>
+    <span class="panel-header-title">
+      {{ title }}
       <slot name="option"></slot>
     </span>
+    <div class="panel-header-control">
+      <slot name="control"></slot>
+    </div>
   </div>
 </template>
 
 <style>
-.block-label {
-  padding: 0.75em 1.8em 0.75em 1.8em;
+.panel-header {
+  /* padding: 0.75em 1.8em 0.75em 1.8em; */
   margin-bottom: 0.8em;
+  height: 3.1em;
 }
 
-.block-label-active {
+.panel-header-title {
+  /* margin-top: 1em; */
+  position: absolute;
+  padding: 0.75em 1.8em 0.75em 1.8em;
+  /* margin-bottom: 0.8em; */
+}
+
+.panel-header-active {
   background-color: #474;
 }
 
-.block-label-inactive {
+.panel-header-inactive {
   color: white;
   background-color: #555;
 }
+
+.panel-header-control {
+  position: absolute;
+  right: 0.5em;
+  top: 0.25em;
+}
+
 </style>

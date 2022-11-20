@@ -128,10 +128,8 @@ export default defineComponent({
   user-select: none;
   width: 150px;
   /* padding-bottom: 100px; */
-  height: 10vh;
+  height: 11vh;
   /* width: 13%; */
-  /* padding-bottom: 8%; */
-  /* padding-bottom: 15.6%; */
   /* padding-bottom: 17.8%; */
   color: #fff;
   /* position: relative; */

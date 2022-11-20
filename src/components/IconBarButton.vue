@@ -7,6 +7,7 @@ export default defineComponent({
     iconName: String,
     hint: String,
     disabled: { type: Boolean, default: false },
+    transparent: { type: Boolean, default: false },
     fileinput: { type: Boolean, default: false },
   },
   methods: {
@@ -35,7 +36,8 @@ export default defineComponent({
   />
 
   <button
-    class="btn btn-dark ms-2"
+    class="ms-2 btn"
+    :class="!transparent ? 'btn-dark' : 'btn-transparent'"
     v-on:click="onClick()"
     data-bs-toggle="tooltip"
     data-bs-placement="top"
@@ -52,5 +54,9 @@ button {
 }
 .btn-green {
   color: #66e969;
+}
+.btn-transparent {
+  background-color: transparent;
+  border-color: transparent;
 }
 </style>

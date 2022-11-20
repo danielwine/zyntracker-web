@@ -21,7 +21,7 @@ export default defineComponent({
     IconBar,
     IconBarButton,
   },
-  emits: ["togglePlay", "nextPattern", "prevPattern"],
+  emits: ["togglePlay"],
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
@@ -139,27 +139,19 @@ export default defineComponent({
 </script>
 
 <template>
-  <PanelHeader title="ZynPad" :id="Panels.pad">
-    <!-- <template #option>
-      <Pager></Pager>
-    </template> -->
-  </PanelHeader>
-
-  <IconBar>
-    <template #icons>
-      <IconBarButton
-        hint="Previous bank"
-        iconName="caret-left"
-        :disabled="true"
-      ></IconBarButton>
-
-      <IconBarButton
-        hint="Next bank"
-        iconName="caret-right"
-        :disabled="true"
-      ></IconBarButton>
+  <PanelHeader title="Bank" :id="0">
+    <template #option>
+      00
     </template>
-  </IconBar>
+    <template #control>
+      <Pager
+        title="pattern"
+        :value="0"
+        :min="0"
+        :max="0"
+      ></Pager>
+    </template>
+  </PanelHeader>
 
   <div class="mt-3"></div>
   <div

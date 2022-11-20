@@ -25,7 +25,7 @@ export default defineComponent({
     Song,
     SideBar,
     Footer,
-},
+  },
   data() {
     return {
       tabList: ["Instruments", "Test songs"],
@@ -43,17 +43,6 @@ export default defineComponent({
         this.audioReady = true;
         (this.$refs.padcolumn as HTMLElement).classList.remove("splash");
       }
-    },
-    nextPattern() {
-      this.currentPattern += 1;
-      this.routeToPattern(this.currentPattern);
-    },
-    previousPattern() {
-      this.currentPattern -= 1;
-      this.routeToPattern(this.currentPattern);
-    },
-    routeToPattern(patternNumber: number) {
-      this.$router.push(patternNumber.toString());
     },
     toggleAbout() {
       const route = this.$route.name?.toString();
@@ -92,17 +81,14 @@ export default defineComponent({
     <div class="row">
       <div ref="padcolumn" class="col-md-4 splash g-0">
         <div v-if="main.song.patterns.length > 0">
-          <ZynpadView
-            @nextPattern="nextPattern()"
-            @prevPattern="previousPattern()"
-          />
+          <ZynpadView />
           <div class="mb-4"></div>
-            <Song></Song>
+          <Song></Song>
         </div>
       </div>
       <div ref="patterncolumn" class="col-md-6 w-30 splash">
         <div v-if="main.song.patterns.length > 0 && audioReady">
-          <RouterView></RouterView>
+          <RouterView> </RouterView>
           <!-- <PatternEditor audioSeqID="0"></PatternEditor> -->
         </div>
       </div>

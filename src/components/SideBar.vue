@@ -1,17 +1,20 @@
 <script lang="ts">
-import { AudioService } from "@/library/AudioService";
-import { load } from "@/library/Loader";
-import err from "@/library/Error";
+import { defineComponent, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
+import { AudioService } from "@/library/AudioService";
+import { load, loadSong } from "@/library/Loader";
+import err from "@/library/Error";
 import Tabs from "@/components/NavTab.vue";
 import FileSelector from "@/components/FileSelector.vue";
-import { defineComponent } from "vue";
 import PanelHeader from "./PanelHeader.vue";
 import IconBar from "./IconBar.vue";
 import IconBarButton from "./IconBarButton.vue";
+import type { Song } from "@/library/Song";
 
 export default defineComponent({
+  name: "FileUpload",
+  emits: ["fileloaded"],
   components: {
     Tabs,
     FileSelector,
@@ -24,10 +27,11 @@ export default defineComponent({
       tabList: ["Instruments", "Test songs"],
     };
   },
-  setup() {
+  setup(props, { emit }) {
     const ui = useUIStore();
     const main = useMainStore();
     const audioService = AudioService.getInstance();
+
     return {
       main,
       ui,
@@ -38,13 +42,40 @@ export default defineComponent({
     formatIndex(index: number): string {
       return index < 10 ? "0" + index.toString() : index.toString();
     },
+    applySong(song: Song) {
+      this.ui.clear();
+      this.main.song = song;
+      this.ui.currentPattern = -1;
+      this.ui.currentPattern = 0;
+    },
     async load(fileName: string, release = true) {
       const song = await load(fileName, release);
       if (!song) this.main.error.message = err.import;
-      else {
-        this.ui.clear();
-        this.main.song = song;
-      }
+      else this.applySong(song);
+    },
+    async loadFile(file: File, release = true) {
+      const FileInput = ref<File | null>();
+      let fileName = "";
+      FileInput.value = file;
+      if (FileInput.value) fileName = FileInput.value.name;
+      let fileReader = new FileReader();
+      fileReader.onload = async (event) => {
+        let res =
+          event.target && event.target.result ? event.target.result : null;
+        if (res && typeof res === "string") {
+          console.log(res);
+          try {
+            let song = await load(fileName, release, JSON.parse(res));
+            if (song) this.applySong(song);
+            else this.main.error.message = err.import;
+          } catch {
+            this.main.error.message = err.json;
+          }
+          this.$emit("fileloaded", fileName);
+        }
+      };
+      let content = FileInput.value;
+      fileReader.readAsText(FileInput.value);
     },
   },
 });
@@ -56,22 +87,22 @@ export default defineComponent({
   <IconBar>
     <template #icons>
       <IconBarButton
-      hint="Download snapshot file"
-      iconName="download"
-      :disabled="true"
+        hint="Download snapshot file"
+        iconName="download"
+        :disabled="true"
       ></IconBarButton>
-      
+
       <IconBarButton
-      @fileSelected="loadFile"
-      hint="Upload snapshot file"
-      iconName="upload"
-      :fileinput="true"
+        @fileSelected="loadFile"
+        hint="Upload snapshot file"
+        iconName="upload"
+        :fileinput="true"
       ></IconBarButton>
-      
+
       <IconBarButton
-      hint="Save"
-      iconName="save"
-      :disabled="true"
+        hint="Save"
+        iconName="save"
+        :disabled="true"
       ></IconBarButton>
     </template>
   </IconBar>
@@ -90,13 +121,13 @@ export default defineComponent({
     ]"
   >
   </FileSelector>
-  
+
   <!-- <span class="me-4"></span> -->
-  
+
   <PanelHeader title="Instruments"></PanelHeader>
   <div
-  class="listbox-item"
-  v-for="(tone, index) in main.song.tones"
+    class="listbox-item"
+    v-for="(tone, index) in main.song.tones"
     data-bs-toggle="tooltip"
     data-bs-placement="top"
     :title="`(${tone.meta.originalPreset}@${tone.meta.originalEngine})`"

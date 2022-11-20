@@ -17,6 +17,8 @@ import {
   faTh,
   faAlignJustify,
   faWrench,
+  faPlus,
+  faMinus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -34,6 +36,8 @@ library.add(
   faTh,
   faAlignJustify,
   faWrench,
+  faPlus,
+  faMinus
 );
 
 import { createApp } from "vue";
