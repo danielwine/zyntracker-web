@@ -2,7 +2,7 @@
 import { useMainStore } from "@/stores/zss";
 import { Panels, useUIStore } from "@/stores/ui";
 import IconBar from "@/components/IconBar.vue";
-import { AudioService } from "@/library/AudioService";
+import { AudioService } from "@/library/core/AudioService";
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
 import IconBarButton from "./IconBarButton.vue";

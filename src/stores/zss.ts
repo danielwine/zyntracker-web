@@ -1,4 +1,4 @@
-import { Song } from "@/library/Song";
+import { Song } from "@/library/core/Song";
 import { defineStore } from "pinia";
 
 export class Error {

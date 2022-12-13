@@ -2,15 +2,15 @@
 import { defineComponent, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
-import { AudioService } from "@/library/AudioService";
-import { load, loadSong } from "@/library/Loader";
-import err from "@/library/Error";
+import { AudioService } from "@/library/core/AudioService";
+import { load, loadSong } from "@/library/core/Loader";
+import err from "@/library/res/Error";
 import Tabs from "@/components/NavTab.vue";
 import FileSelector from "@/components/FileSelector.vue";
 import PanelHeader from "./PanelHeader.vue";
 import IconBar from "./IconBar.vue";
 import IconBarButton from "./IconBarButton.vue";
-import type { Song } from "@/library/Song";
+import type { Song } from "@/library/core/Song";
 
 export default defineComponent({
   name: "FileUpload",

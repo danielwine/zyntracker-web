@@ -9,10 +9,10 @@ import {
   type IZynseq,
   type IZynseqBank,
   type ZynseqTrack,
-} from "./interface/IZSS";
+} from "../zss/interface/IFormat";
 import { Pattern, setTimeSignature } from "./Pattern";
-import { local, remote } from "./Samples";
-import type ZSS from "./ZSSService";
+import { local, remote } from "../res/Samples";
+import type ZSS from "../zss/Reader";
 
 /**
  * Basic song structure with metadata and sequence data importer methods
@@ -52,7 +52,7 @@ export class Song {
     success = await this.importZSSTones(zss);
     this.importZSSPatterns(zss);
     this.importZSSSequences(zss);
-    console.debug("ZSSImporter returning with: ", success);
+    console.debug("ZSSReader returning with: ", success);
     return success;
   }
 

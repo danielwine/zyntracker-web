@@ -14,9 +14,9 @@ import type { ToneSequenceEvent } from "./interface/IPattern";
 import { ToneSequence, type Engine } from "./interface/IAudio";
 import type { Song } from "./Song";
 import { EngineType, type IZyntrackerTone } from "./interface/ISong";
-import { localhostIP, noteMaps, pathSounds } from "./Samples";
-import { getNoteFromMidiCode } from "./Keymap";
-import { SFZ, SFZRegion } from "./SFZ";
+import { localhostIP, noteMaps, pathSounds } from "../res/Samples";
+import { getNoteFromMidiCode } from "../res/Keymap";
+import { SFZ, SFZRegion } from "../res/SFZ";
 
 /**
  * Service for managing webaudio resources

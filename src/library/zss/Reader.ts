@@ -1,5 +1,5 @@
-import { zynSeqFormat } from "./ZSSFormat";
-import type { IZSS } from "./interface/IZSS";
+import { zynSeqFormat } from "./Format";
+import type { IZSS } from "./interface/IFormat";
 
 interface IZynseqChunk {
   header: ZynseqChunkHeader;
@@ -19,17 +19,17 @@ type IZynseqVariable = [string, number];
 /**
  * Service for parsing ZSS metadata and decoding raw binary content
  */
-export default class ZssService {
-  private static instance: ZssService;
+export default class ZSSReader {
+  private static instance: ZSSReader;
   private zssData!: IZSS;
   private zynseqData!: {};
   private zynseq = new ZynSeq();
 
-  public static getInstance(): ZssService {
-    if (!ZssService.instance) {
-      ZssService.instance = new ZssService();
+  public static getInstance(): ZSSReader {
+    if (!ZSSReader.instance) {
+      ZSSReader.instance = new ZSSReader();
     }
-    return ZssService.instance;
+    return ZSSReader.instance;
   }
 
   private getObjectFromContent(ZSSJson: string) {

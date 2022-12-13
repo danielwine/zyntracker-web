@@ -1,10 +1,10 @@
-import { production } from "@/config";
+import { production } from "./Config";
 
 /**
  * List of locally available sample sets
  */
 export const local = {
-  drums: ["Roland TR808", "Akai XR10"],
+  drums: ["Roland TR808", "Roland TR909", "Akai XR10"],
 };
 
 /**

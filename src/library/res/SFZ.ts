@@ -1,4 +1,4 @@
-import { downloadSFZ } from "./Loader";
+import { downloadSFZ } from "../core/Loader";
 
 export class SFZRegion {
   [key: string]: any;

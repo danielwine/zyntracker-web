@@ -1,5 +1,8 @@
-import * as keymap from "./Keymap";
-import type { IZynseqPattern, IZynseqPatternEvent } from "./interface/IZSS";
+import * as keymap from "../res/Keymap";
+import type {
+  IZynseqPattern,
+  IZynseqPatternEvent,
+} from "../zss/interface/IFormat";
 import { ToneSequenceEvent } from "./interface/IPattern";
 import type { ToneSequenceEvents } from "./interface/IPattern";
 

@@ -3,8 +3,8 @@ import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
-import { load } from "@/library/Loader";
-import err from "@/library/Error";
+import { load } from "@/library/core/Loader";
+import err from "@/library/res/Error";
 
 import BsNavBar from "../components/BsNavBar.vue";
 import BsToast from "@/components/BsToast.vue";
