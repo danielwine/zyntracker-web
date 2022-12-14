@@ -1,23 +1,14 @@
 import { zynSeqFormat } from "./Format";
 import type { IZSS } from "./interface/IFormat";
-
-interface IZynseqChunk {
-  header: ZynseqChunkHeader;
-  block: ArrayBuffer;
-  start: number;
-  end: number;
-}
-
-interface IZynseqObject {
-  header: {};
-  patterns: any[];
-  banks: any[];
-}
-
-type IZynseqVariable = [string, number];
+import type {
+  IZynseqChunk,
+  IZynseqObject,
+  IZynseqVariable,
+} from "./interface/IParser";
+import { ZynseqChunkHeader } from "./interface/IParser";
 
 /**
- * Service for parsing ZSS metadata and decoding raw binary content
+ * Service for parsing ZSS metadata and decoding base64-encoded binary content
  */
 export default class ZSSReader {
   private static instance: ZSSReader;
@@ -131,11 +122,6 @@ class ZynSeq {
     }
     return sequence;
   }
-}
-
-class ZynseqChunkHeader {
-  id: string = "";
-  blockSize: number = 0;
 }
 
 class ZynseqObject {

@@ -27,10 +27,6 @@ coverage
 *.sln
 *.sw?
 
-# Soundfonts
-
-public/soundfonts
-
 # Temporary files & backups
 
 _old

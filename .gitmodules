@@ -1,0 +1,3 @@
+[submodule "public/soundfonts"]
+	path = public/soundfonts
+	url = https://github.com/danielwine/soundfonts
