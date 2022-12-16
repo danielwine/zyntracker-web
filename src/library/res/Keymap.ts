@@ -1,8 +1,11 @@
+import { useUIStore } from "@/stores/ui";
+const ui = useUIStore();
+
 const defaultKeyboard = "HU";
-const defaultOctave = 3;
+export const defaultOctave = 3;
+export const minOctave = 1;
+export const maxOctave = 7;
 const base_midi_note = 36;
-const start_midi_note_row_a = 48;
-const start_midi_note_row_b = 60;
 
 type IndexableByString = { [key: string]: any };
 const physical_keys: IndexableByString = {
@@ -87,7 +90,7 @@ const notes = [
 ];
 
 const getNoteFromMidiCode = (code: number) => {
-  return notes[code - base_midi_note]
+  return notes[code - base_midi_note];
 };
 
 const mapKeys = (lang: string, octave: number) => {
@@ -103,10 +106,26 @@ const mapKeys = (lang: string, octave: number) => {
   });
 };
 
-const setOctave = (octave: number) => {
-  mapKeys(defaultKeyboard, octave);
+const setOctave = (octaveToSet: number) => {
+  mapKeys(defaultKeyboard, octaveToSet);
+  ui.currentOctave = octaveToSet;
+  octave = octaveToSet;
+};
+
+const incrementOctave = () => {
+  if (octave < maxOctave) setOctave(octave + 1);
+};
+
+const decrementOctave = () => {
+  if (octave > minOctave) setOctave(octave - 1);
 };
 
 setOctave(defaultOctave);
 
-export { keys, defaultOctave, getNoteFromMidiCode, setOctave };
+export {
+  keys,
+  getNoteFromMidiCode,
+  setOctave,
+  incrementOctave,
+  decrementOctave,
+};

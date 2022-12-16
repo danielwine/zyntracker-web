@@ -8,6 +8,7 @@ import PanelHeader from "@/components/PanelHeader.vue";
 import IconBar from "@/components/IconBar.vue";
 import IconBarButton from "@/components/IconBarButton.vue";
 import { storeToRefs } from "pinia";
+import * as keymap from "@/library/res/Keymap";
 
 interface PlayAble {
   togglePlay(): Function;
@@ -78,6 +79,7 @@ export default defineComponent({
       }
       if (this.ui.activePanel == Panels.pattern) return;
       console.log(event.key);
+      let pad = this.ui.selectedPad;
       if (event.key == "Control") this.CtrlPressed = true;
       if (event.key == "ArrowLeft" && this.ui.selectedPad > 4)
         this.ui.selectedPad -= 4;
@@ -89,6 +91,8 @@ export default defineComponent({
         this.ui.selectedPad += 1;
       if (event.key == "Home") this.ui.selectedPad = 1;
       if (event.key == "End") this.ui.selectedPad = 16;
+      if (pad != this.ui.selectedPad)
+        this.ui.currentPattern = this.ui.selectedPad - 1;
       if (event.key == "Enter") {
         if (!this.CtrlPressed) {
           let pad = (
@@ -97,6 +101,8 @@ export default defineComponent({
           if (pad) pad.togglePlay();
         } else this.ui.activePanel = Panels.pattern;
       }
+      if (event.code == "NumpadAdd") keymap.incrementOctave();
+      if (event.code == "NumpadSubtract") keymap.decrementOctave();
     },
   },
   computed: {
@@ -140,16 +146,9 @@ export default defineComponent({
 
 <template>
   <PanelHeader title="Bank" :id="0">
-    <template #option>
-      00
-    </template>
+    <template #option> 00 </template>
     <template #control>
-      <Pager
-        title="pattern"
-        :value="0"
-        :min="0"
-        :max="0"
-      ></Pager>
+      <Pager title="pattern" :value="0" :min="0" :max="0"></Pager>
     </template>
   </PanelHeader>
 

@@ -59,7 +59,6 @@ export default defineComponent({
         [key: string]: boolean;
       },
       activeCell: "00011",
-      octave: keymap.defaultOctave,
       editMode: true,
       offset: 0,
       padding: 8,
@@ -213,14 +212,8 @@ export default defineComponent({
       if (key == "PageDown") this.scroll(Direction.Down, 8);
       if (key == "Home") this.scrollTo(0);
       if (key == "End") this.scrollTo(this.patternLength - 1);
-      if (key == "NumpadAdd") {
-        this.octave += 1;
-        keymap.setOctave(this.octave);
-      }
-      if (key == "NumpadSubtract") {
-        this.octave -= 1;
-        keymap.setOctave(this.octave);
-      }
+      if (key == "NumpadAdd") keymap.incrementOctave();
+      if (key == "NumpadSubtract") keymap.decrementOctave();
       if (key == "Delete" && this.editMode) {
         await this.editValue("");
         return;

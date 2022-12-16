@@ -10,6 +10,8 @@ export default defineComponent({
   props: {
     title: String,
     value: Number,
+    customHintBack: String,
+    customHintForward: String,
     min: Number,
     max: Number,
   },
@@ -26,14 +28,20 @@ export default defineComponent({
   <span class="pager">
     <IconBarButton
       @buttonClicked="$emit('previous')"
-      :hint="'Previous ' + title + ' (Ctrl-Left)'"
+      :hint="
+        customHintBack ? customHintBack : 'Previous ' + title + ' (Ctrl-Left)'
+      "
       iconName="minus"
       :disabled="value == min"
       :transparent="true"
     ></IconBarButton>
     <IconBarButton
       @buttonClicked="$emit('next')"
-      :hint="'Next ' + title + ' (Ctrl-Right)'"
+      :hint="
+        customHintForward
+          ? customHintForward
+          : 'Next ' + title + ' (Ctrl-Right)'
+      "
       iconName="plus"
       :disabled="value == max"
       :transparent="true"

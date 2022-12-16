@@ -29,6 +29,7 @@ export const useUIStore = defineStore("ui", {
     afterPatternEditorLeave: false,
     afterPatternEditorEnter: false,
     currentPattern: 0,
+    currentOctave: 3,
     transportState: false,
   }),
   getters: {},
