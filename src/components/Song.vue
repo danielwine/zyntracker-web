@@ -37,27 +37,29 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
-    <PanelHeader title="Global - Octave">
+  <span class="mobile-hide">
+    <PanelHeader title="Song - Octave">
       <template #option> {{ ui.currentOctave }} </template>
       <template #control>
         <Pager
-          title="octave"
-          :value="ui.currentOctave"
-          custom-hint-back="Decrease octave (Num -)"
-          custom-hint-forward="Increase octave (Num +)"
-          :min="minOctave"
-          :max="maxOctave"
-          @previous="decrementOctave()"
-          @next="incrementOctave()"
+        title="octave"
+        :value="ui.currentOctave"
+        custom-hint-back="Decrease octave (Num -)"
+        custom-hint-forward="Increase octave (Num +)"
+        :min="minOctave"
+        :max="maxOctave"
+        @previous="decrementOctave()"
+        @next="incrementOctave()"
         ></Pager>
       </template>
     </PanelHeader>
-
+  </span>
+  
+  <div class="panel-content mobile-hide">
     <div class="container">
       <span>[{{ main.song.name.toLowerCase() }}] &nbsp;&nbsp;</span>
-      <code class="song-info"
-        >&nbsp;
+      <code class="song-info">
+        &nbsp;
         <span class="song-info-detail"
           >#sequences: {{ main.song?.sequences.length }}&nbsp;</span
         >
@@ -71,10 +73,13 @@ export default defineComponent({
         </span>
       </code>
     </div>
-    <code class="song-info"> </code>
+    <div class="quickhelp">
+      <div>Press any alphanumeric key to play a note.</div>
+      <div>Press Esc to toggle edit mode / window focus.</div>
+    </div>
     <span class="me-4"></span>
-    <TransportBar></TransportBar>
   </div>
+  <TransportBar></TransportBar>
 </template>
 
 <style scoped>
@@ -82,6 +87,26 @@ export default defineComponent({
   font-size: 0.92em;
   color: burlywood;
   /* color: #66e969; */
-  margin-top: 4px;
+  margin-top: 40px;
+}
+.quickhelp {
+  font-size: 1em;
+  color: grey;
+  margin: 10px 0 0 10px;
+  /* padding: 10px 0px 0px 0px; */
+}
+
+@media (min-width: 992px) {
+  .panel-content {
+    margin-left: 15px;
+  }
+  .mobile-hide {
+    display: block;
+  }
+}
+@media (max-width: 992px) {
+  .mobile-hide {
+    display: none;
+  }
 }
 </style>

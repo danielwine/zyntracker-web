@@ -22,6 +22,7 @@ export default {
 
 <style scoped>
 ul {
+  margin-top: 10px;
   padding-left: 0;
 }
 

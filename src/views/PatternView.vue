@@ -333,10 +333,10 @@ export default defineComponent({
 <style>
 .pattern {
   background-color: black;
-  height: 85vh;
+  height: 86.9vh;
   color: #fff;
   position: relative;
-  border: 1px solid black;
+  margin-top: -0.8em;
   user-select: none;
   overflow: hidden;
 }

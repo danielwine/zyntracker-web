@@ -84,6 +84,21 @@ export default defineComponent({
   <!-- <Tabs :tabList="tabList"> -->
   <!-- <template v-slot:tabPanel-1> -->
   <PanelHeader title="Snapshots"></PanelHeader>
+  <FileSelector
+    @fileselected="load"
+    :names="[
+      'FieryRedSunset.zss',
+      'Exeunt.zss',
+      'CityInTheRain.zss',
+      'Zynthwave.zss',
+      'factory/001-ThreeOnThree.zss',
+      'factory/002-House In RTP.zss',
+      'factory/003-FluidR3 GM.zss',
+      'factory/004-Mistic Arp.zss',
+      'factory/005-Techno Base 01.zss',
+    ]"
+  >
+  </FileSelector>
   <IconBar>
     <template #icons>
       <IconBarButton
@@ -106,22 +121,8 @@ export default defineComponent({
       ></IconBarButton>
     </template>
   </IconBar>
-  <FileSelector
-    @fileselected="load"
-    :names="[
-      'FieryRedSunset.zss',
-      'Exeunt.zss',
-      'CityInTheRain.zss',
-      'Zynthwave.zss',
-      'factory/001-ThreeOnThree.zss',
-      'factory/002-House In RTP.zss',
-      'factory/003-FluidR3 GM.zss',
-      'factory/004-Mistic Arp.zss',
-      'factory/005-Techno Base 01.zss',
-    ]"
-  >
-  </FileSelector>
 
+  <div class="mb-3"></div>
   <!-- <span class="me-4"></span> -->
 
   <PanelHeader title="Instruments"></PanelHeader>

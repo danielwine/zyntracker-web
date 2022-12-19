@@ -82,14 +82,13 @@ export default defineComponent({
       <div ref="padcolumn" class="col-md-4 splash g-0">
         <div v-if="main.song.patterns.length > 0">
           <ZynpadView />
-          <div class="mb-4"></div>
+          <div class="mb-3"></div>
           <Song></Song>
         </div>
       </div>
       <div ref="patterncolumn" class="col-md-6 w-30 splash">
         <div v-if="main.song.patterns.length > 0 && audioReady">
           <RouterView> </RouterView>
-          <!-- <PatternEditor audioSeqID="0"></PatternEditor> -->
         </div>
       </div>
       <div class="col-md-2 g-0">
@@ -97,7 +96,6 @@ export default defineComponent({
       </div>
     </div>
   </div>
-  <!-- <Footer></Footer> -->
   <BsToast v-if="main.error.message"></BsToast>
 </template>
 

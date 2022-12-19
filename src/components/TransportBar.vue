@@ -6,6 +6,7 @@ import { AudioService } from "@/library/core/AudioService";
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
 import IconBarButton from "./IconBarButton.vue";
+import { version } from "@/library/res/Config";
 
 const audioService = AudioService.getInstance();
 
@@ -22,6 +23,7 @@ export default defineComponent({
       Panels,
       transportState,
       selectedPad,
+      version,
     };
   },
   mounted() {
@@ -115,18 +117,16 @@ export default defineComponent({
         hint="Help (F9)"
         iconName="question"
       ></IconBarButton>
-
-      <!-- <IconBarButton
-        hint="Previous bank"
-        iconName="caret-left"
-        :disabled="true"
-      ></IconBarButton>
-
-      <IconBarButton
-        hint="Next bank"
-        iconName="caret-right"
-        :disabled="true"
-      ></IconBarButton> -->
+      <span class="version-number">{{ version }}</span>
     </template>
   </IconBar>
 </template>
+
+<style>
+.version-number {
+  color: #666;
+  float: right;
+  margin-top: 6px;
+  margin-right: 12px;
+}
+</style>
