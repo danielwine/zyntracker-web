@@ -8,9 +8,13 @@ The application is written using VueJS and can natively read
 <code>ZSS snapshot files</code> (along with the encoded binary <code>RIFF</code> sequence data) and convert the extracted patterns into ToneJS sequences that can be played back (and edited) using the <code>Web Audio / ToneJS API</code>. This is
 the only third-party library used.
 
+## Web application
+
+The current running version of the app is available here: [zyntracker.web.app](https://zyntracker.web.app/)
+
 ## Project State
 
-This webapp is in the *early stages of development* (version 0.0.1), but basic features are working.
+This webapp is in the _early stages of development_ (version 0.0.1), but basic features are working.
 
 Currently implemented:
 
@@ -21,7 +25,7 @@ Currently implemented:
 ## Project Setup
 
 ```sh
-git clone http://github.com/danielwine/zyntracker
+git clone --recurse-submodules http://github.com/danielwine/zyntracker
 ```
 
 ```sh
@@ -44,4 +48,4 @@ npm run build
 
 Copyright 2022 Daniel Vinkovics.
 
-Licensed under the **[GPL-3 License](https://github.com/danielwine/zyntracker/LICENSE)**.
+Licensed under the **[AGPL-3 License](https://github.com/danielwine/zyntracker/blob/main/LICENSE)**.
