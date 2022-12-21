@@ -4,6 +4,7 @@ import type { ISwitch } from "@/stores/ui";
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import TransportBar from "./TransportBar.vue";
+import { version, author } from "@/library/res/Config";
 
 export default defineComponent({
   setup() {
@@ -12,6 +13,8 @@ export default defineComponent({
     return {
       main,
       ui,
+      version,
+      author,
     };
   },
   methods: {
@@ -27,22 +30,24 @@ export default defineComponent({
 
 <template>
   <div class="footer bg-dark">
-  
-    <p></p>
+    <span class="app-info">
+      <span class="app-name"> ZynTracker {{ version }} </span>&nbsp;&nbsp;<span
+        class="app-author"
+        >by {{ author }}</span
+      >
+    </span>
   </div>
-  <!-- </div> -->
 </template>
-<style>
+
+<style scoped>
 .footer {
-  position: fixed;
-  bottom: 0;
-  padding-left: 0.8rem;
-  /* padding: 0.25rem 1.8em 0.25rem 1.8em; */
-  /* padding: 0.5rem; */
+  /* position: fixed; */
+  /* bottom: 0; */
+  /* padding-left: 0.8rem; */
   /* height: 3.2em; */
-  margin: 0;
+  margin-top: 1em;
   width: 100%;
-  /* height: 2em; */
+  height: 3em;
 }
 
 .switch-active {
@@ -53,17 +58,16 @@ export default defineComponent({
   color: grey;
 }
 
-.help {
-  /* padding: 0.75em 1.8em 0.75em 1.8em; */
-  margin: 0;
-  /* padding-top: 0.85em; */
-  /* padding-bottom: 0.6em; */
+.app-info {
+  float: left;
+  margin-top: 10px;
+  margin-right: 12px;
+  margin-left: 12px;
 }
-
-.help-link {
-  text-align: left;
+.app-info .app-name {
+  color: #bbb;
 }
-.help-text {
-  height: 40px;
+.app-info .app-author {
+  color: #666;
 }
 </style>

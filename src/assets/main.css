@@ -5,73 +5,55 @@
   src: url("../fonts/C64_Pro_Mono-STYLE.woff");
 }
 
-/* @font-face {
-  font-family: "Roboto Mono";
-  src: url("../fonts/RobotoMono-Bold.ttf");
-}
-
-@font-face {
-  font-family: "Roboto";
-  src: url("../fonts/Roboto-Regular.ttf");
-}
-
-@font-face {
-  font-family: "RobotoBold";
-  src: url("../fonts/Roboto-Bold.ttf");
-} */
-
 body {
   background-color: #222;
   user-select: none;
-  overflow: hidden;
 }
 
 .shadow,
 .box-shadow {
-  box-shadow: 2px 2px 8px black!important;
+  box-shadow: 2px 2px 8px black !important;
 }
 
 .btn {
   border-radius: 0;
 }
 
-/* html,body{
-  width:100%;
-  margin:0;
-    height:100%;
-} */
-
-/*
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
+@media (min-width: 992px) {
   body {
-    display: flex;
-    place-items: center;
+    overflow: hidden;
   }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+  .mobile-hide-big {
+    display: block;
   }
-} */
+  .mobile-show-big {
+    display: none;
+  }
+}
+@media (max-width: 992px) {
+  body {
+    overflow: scroll;
+  }
+  .mobile-hide-big {
+    display: none;
+  }
+  .mobile-show-big {
+    display: block;
+  }
+}
+@media (min-width: 768px) {
+  .mobile-hide-small {
+    display: block;
+  }
+  .mobile-show-small {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .mobile-hide-small {
+    display: none;
+  }
+  .mobile-show-small {
+    display: block;
+  }
+}

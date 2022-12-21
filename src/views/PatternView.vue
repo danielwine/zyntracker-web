@@ -403,4 +403,10 @@ export default defineComponent({
     place-content: center;
   }
 }
+
+@media (max-width: 768px) {
+  .pattern {
+    overflow: scroll;
+  }
+}
 </style>

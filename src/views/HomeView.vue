@@ -15,6 +15,7 @@ import ZynpadView from "../views/ZynpadView.vue";
 import SideBar from "@/components/SideBar.vue";
 import Footer from "../components/Footer.vue";
 import Song from "@/components/Song.vue";
+import TransportBar from "@/components/TransportBar.vue";
 
 export default defineComponent({
   components: {
@@ -25,6 +26,7 @@ export default defineComponent({
     Song,
     SideBar,
     Footer,
+    TransportBar,
   },
   data() {
     return {
@@ -71,27 +73,32 @@ export default defineComponent({
 <template>
   <BsNavBar>
     <template #brand
-      >ZynTracker alpha
-      <!-- <font-awesome-icon class="btn-green" icon="music" /> &nbsp; -->
-      &nbsp;<font-awesome-icon class="btn-green" icon="align-justify" />
+      >ZynTracker alpha &nbsp;<font-awesome-icon
+        class="btn-green"
+        icon="align-justify"
+      />
     </template>
-    <template #rawcontent> </template>
+    <template #rawcontent>
+      <span class="mobile-show-small">
+        <TransportBar></TransportBar>
+      </span>
+    </template>
   </BsNavBar>
   <div class="container-fluid">
     <div class="row">
-      <div ref="padcolumn" class="col-md-4 splash g-0">
+      <div ref="padcolumn" class="col-md-6 col-lg-4 splash g-0">
         <div v-if="main.song.patterns.length > 0">
           <ZynpadView />
           <div class="mb-3"></div>
           <Song></Song>
         </div>
       </div>
-      <div ref="patterncolumn" class="col-md-6 w-30 splash">
+      <div ref="patterncolumn" class="col-md-6 col-lg-5 col-xl-6 w-30 splash">
         <div v-if="main.song.patterns.length > 0 && audioReady">
           <RouterView> </RouterView>
         </div>
       </div>
-      <div class="col-md-2 g-0">
+      <div class="col-lg-3 col-xl-2 g-0">
         <SideBar></SideBar>
       </div>
     </div>

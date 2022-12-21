@@ -9,6 +9,7 @@ export default defineComponent({
     disabled: { type: Boolean, default: false },
     transparent: { type: Boolean, default: false },
     fileinput: { type: Boolean, default: false },
+    customClass: String,
   },
   methods: {
     handleFileInputChange($event: Event) {
@@ -37,7 +38,7 @@ export default defineComponent({
 
   <button
     class="ms-2 btn"
-    :class="!transparent ? 'btn-dark' : 'btn-transparent'"
+    :class="(!transparent ? 'btn-dark' : 'btn-transparent') + ' ' + customClass"
     v-on:click="onClick()"
     data-bs-toggle="tooltip"
     data-bs-placement="top"

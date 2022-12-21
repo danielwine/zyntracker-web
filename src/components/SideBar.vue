@@ -11,6 +11,7 @@ import PanelHeader from "./PanelHeader.vue";
 import IconBar from "./IconBar.vue";
 import IconBarButton from "./IconBarButton.vue";
 import type { Song } from "@/library/core/Song";
+import Footer from "./Footer.vue";
 
 export default defineComponent({
   name: "FileUpload",
@@ -21,6 +22,7 @@ export default defineComponent({
     PanelHeader,
     IconBar,
     IconBarButton,
+    Footer,
   },
   data() {
     return {
@@ -141,9 +143,10 @@ export default defineComponent({
   <!-- </template> -->
   <!-- <template v-slot:tabPanel-3> </template> -->
   <!-- </Tabs> -->
+  <span class="mobile-show-big"><Footer></Footer></span>
 </template>
 <style scoped>
 .listbox-item {
-  padding: 0.1em 0.5em 0.1em 0.5em;
+  padding: 0.1em 0.5em 0.1em 12px;
 }
 </style>

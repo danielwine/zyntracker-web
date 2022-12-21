@@ -37,25 +37,25 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="mobile-hide">
+  <span class="mobile-hide-big">
     <PanelHeader title="Song - Octave">
       <template #option> {{ ui.currentOctave }} </template>
       <template #control>
         <Pager
-        title="octave"
-        :value="ui.currentOctave"
-        custom-hint-back="Decrease octave (Num -)"
-        custom-hint-forward="Increase octave (Num +)"
-        :min="minOctave"
-        :max="maxOctave"
-        @previous="decrementOctave()"
-        @next="incrementOctave()"
+          title="octave"
+          :value="ui.currentOctave"
+          custom-hint-back="Decrease octave (Num -)"
+          custom-hint-forward="Increase octave (Num +)"
+          :min="minOctave"
+          :max="maxOctave"
+          @previous="decrementOctave()"
+          @next="incrementOctave()"
         ></Pager>
       </template>
     </PanelHeader>
   </span>
-  
-  <div class="panel-content mobile-hide">
+
+  <div class="panel-content mobile-hide-big">
     <div class="container">
       <span>[{{ main.song.name.toLowerCase() }}] &nbsp;&nbsp;</span>
       <code class="song-info">
@@ -79,7 +79,9 @@ export default defineComponent({
     </div>
     <span class="me-4"></span>
   </div>
-  <TransportBar></TransportBar>
+  <span class="mobile-hide-small">
+    <TransportBar></TransportBar>
+  </span>
 </template>
 
 <style scoped>
@@ -93,19 +95,16 @@ export default defineComponent({
   font-size: 1em;
   color: grey;
   margin: 10px 0 0 10px;
-  /* padding: 10px 0px 0px 0px; */
 }
 
 @media (min-width: 992px) {
   .panel-content {
     margin-left: 15px;
   }
-  .mobile-hide {
-    display: block;
-  }
 }
-@media (max-width: 992px) {
-  .mobile-hide {
+
+@media (max-width: 1350px) {
+  .song-info {
     display: none;
   }
 }

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-// import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +6,6 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      // component: HomeView,
       component: () => import("@/views/HomeView.vue"),
       children: [
         {
@@ -27,13 +25,6 @@ const router = createRouter({
           component: () => import("@/views/OptionsView.vue"),
         },
       ],
-      //   {
-      //     path: "edit/:audioSeqID",
-      //     name: "edit",
-      //     props: true,
-      //     component: () => import("@/components/PatternView.vue"),
-      //   },
-      // ],
     },
   ],
 });

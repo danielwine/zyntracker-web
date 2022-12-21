@@ -92,12 +92,14 @@ export default defineComponent({
         @buttonClicked="ui.activePanel = Panels.pad"
         hint="Focus Zynpad (ESC)"
         iconName="th"
+        customClass="d-none d-md-inline"
       ></IconBarButton>
 
       <IconBarButton
         @buttonClicked="navigateToPattern()"
         hint="Focus Pattern editor (ESC)"
         iconName="align-justify"
+        customClass="d-none d-md-inline"
       ></IconBarButton>
 
       <!-- <IconBarButton
@@ -128,5 +130,17 @@ export default defineComponent({
   float: right;
   margin-top: 6px;
   margin-right: 12px;
+}
+
+@media (min-width: 1250px) {
+  .version-number {
+    display: block;
+  }
+}
+
+@media (max-width: 1250px) {
+  .version-number {
+    display: none;
+  }
 }
 </style>

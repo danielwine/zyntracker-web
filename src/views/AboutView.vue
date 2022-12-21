@@ -2,13 +2,15 @@
 import { useUIStore, Panels } from "@/stores/ui";
 import { defineComponent } from 'vue';
 import PanelHeader from "@/components/PanelHeader.vue";
+import { author } from "@/library/res/Config";
 
 export default defineComponent({
     setup() {
         const ui = useUIStore();
         return {
             ui,
-            Panels
+            Panels,
+            author
         };
     },
     mounted() {
@@ -53,6 +55,6 @@ export default defineComponent({
       </p>
          <p><em>The project is in the early stages of development, the code base and 
           available features may change rapidly.</em></p>
-      <p>(C) 2022 by danielwine</p>
+      <p>(C) 2022 by {{ author }}</p>
     </div>
 </template>

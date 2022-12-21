@@ -127,22 +127,15 @@ export default defineComponent({
 .tile {
   user-select: none;
   width: 150px;
-  /* padding-bottom: 100px; */
   height: 11vh;
-  /* width: 13%; */
-  /* padding-bottom: 17.8%; */
   color: #fff;
-  /* position: relative; */
   border: 1px solid black;
 }
 
 .tile:hover,
 .tile-selected {
-  /* opacity: 0.8; */
   filter: brightness(1.1);
-  /* animation: blink 0.3s infinite alternate; */
   border: 1px solid red;
-  /* border: 1px solid #aa0000; */
 }
 .tile-active {
   border: 1px solid white;
@@ -154,15 +147,11 @@ export default defineComponent({
 
 .tile-footer {
   position: absolute;
-  bottom: -10px;
+  /* bottom: -10px; */
   display: flex;
   gap: 0.9em;
-}
-
-.tile-footer .playmode {
-  margin-top: 4px;
-  width: 50%;
-  height: 16px;
+  left: 2%;
+  top: 50%;
 }
 
 .tile-footer .playstate {
@@ -221,21 +210,53 @@ pre.group {
   background-color: #cb01c8;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (min-width: 1500px) {
+  .tile-footer {
+    gap: 0.9em;
+    left: 5%;
+    top: 50%;
+  }
+  .tile-footer .playmode {
+    margin-top: 4px;
+    width: 40%;
+    height: 16px;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .tile-footer {
+    gap: 0.9em;
+    left: 20%;
+    top: 50%;
+  }
+  .tile-footer .playmode {
+    margin-top: 4px;
+    width: 50%;
+    height: 16px;
+  }
   .group {
     display: none;
   }
 }
-
-/* @keyframes blink {
-  33% {
-    border-color: #aa0000;
+@media screen and (max-width: 1140px) {
+  .tile-footer {
+    gap: 1em;
+    left: 20%;
+    top: 50%;
   }
-  66% {
-    border-color: #cc0000;
+  .tile-footer .playmode {
+    margin-top: 4px;
+    width: 50%;
+    height: 14px;
   }
-  100% {
-    border-color: #ff0000;
+  .group {
+    display: none;
   }
-} */
+}
+@media screen and (max-width: 768px) {
+  .tile {
+    width: 150px;
+    height: 10vh;
+  }
+}
 </style>
