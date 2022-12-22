@@ -20,7 +20,19 @@ export default defineComponent({
     const ui = useUIStore();
     return { main, ui, minOctave, maxOctave, decrementOctave, incrementOctave };
   },
+  data() {
+    return { windowWidth: window.innerWidth };
+  },
+  mounted() {
+    window.addEventListener("resize", this.onResize);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.onResize);
+  },
   methods: {
+    onResize(e: Event) {
+      this.windowWidth = (e.target as Window).innerWidth;
+    },
     formatIndex(index: number): string {
       return index < 10 ? "0" + index.toString() : index.toString();
     },
@@ -79,9 +91,9 @@ export default defineComponent({
     </div>
     <span class="me-4"></span>
   </div>
-  <span class="mobile-hide-small">
+  <template v-if="windowWidth >= 769">
     <TransportBar></TransportBar>
-  </span>
+  </template>
 </template>
 
 <style scoped>

@@ -28,6 +28,7 @@ export const useUIStore = defineStore("ui", {
     lastActivePanel: Panels.pad,
     afterPatternEditorLeave: false,
     afterPatternEditorEnter: false,
+    togglePatternTriggered: false,
     currentPattern: 0,
     currentOctave: 3,
     transportState: false,

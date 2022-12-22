@@ -8,6 +8,7 @@ import {
   context,
   PolySynth,
   MembraneSynth,
+  Volume,
 } from "tone";
 import type { Pattern } from "./Pattern";
 import type { ToneSequenceEvent } from "./interface/IPattern";
@@ -29,6 +30,7 @@ export class AudioService {
   isPlaying: boolean = false;
   activeSequences: number[] = [];
 
+  masterVolume!: Volume;
   synth!: PolySynth;
   percussiveSynth!: PolySynth;
   sampler!: Sampler;
@@ -48,6 +50,7 @@ export class AudioService {
   }
 
   async initEngines() {
+    this.masterVolume = new Volume(-5).toDestination();
     for (let entry of Object.entries(this.song.tones)) {
       const idx = parseFloat(entry[0]);
       if (entry[1].engine == EngineType.SAMPLER) {
@@ -64,7 +67,7 @@ export class AudioService {
       oscillator: {
         partials: [0, 2, 3, 4],
       },
-    }).toDestination();
+    }).connect(this.masterVolume);
     // this.synth = new PolySynth(Synth, {
     //   oscillator: {
     //     type: "amsine",
@@ -99,7 +102,7 @@ export class AudioService {
     };
 
     console.debug("SAMPLERParams:", { samplerParams });
-    return new Sampler(samplerParams).toDestination();
+    return new Sampler(samplerParams).connect(this.masterVolume);
   }
 
   createNoteMap(regions: SFZRegion[]) {

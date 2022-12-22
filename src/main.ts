@@ -18,7 +18,7 @@ import {
   faAlignJustify,
   faWrench,
   faPlus,
-  faMinus
+  faMinus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 

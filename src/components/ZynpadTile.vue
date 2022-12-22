@@ -36,11 +36,9 @@ export default defineComponent({
       }
     },
     togglePlay() {
-      console.log(this.sequence.id);
       let active = this.audioService.getActiveSequenceByGroup(
         this.sequence.group
       );
-
       if (this.ui.isPadActive[this.sequence.id] != PlayStates.playing) {
         if (active && active.meta.id) {
           console.log(this.sequence.id, active.meta.id);
@@ -48,12 +46,13 @@ export default defineComponent({
           this.audioService.stopSequence(active.meta.id - 1);
         }
         this.ui.isPadActive[this.sequence.id] = PlayStates.playing;
+        this.ui.selectedPad = this.sequence.id;
+        this.ui.currentPattern = this.sequence.id - 1;
         this.audioService.startSequence(this.sequence.id - 1);
       } else {
         this.ui.isPadActive[this.sequence.id] = PlayStates.stopped;
         this.audioService.stopSequence(this.sequence.id - 1);
       }
-      console.log(this.ui.isPadActive);
     },
   },
   computed: {

@@ -1,6 +1,6 @@
 <script lang="ts">
 import { useMainStore } from "@/stores/zss";
-import { Panels, useUIStore } from "@/stores/ui";
+import { Panels, PlayStates, useUIStore } from "@/stores/ui";
 import IconBar from "@/components/IconBar.vue";
 import { AudioService } from "@/library/core/AudioService";
 import { defineComponent, ref } from "vue";
@@ -14,7 +14,8 @@ export default defineComponent({
   setup(props) {
     const main = useMainStore();
     const ui = useUIStore();
-    const { transportState, selectedPad } = storeToRefs(ui);
+    const { transportState, selectedPad, togglePatternTriggered } =
+      storeToRefs(ui);
     return {
       ui,
       error: main.error,
@@ -22,6 +23,7 @@ export default defineComponent({
       patterns: main.song.patterns,
       Panels,
       transportState,
+      togglePatternTriggered,
       selectedPad,
       version,
     };
@@ -46,6 +48,22 @@ export default defineComponent({
       if (audioService.isPlaying) audioService.stopTransport();
       else audioService.startTransport();
     },
+    toggleCurrentPattern() {
+      let isPlaying = audioService.isPlaying;
+      for (let sequence of Object.values(audioService.sequences)) {
+        if (sequence.meta.id)
+          if (this.ui.currentPattern + 1 != sequence.meta.id || isPlaying) {
+            this.ui.isPadActive[sequence.meta.id] = PlayStates.stopped;
+            audioService.stopSequence(sequence.meta.id - 1);
+          } else {
+            this.ui.isPadActive[sequence.meta.id] = PlayStates.playing;
+            this.ui.selectedPad = sequence.meta.id;
+            this.ui.currentPattern = sequence.meta.id - 1;
+            audioService.startSequence(sequence.meta.id - 1);
+          }
+      }
+      this.togglePlay();
+    },
     toggleView() {
       if (this.ui.activePanel == Panels.pattern)
         this.ui.activePanel = Panels.pad;
@@ -65,6 +83,10 @@ export default defineComponent({
   watch: {
     transportState() {
       if (this.transportState != audioService.isPlaying) this.toggleAudioPlay();
+      console.log(this.transportState, audioService.isPlaying);
+    },
+    togglePatternTriggered() {
+      this.toggleCurrentPattern();
     },
   },
   components: { IconBar, IconBarButton },
@@ -81,8 +103,8 @@ export default defineComponent({
       ></IconBarButton>
 
       <IconBarButton
-        @buttonClicked="togglePlay"
-        hint="Play current pattern (F2)"
+        @buttonClicked="toggleCurrentPattern"
+        hint="Play/stop current pattern (F2)"
         iconName="play-circle"
       ></IconBarButton>
 

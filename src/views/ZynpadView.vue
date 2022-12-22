@@ -71,6 +71,9 @@ export default defineComponent({
         if (this.ui.activePanel == Panels.pad) this.navigateToPattern();
         else this.ui.activePanel = Panels.pad;
       }
+      if (event.key == "F2") {
+        this.ui.togglePatternTriggered = !this.ui.togglePatternTriggered;
+      }
       if (event.key == "F8") {
         this.$router.push("/options");
       }

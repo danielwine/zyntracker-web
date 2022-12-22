@@ -66,6 +66,7 @@ export default defineComponent({
     if (this.main.song.patterns.length == 0) {
       await this.load("Zynthwave.zss", false);
     }
+    window.onresize = () => (this.windowWidth = window.innerWidth);
   },
 });
 </script>
@@ -79,9 +80,9 @@ export default defineComponent({
       />
     </template>
     <template #rawcontent>
-      <span class="mobile-show-small">
+      <template v-if="windowWidth < 769">
         <TransportBar></TransportBar>
-      </span>
+      </template>
     </template>
   </BsNavBar>
   <div class="container-fluid">
