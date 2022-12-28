@@ -131,9 +131,9 @@ export default defineComponent({
       ></IconBarButton> -->
 
       <IconBarButton
-        @buttonClicked="$router.push('/options')"
         hint="Options (F8)"
         iconName="wrench"
+        disabled
       ></IconBarButton>
 
       <IconBarButton

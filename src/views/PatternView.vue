@@ -221,7 +221,7 @@ export default defineComponent({
     },
     keyDown(event: KeyboardEvent) {
       if (this.keyPressed[event.key] == true) return;
-      const note = keymap.keys[event.key];
+      const note = keymap.keys[event.code];
       if (note && event.code != "NumpadSubtract") {
         audioService.startNote(note, this.currentPattern);
         this.keyPressed[event.key] = true;
@@ -235,7 +235,7 @@ export default defineComponent({
       }
     },
     keyUp(event: KeyboardEvent) {
-      const note = keymap.keys[event.key];
+      const note = keymap.keys[event.code];
       if (note && event.code != "NumpadSubtract")
         audioService.stopNote(note, this.currentPattern);
       this.keyPressed[event.key] = false;

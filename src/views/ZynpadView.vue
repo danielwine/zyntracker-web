@@ -81,7 +81,7 @@ export default defineComponent({
         this.$router.push("/about");
       }
       if (this.ui.activePanel == Panels.pattern) return;
-      console.log(event.key);
+      // console.log('Key: ', event.key, 'Code: ', event.code);
       let pad = this.ui.selectedPad;
       if (event.key == "Control") this.CtrlPressed = true;
       if (event.key == "ArrowLeft" && this.ui.selectedPad > 4)

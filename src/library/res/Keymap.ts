@@ -1,16 +1,55 @@
 import { useUIStore } from "@/stores/ui";
 const ui = useUIStore();
 
-const defaultKeyboard = "HU";
 export const defaultOctave = 3;
 export const minOctave = 1;
 export const maxOctave = 7;
 const base_midi_note = 36;
 
 type IndexableByString = { [key: string]: any };
-const physical_keys: IndexableByString = {
-  HU: ["ysxdcvgbhnjm,l.é-", "q2w3er5t6z7ui9oöpőóú"],
-};
+
+const physical_keys = [
+  [
+    "KeyZ",
+    "KeyS",
+    "KeyX",
+    "KeyD",
+    "KeyC",
+    "KeyV",
+    "KeyB",
+    "KeyH",
+    "KeyN",
+    "KeyJ",
+    "KeyM",
+    "Comma",
+    "KeyL",
+    "Period",
+    "Semicolon",
+    "Slash",
+  ],
+  [
+    "KeyQ",
+    "Digit2",
+    "KeyW",
+    "Digit3",
+    "KeyE",
+    "KeyR",
+    "Digit5",
+    "KeyT",
+    "Digit6",
+    "KeyY",
+    "Digit7",
+    "KeyU",
+    "KeyI",
+    "Digit9",
+    "KeyO",
+    "Digit0",
+    "KeyP",
+    "BracketLeft",
+    "Equal",
+    "BracketRight",
+  ],
+];
 let keys: IndexableByString = {};
 let octave: number;
 
@@ -93,21 +132,19 @@ const getNoteFromMidiCode = (code: number) => {
   return notes[code - base_midi_note];
 };
 
-const mapKeys = (lang: string, octave: number) => {
-  console.log(octave);
-
-  const lenA = physical_keys[lang][0].length;
+const mapKeys = (octave: number) => {
+  const lenA = physical_keys[0].length;
   if (octave < 1) octave = 1;
-  Array.from(physical_keys[lang][0]).forEach((char, idx) => {
-    keys[char as string] = notes[(octave - 1) * 12 + idx];
+  physical_keys[0].forEach((item, idx) => {
+    keys[item as string] = notes[(octave - 1) * 12 + idx];
   });
-  Array.from(physical_keys[lang][1]).forEach((char, idx) => {
-    keys[char as string] = notes[(octave - 1) * 12 + lenA - 5 + idx];
+  physical_keys[1].forEach((item, idx) => {
+    keys[item as string] = notes[(octave - 1) * 12 + lenA - 5 + idx];
   });
 };
 
 const setOctave = (octaveToSet: number) => {
-  mapKeys(defaultKeyboard, octaveToSet);
+  mapKeys(octaveToSet);
   ui.currentOctave = octaveToSet;
   octave = octaveToSet;
 };
