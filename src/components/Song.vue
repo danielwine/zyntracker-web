@@ -68,7 +68,7 @@ export default defineComponent({
   </span>
 
   <div class="panel-content mobile-hide-big">
-    <div class="container">
+    <div class="container ps-2">
       <span>[{{ main.song.name.toLowerCase() }}] &nbsp;&nbsp;</span>
       <code class="song-info">
         &nbsp;
@@ -100,13 +100,12 @@ export default defineComponent({
 .song-info {
   font-size: 0.92em;
   color: burlywood;
-  /* color: #66e969; */
   margin-top: 40px;
 }
 .quickhelp {
   font-size: 1em;
   color: grey;
-  margin: 10px 0 0 10px;
+  margin: 10px 0 0 8px;
 }
 
 @media (min-width: 992px) {

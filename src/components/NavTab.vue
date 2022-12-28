@@ -74,7 +74,6 @@ export default defineComponent({
 }
 
 .container-horizontal {
-  /* flex space-x-4 */
   display: flex;
 }
 ul.container-vertical {
@@ -100,14 +99,11 @@ ul.container-vertical {
 .tabs label {
   cursor: pointer;
   padding: 0.75em 1.8em 0.75em 1.8em;
-  /* display: block; */
 }
 
 .tabs li {
   width: 100%;
-  /* padding: 0.5em 1.5em 0.5em 1.5em; */
   border-radius: 0;
-  /* border: 1px solid white; */
 }
 
 .tabs li.active {
@@ -122,12 +118,10 @@ ul.container-vertical {
 
 .tab-panel {
   flex-grow: 1;
-  /* background: #333; */
   background: black;
   border-radius: 0;
   padding: 10px 10px 6px 14px;
   height: 75vh;
-  /* height: 90%; */
   overflow: hidden;
 }
 </style>

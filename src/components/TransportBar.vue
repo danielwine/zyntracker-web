@@ -28,6 +28,9 @@ export default defineComponent({
       version,
     };
   },
+  data() {
+    return { windowWidth: window.innerWidth };
+  },
   mounted() {
     this.transportState = audioService.isPlaying;
   },
@@ -38,6 +41,13 @@ export default defineComponent({
         this.$router.push("/");
         this.ui.activePanel = Panels.pattern;
       } else this.ui.activePanel = Panels.pad;
+    },
+    navigateToAboutPage() {
+      if (this.windowWidth < 992) this.ui.showPadsPanel = false;
+      this.$router.push("/about");
+    },
+    onResize(e: Event) {
+      this.windowWidth = (e.target as Window).innerWidth;
     },
     togglePlay() {
       this.toggleAudioPlay();
@@ -134,10 +144,11 @@ export default defineComponent({
         hint="Options (F8)"
         iconName="wrench"
         disabled
+        customClass="d-none d-md-inline"
       ></IconBarButton>
 
       <IconBarButton
-        @buttonClicked="$router.push('/about')"
+        @buttonClicked="navigateToAboutPage()"
         hint="Help (F9)"
         iconName="question"
       ></IconBarButton>

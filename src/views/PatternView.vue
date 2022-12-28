@@ -27,15 +27,15 @@ export default defineComponent({
     let {
       currentPattern,
       activePanel,
-      afterPatternEditorLeave,
-      afterPatternEditorEnter,
+      beforePatternEditorLeave,
+      beforePatternEditorEnter,
     } = storeToRefs(ui);
     return {
       main,
       ui,
       activePanel,
-      afterPatternEditorLeave,
-      afterPatternEditorEnter,
+      beforePatternEditorLeave,
+      beforePatternEditorEnter,
       currentPattern,
       audioService,
       Panels,
@@ -274,10 +274,10 @@ export default defineComponent({
     },
   },
   watch: {
-    afterPatternEditorEnter() {
+    beforePatternEditorEnter() {
       this.setCursor(true);
     },
-    afterPatternEditorLeave() {
+    beforePatternEditorLeave() {
       this.setCursor(false);
     },
   },
@@ -407,6 +407,7 @@ export default defineComponent({
 @media (max-width: 768px) {
   .pattern {
     overflow: scroll;
+    height: 36vh;
   }
 }
 </style>

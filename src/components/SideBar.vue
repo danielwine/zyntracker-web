@@ -147,6 +147,6 @@ export default defineComponent({
 </template>
 <style scoped>
 .listbox-item {
-  padding: 0.1em 0.5em 0.1em 12px;
+  padding: 0.1em 0.5em 0.1em 17px;
 }
 </style>

@@ -137,10 +137,10 @@ export default defineComponent({
         this.ui.lastActivePanel == Panels.pattern &&
         this.activePanel != Panels.pattern
       )
-        this.ui.afterPatternEditorLeave = !this.ui.afterPatternEditorLeave;
+        this.ui.beforePatternEditorLeave = !this.ui.beforePatternEditorLeave;
 
       if (this.ui.activePanel == Panels.pattern)
-        this.ui.afterPatternEditorEnter = !this.ui.afterPatternEditorEnter;
+        this.ui.beforePatternEditorEnter = !this.ui.beforePatternEditorEnter;
       this.ui.lastActivePanel = this.activePanel;
     },
   },

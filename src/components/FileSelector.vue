@@ -23,7 +23,7 @@ export default {
 <style scoped>
 ul {
   margin-top: 10px;
-  padding-left: 5px;
+  padding-left: 10px;
 }
 
 .file-item {

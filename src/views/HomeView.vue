@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
-import { useUIStore } from "@/stores/ui";
+import { Panels, useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
 import { load } from "@/library/core/Loader";
 import err from "@/library/res/Error";
@@ -16,6 +16,7 @@ import SideBar from "@/components/SideBar.vue";
 import Footer from "../components/Footer.vue";
 import Song from "@/components/Song.vue";
 import TransportBar from "@/components/TransportBar.vue";
+import { appName } from "@/library/res/Config";
 
 export default defineComponent({
   components: {
@@ -33,6 +34,7 @@ export default defineComponent({
       tabList: ["Instruments", "Test songs"],
       windowWidth: window.innerWidth,
       audioReady: false,
+      appName,
     };
   },
   methods: {
@@ -74,7 +76,7 @@ export default defineComponent({
 <template>
   <BsNavBar>
     <template #brand
-      >ZynTracker alpha &nbsp;<font-awesome-icon
+      >{{ appName }} &nbsp;<font-awesome-icon
         class="btn-green"
         icon="align-justify"
       />
@@ -88,13 +90,17 @@ export default defineComponent({
   <div class="container-fluid">
     <div class="row">
       <div ref="padcolumn" class="col-md-6 col-lg-4 splash g-0">
-        <div v-if="main.song.patterns.length > 0">
+        <div v-if="main.song.patterns.length > 0 && ui.showPadsPanel">
           <ZynpadView />
           <div class="mb-3"></div>
           <Song></Song>
         </div>
       </div>
-      <div ref="patterncolumn" class="col-md-6 col-lg-5 col-xl-6 w-30 splash">
+      <div
+        id="mainpanel"
+        ref="patterncolumn"
+        class="col-md-6 col-lg-5 col-xl-6 w-30 gx-0 gx-md-4 splash"
+      >
         <div v-if="main.song.patterns.length > 0 && audioReady">
           <RouterView> </RouterView>
         </div>
@@ -120,10 +126,24 @@ a {
 
 .splash {
   background-color: black;
-  height: 95vh;
 }
 
 .content {
   height: 20vh;
+}
+
+@media (min-width: 992px) {
+  .splash {
+    height: 95vh;
+  }
+}
+
+@media (max-width: 992px) {
+  .splash {
+    height: 47vh;
+  }
+  .fullscreen {
+    height: 95vh;
+  }
 }
 </style>

@@ -2,7 +2,7 @@
 import { useUIStore, Panels } from "@/stores/ui";
 import { defineComponent } from 'vue';
 import PanelHeader from "@/components/PanelHeader.vue";
-import { author } from "@/library/res/Config";
+import { appName, author } from "@/library/res/Config";
 
 export default defineComponent({
     setup() {
@@ -10,11 +10,22 @@ export default defineComponent({
         return {
             ui,
             Panels,
+            appName,
             author
         };
     },
     mounted() {
         this.ui.activePanel = Panels.help;
+    },
+    beforeRouteEnter(to, from, next) {
+      if (window.innerWidth < 992) useUIStore().showPadsPanel = false;
+      document.getElementById("mainpanel")?.classList.add("fullscreen");
+      next()
+    },
+    beforeRouteLeave(to, from, next) {
+      if (window.innerWidth < 992) useUIStore().showPadsPanel = true;
+      document.getElementById("mainpanel")?.classList.remove("fullscreen");
+      next()
     },
     components: { PanelHeader }
 })
@@ -25,7 +36,7 @@ export default defineComponent({
     <div class="p-4">
       <h4>About</h4>
       <p>
-        ZynTracker alpha is an
+        {{  appName }} is an
         <strong>online sequence manipulator, musical sketchpad</strong>
         and player compatible with the MIDI sequencer "ZynSeq" written in C++ by
         <em>Brian Walton</em> for the
@@ -55,6 +66,6 @@ export default defineComponent({
       </p>
          <p><em>The project is in the early stages of development, the code base and 
           available features may change rapidly.</em></p>
-      <p>(C) 2022 by {{ author }}</p>
+      <p>(C) 2022-2023 by {{ author }}</p>
     </div>
 </template>

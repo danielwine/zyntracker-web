@@ -41,16 +41,13 @@ export default defineComponent({
 
 <style>
 .panel-header {
-  /* padding: 0.75em 1.8em 0.75em 1.8em; */
   margin-bottom: 0.8em;
   height: 3.1em;
 }
 
 .panel-header-title {
-  /* margin-top: 1em; */
   position: absolute;
-  padding: 0.75em 1.8em 0.75em 1.8em;
-  /* margin-bottom: 0.8em; */
+  padding: 0.75em 1.8em 0.75em 1.15em;
 }
 
 .panel-header-active {

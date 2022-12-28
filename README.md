@@ -46,6 +46,6 @@ npm run build
 
 ## Copyright and license
 
-Copyright 2022 Daniel Vinkovics.
+Copyright 2022-2023 Daniel Vinkovics.
 
 Licensed under the **[AGPL-3 License](https://github.com/danielwine/zyntracker/blob/main/LICENSE)**.

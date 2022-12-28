@@ -24,10 +24,11 @@ export const useUIStore = defineStore("ui", {
   state: () => ({
     isPadActive: [] as Array<PlayStates>,
     selectedPad: 1,
+    showPadsPanel: true,
     activePanel: Panels.pad,
     lastActivePanel: Panels.pad,
-    afterPatternEditorLeave: false,
-    afterPatternEditorEnter: false,
+    beforePatternEditorLeave: false,
+    beforePatternEditorEnter: false,
     togglePatternTriggered: false,
     currentPattern: 0,
     currentOctave: 3,
