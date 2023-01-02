@@ -1,12 +1,11 @@
 import { useUIStore } from "@/stores/ui";
+import type { IndexableByString } from "../zss/Utils";
 const ui = useUIStore();
 
 export const defaultOctave = 3;
 export const minOctave = 1;
 export const maxOctave = 7;
 const base_midi_note = 36;
-
-type IndexableByString = { [key: string]: any };
 
 const physical_keys = [
   [

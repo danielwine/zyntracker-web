@@ -1,7 +1,14 @@
 /**
  * Specification of the binary RIFF sequence format created by Brian Walton <brian@riban.co.uk>
  */
-export const zynSeqFormat = {
+
+export enum BlockType {
+  Header = "vers",
+  Pattern = "patn",
+  Bank = "bank",
+}
+
+export const ZynSeqFormat = {
   version: [
     ["version", 4],
     ["tempo", 2],

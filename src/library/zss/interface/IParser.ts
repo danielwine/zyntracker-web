@@ -1,11 +1,11 @@
-export class ZynseqChunkHeader {
+export class ZynseqBlockHeader {
   id: string = "";
   blockSize: number = 0;
 }
 
-export interface IZynseqChunk {
-  header: ZynseqChunkHeader;
-  block: ArrayBuffer;
+export interface IZynseqBlock {
+  header: ZynseqBlockHeader;
+  content: ArrayBuffer;
   start: number;
   end: number;
 }

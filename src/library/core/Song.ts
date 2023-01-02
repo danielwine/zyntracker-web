@@ -12,7 +12,7 @@ import {
 } from "../zss/interface/IFormat";
 import { Pattern, setTimeSignature } from "./Pattern";
 import { local, remote } from "../res/Samples";
-import type ZSS from "../zss/Reader";
+import type ZSS from "../zss/ZSSService";
 
 /**
  * Basic song structure with metadata and sequence data importer methods

@@ -1,4 +1,4 @@
-import ZssReader from "../zss/Reader";
+import ZSS from "../zss/ZSSService";
 import { AudioService } from "../core/AudioService";
 import { pathSounds, pathSongs } from "../res/Samples";
 import { Song } from "./Song";
@@ -32,19 +32,23 @@ export const downloadSFZ = async (SFZName: string) => {
 
 export const loadSong = async (songName: string, data = {}) => {
   const json = "zynseq_riff_b64" in data ? data : await downloadSong(songName);
-  const ZSS = ZssReader.getInstance();
-  ZSS.load(JSON.stringify(json));
-  if (!json || !ZSS.preset || !ZSS.seq) return false;
+  const zss = ZSS.getInstance();
+  zss.load(JSON.stringify(json));
+  if (!json || !zss.preset || !zss.seq) return false;
 
-  console.debug(ZSS.preset.layers);
-  console.debug(ZSS.seq);
+  console.debug(zss.preset.layers);
+  console.debug(zss.seq);
 
   let song = new Song();
-  const imported = await song.importFromZSS(ZSS);
+  const imported = await song.importFromZSS(zss);
   if (!imported) return false;
   song.name = songName;
 
-  console.debug("Entire Song Object:", song)
+  // ZSS write test
+  // const rawJson = zss.save();
+  // console.log("saved raw data: ", rawJson);
+
+  console.debug("Entire Song Object:", song);
   console.debug("Song TONES: ", song.tones);
   console.debug("Song PATTERNS: ", song.patterns);
   console.debug("Song SEQUENCES: ", song.sequences);
