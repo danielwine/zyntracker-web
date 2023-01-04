@@ -1,15 +1,11 @@
-import {
-  ZynseqBlockHeader,
-  type IZynseqBlock,
-  type IZynseqObject,
-  type IZynseqVariable,
-} from "./interface/IParser";
+import type { IZynseqVariable } from "./interface/IContainer";
 import type { IndexableByString } from "./interface/ITypes";
-import { BlockType } from "./Format";
 
 export class ZynseqBuffer {
   dv!: DataView;
-  cnt = 0;
+  currentObject: any;
+  pos = 0;
+
   struct: { [key: string]: string | [] } = {};
   constructor(blockBuffer: ArrayBuffer) {
     this.buffer = blockBuffer;
@@ -21,92 +17,150 @@ export class ZynseqBuffer {
     this.dv = new DataView(blockBuffer);
   }
 
-  readVariable(
+  protected readVariable(
     variableName: string,
     byteLength: number
   ): [string, string | number] {
+    const prevPos = this.pos;
     let data: number | string = "";
     switch (byteLength) {
       case 1:
-        data = this.dv.getInt8(this.cnt);
+        data = this.dv.getInt8(this.pos);
         break;
       case 2:
-        data = this.dv.getInt16(this.cnt);
+        data = this.dv.getInt16(this.pos);
         break;
       case 4:
-        data = this.dv.getInt32(this.cnt);
+        data = this.dv.getInt32(this.pos);
         break;
       case 16:
-        data = this.readCharSequence(15);
+        data = this.readCharSequence(15, false);
         break;
     }
-    this.cnt += byteLength;
+    this.pos += byteLength;
     return [variableName, data];
   }
 
-  writeVariable(value: number | string, byteLength: number) {
+  protected writeVariable(value: number | string, byteLength: number) {
     if (byteLength < 16 && typeof value == "string") return;
     const n = parseFloat(value as string);
     switch (byteLength) {
       case 1:
-        this.dv.setInt8(this.cnt, n);
-        console.log("setInt8 ", this.cnt, value);
+        this.dv.setInt8(this.pos, n);
         break;
       case 2:
-        this.dv.setInt16(this.cnt, n);
-        console.log("setInt16 ", this.cnt, value);
+        this.dv.setInt16(this.pos, n);
         break;
       case 4:
-        this.dv.setInt32(this.cnt, n);
-        console.log("setInt32 ", this.cnt, value);
+        this.dv.setInt32(this.pos, n);
         break;
       case 16:
-        this.writeCharSequence(value.toString(), 15);
+        this.writeCharSequence(value.toString(), false);
         break;
     }
-    this.cnt += byteLength;
+    this.pos += byteLength;
   }
 
-  readVariables(variables: IZynseqVariable[], target: any = null) {
+  protected readVariables(
+    variables: IZynseqVariable[],
+    target: any = null
+  ): {} {
     let result;
     if (!target) {
-      target = this.struct;
+      target = {};
     }
     variables.forEach((variable) => {
       result = this.readVariable(variable[0], variable[1]);
       target[result[0]] = result[1];
     });
+    return target;
   }
 
-  writeVariables(variables: IZynseqVariable[], object: IndexableByString) {
-    variables.forEach((variable: IZynseqVariable) => {
-      if (variable[0] in object)
-        this.writeVariable(object[variable[0]], variable[1]);
-    });
-    console.log(this.dv.buffer);
-  }
-
-  readArrayOfVariables(
+  protected writeVariables(
     variables: IZynseqVariable[],
-    quantity: number,
-    target: any[]
+    object: IndexableByString
   ) {
-    let data;
-    if (!target) {
-      return;
+    for (let variable of Object.values(variables)) {
+      if (variable[0] in object) {
+        // console.log(variable[0], object[variable[0]], ": ");
+        this.writeVariable(
+          object[variable[0]],
+          variable[1] as unknown as number
+        );
+      }
     }
+  }
+
+  protected readArrayOfVariables(
+    variables: IZynseqVariable[],
+    quantity: number
+  ) {
+    let result = [];
+    let data;
     for (let i = 0; i < quantity; i++) {
       data = {};
       this.readVariables(variables, data);
-      target.push(data);
+      result.push(data);
+    }
+    return result;
+  }
+
+  protected readTree(format: any, level = 0) {
+    let data: { [key: string]: any } = {};
+    let cnt: string | number = 0;
+    let res;
+    let returned;
+
+    for (let entry of format) {
+      if (typeof entry[1] == "number") {
+        res = this.readVariable(entry[0], entry[1]);
+        res[0][0] == "#" ? (cnt = res[1]) : (cnt = 1);
+        data[res[0]] = res[1];
+      } else if (Array.isArray(entry[1])) {
+        let new_level = level + 1;
+        data[entry[0]] = [];
+        for (let i = 0; i < cnt; i++) {
+          returned = this.readTree(entry[1], new_level);
+          data[entry[0]].push(returned);
+        }
+      }
+    }
+    return data;
+  }
+
+  protected writeTree(treePair: { format: any; data: any }, level = 0) {
+    let cnt: string | number = 0;
+    for (let entry of treePair.format) {
+      let iterableItem = "";
+      if (typeof entry[1] == "number") {
+        if (entry[0] in treePair.data) {
+          const value = treePair.data[entry[0]];
+          this.writeVariable(value, entry[1]);
+          if (entry[0][0] == "#") {
+            iterableItem = entry[0].slice(1);
+            cnt = Object.values(treePair.data[iterableItem]).length;
+            let new_level = level + 1;
+            let relatedFormatItem = treePair.format.filter(
+              (item: IZynseqVariable) => iterableItem == item[0]
+            )[0][1];
+            for (let i = 0; i < cnt; i++) {
+              this.writeTree(
+                {
+                  format: relatedFormatItem,
+                  data: treePair.data[iterableItem][i],
+                },
+                new_level
+              );
+            }
+          }
+        }
+      }
     }
   }
-  public readCharSequence = (
-    stringLength: number,
-    startIndex: number = this.cnt
-  ) => {
+
+  protected readCharSequence = (stringLength: number, repos = true) => {
     let charSequence = "";
-    for (let i = startIndex; i < startIndex + stringLength; i++) {
+    for (let i = this.pos; i < this.pos + stringLength; i++) {
       try {
         const charCode = this.dv.getInt8(i);
         if (charCode != 0) charSequence += String.fromCharCode(charCode);
@@ -114,70 +168,40 @@ export class ZynseqBuffer {
         return "";
       }
     }
+    if (repos) this.pos += stringLength;
     return charSequence;
   };
 
-  public writeCharSequence = (value: string, startIndex: number) => {};
+  protected writeCharSequence = (value: string, repos = true) => {
+    for (let i = this.pos; i < this.pos + value.length; i++) {
+      try {
+        this.dv.setInt8(i, value.charCodeAt(i - this.pos));
+      } catch (error) {
+        return "";
+      }
+    }
+    if (repos) this.pos += value.length;
+  };
 }
 
-export class ZynseqBlock extends ZynseqBuffer {
-  protected readBlockHeader(headerData: ArrayBuffer) {
-    let dv = new DataView(headerData);
-    let header = new ZynseqBlockHeader();
-    header.id = this.readCharSequence(4);
-    console.log(header.id, this.cnt);
-    
-    try {
-      header.blockSize = dv.getInt32(4);
-    } catch (error) {
-      return null;
+export abstract class Base64 {
+  public static toArrayBuffer = (base64: string): ArrayBuffer => {
+    let binary_string = window.atob(base64);
+    let len = binary_string.length;
+    let bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
     }
-    return header;
-  }
+    return bytes.buffer;
+  };
 
-  protected writeBlockHeader(blockType: BlockType, blockSize: number) {
-    this.writeCharSequence(blockType.toString(), 4);
-    this.writeVariable(blockSize, 4);
-  }
-
-  protected readBlock(
-    buffer: ArrayBuffer,
-    startIndex = 0
-  ): IZynseqBlock | null {
-    console.log(startIndex);
-    
-    let header_data = buffer.slice(startIndex, startIndex + 8);
-    let header = this.readBlockHeader(header_data);
-    if (!header) {
-      return null;
+  public static fromArrayBuffer(buffer: ArrayBuffer): string {
+    var binary_string = "";
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+      binary_string += String.fromCharCode(bytes[i]);
     }
-    if (!(Object.values(BlockType) as string[]).includes(header.id)) {
-      console.error("Invalid header.");
-      return null;
-    }
-    let endIndex = startIndex + 8 + header.blockSize;
-    let content = buffer.slice(startIndex + 8, endIndex);
-    return {
-      header,
-      content,
-      start: startIndex,
-      end: endIndex,
-    };
-  }
-}
-
-export abstract class ZynseqBufferSize {
-  public static getFromVariableSection(variables: IZynseqVariable[]) {
-    return Object.values(variables).reduce(
-      (accumulator: number, value: IZynseqVariable) =>
-        (accumulator += value[1] as unknown as number),
-      0
-    );
-  }
-
-  public static getForBlock(blockID: string) {}
-
-  public static getTotal(object: IZynseqObject) {
-    return 16000;
+    return window.btoa(binary_string);
   }
 }

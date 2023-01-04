@@ -45,7 +45,7 @@ export const loadSong = async (songName: string, data = {}) => {
   song.name = songName;
 
   // ZSS write test
-  // const rawJson = zss.save();
+  const rawJson = zss.save();
   // console.log("saved raw data: ", rawJson);
 
   console.debug("Entire Song Object:", song);

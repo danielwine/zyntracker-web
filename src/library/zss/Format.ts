@@ -8,6 +8,8 @@ export enum BlockType {
   Bank = "bank",
 }
 
+export const headerLength = 8;
+
 export const ZynSeqFormat = {
   version: [
     ["version", 4],

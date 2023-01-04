@@ -1,6 +1,6 @@
 import type { IZSS } from "./interface/IFormat";
-import { ZynseqContainer } from "./Parser";
-import Binary from "./Utils";
+import { ZynseqContainer } from "./Container";
+import { Base64 } from "./Buffer";
 
 /**
  * Service for parsing ZSS metadata and encoding / decoding
@@ -32,7 +32,7 @@ export default class ZSSService {
   private getZynseqBuffer(ZSSObject: IZSS): ArrayBuffer {
     let arrayBuffer = new ArrayBuffer(0);
     if (ZSSObject["zynseq_riff_b64"])
-      arrayBuffer = Binary.base64ToArrayBuffer(ZSSObject.zynseq_riff_b64);
+      arrayBuffer = Base64.toArrayBuffer(ZSSObject.zynseq_riff_b64);
     return arrayBuffer;
   }
 
@@ -58,9 +58,8 @@ export default class ZSSService {
 
   public save(): string {
     this.zynseq.writeBuffer();
-    this.zssData.zynseq_riff_b64 = Binary.arrayBufferToBase64(
-      this.zynseq.buffer
-    );
+    this.zssData.zynseq_riff_b64 = Base64.fromArrayBuffer(this.zynseq.buffer);
+    console.log(this.zssData.zynseq_riff_b64);
     return JSON.stringify(this.zssData);
   }
 }
