@@ -105,11 +105,12 @@ export default defineComponent({
           <RouterView> </RouterView>
         </div>
       </div>
-      <div class="col-lg-3 col-xl-2 g-0">
+      <div class="col-lg-3 col-xl-2 pt-md-4 pt-lg-0 g-0">
         <SideBar></SideBar>
       </div>
     </div>
   </div>
+  <span class="mobile-show-small"><Footer></Footer></span>
   <BsToast v-if="main.error.message"></BsToast>
 </template>
 
@@ -138,12 +139,12 @@ a {
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991.999px) {
   .splash {
     height: 47vh;
   }
   .fullscreen {
-    height: 95vh;
+    height: 100%;
   }
 }
 </style>

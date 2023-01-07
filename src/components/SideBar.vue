@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
-import { useUIStore } from "@/stores/ui";
+import { Panels, useUIStore } from "@/stores/ui";
 import { AudioService } from "@/library/core/AudioService";
 import { load, loadSong } from "@/library/core/Loader";
 import err from "@/library/res/Error";
@@ -38,6 +38,7 @@ export default defineComponent({
       main,
       ui,
       audioService,
+      Panels,
     };
   },
   methods: {
@@ -85,65 +86,68 @@ export default defineComponent({
 <template>
   <!-- <Tabs :tabList="tabList"> -->
   <!-- <template v-slot:tabPanel-1> -->
-  <PanelHeader title="Snapshots"></PanelHeader>
-  <FileSelector
-    @fileselected="load"
-    :names="[
-      'FieryRedSunset.zss',
-      'Exeunt.zss',
-      'CityInTheRain.zss',
-      'Zynthwave.zss',
-      'factory/001-ThreeOnThree.zss',
-      'factory/002-House In RTP.zss',
-      'factory/003-FluidR3 GM.zss',
-      'factory/004-Mistic Arp.zss',
-      'factory/005-Techno Base 01.zss',
-    ]"
-  >
-  </FileSelector>
-  <IconBar>
-    <template #icons>
-      <IconBarButton
-        hint="Download snapshot file"
-        iconName="download"
-        :disabled="true"
-      ></IconBarButton>
+  <div class="d-block d-md-none d-lg-block">
+    <PanelHeader title="Snapshots" :id="Panels.snapshots"></PanelHeader>
+    <FileSelector
+      @fileselected="load"
+      :names="[
+        'FieryRedSunset.zss',
+        'Exeunt.zss',
+        'CityInTheRain.zss',
+        'Zynthwave.zss',
+        'factory/001-ThreeOnThree.zss',
+        'factory/002-House In RTP.zss',
+        'factory/003-FluidR3 GM.zss',
+        'factory/004-Mistic Arp.zss',
+        'factory/005-Techno Base 01.zss',
+      ]"
+    >
+    </FileSelector>
+    <IconBar>
+      <template #icons>
+        <IconBarButton
+          hint="Download snapshot file"
+          iconName="download"
+          :disabled="true"
+        ></IconBarButton>
 
-      <IconBarButton
-        @fileSelected="loadFile"
-        hint="Upload snapshot file"
-        iconName="upload"
-        :fileinput="true"
-      ></IconBarButton>
+        <IconBarButton
+          @fileSelected="loadFile"
+          hint="Upload snapshot file"
+          iconName="upload"
+          :fileinput="true"
+        ></IconBarButton>
 
-      <IconBarButton
-        hint="Save"
-        iconName="save"
-        :disabled="true"
-      ></IconBarButton>
-    </template>
-  </IconBar>
+        <IconBarButton
+          hint="Save"
+          iconName="save"
+          :disabled="true"
+        ></IconBarButton>
+      </template>
+    </IconBar>
+  </div>
 
   <div class="mb-3"></div>
   <!-- <span class="me-4"></span> -->
 
-  <PanelHeader title="Instruments"></PanelHeader>
-  <div
-    class="listbox-item"
-    v-for="(tone, index) in main.song.tones"
-    data-bs-toggle="tooltip"
-    data-bs-placement="top"
-    :title="`(${tone.meta.originalPreset}@${tone.meta.originalEngine})`"
-  >
-    {{ formatIndex(index) }} - {{ tone.meta.originalPreset }} >
-    {{ tone.engine }}
+  <div class="d-block d-md-none d-lg-block">
+    <PanelHeader title="Instruments" :id="Panels.instruments"></PanelHeader>
+    <div
+      class="listbox-item"
+      v-for="(tone, index) in main.song.tones"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      :title="`(${tone.meta.originalPreset}@${tone.meta.originalEngine})`"
+    >
+      {{ formatIndex(index) }} - {{ tone.meta.originalPreset }} >
+      {{ tone.engine }}
+    </div>
+    <!-- </template> -->
+    <!-- <template v-slot:tabPanel-2> -->
+    <!-- </template> -->
+    <!-- <template v-slot:tabPanel-3> </template> -->
+    <!-- </Tabs> -->
   </div>
-  <!-- </template> -->
-  <!-- <template v-slot:tabPanel-2> -->
-  <!-- </template> -->
-  <!-- <template v-slot:tabPanel-3> </template> -->
-  <!-- </Tabs> -->
-  <span class="mobile-show-big"><Footer></Footer></span>
 </template>
 <style scoped>
 .listbox-item {

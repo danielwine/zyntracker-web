@@ -258,7 +258,7 @@ export default defineComponent({
     events() {
       const events = this.audioService.sequences[this.currentPattern].sequence
         .events as ToneSequenceEvents;
-      console.log(events);
+      console.debug('CURRENT PATTERN EVENTS (view): ', events);
       return events;
     },
     view() {

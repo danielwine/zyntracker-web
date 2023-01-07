@@ -49,7 +49,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="mobile-hide-big">
+  <span class="mobile-hide-small">
     <PanelHeader title="Song - Octave">
       <template #option> {{ ui.currentOctave }} </template>
       <template #control>
@@ -67,7 +67,7 @@ export default defineComponent({
     </PanelHeader>
   </span>
 
-  <div class="panel-content mobile-hide-big">
+  <div class="panel-content mobile-hide-small">
     <div class="container ps-2">
       <span>[{{ main.song.name.toLowerCase() }}] &nbsp;&nbsp;</span>
       <code class="song-info">

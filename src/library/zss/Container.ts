@@ -31,7 +31,6 @@ export class ZynseqContainer extends ZynseqBuffer {
 
   public readFromBuffer(buffer: ArrayBuffer) {
     this.buffer = buffer;
-    console.log(this.buffer.byteLength);
     let EOB = false;
     while (!EOB) EOB = this.readChunk();
   }

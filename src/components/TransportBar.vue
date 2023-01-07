@@ -118,7 +118,7 @@ export default defineComponent({
         iconName="play-circle"
       ></IconBarButton>
 
-      <span class="me-4"></span>
+      <span class="me-4 d-none d-md-inline"></span>
 
       <IconBarButton
         @buttonClicked="ui.activePanel = Panels.pad"

@@ -155,12 +155,12 @@ export class AudioService {
       // console.log(sequence, index, firstPatternID);
       let firstTrackChannel = sequence.tracks[0].midiChannel;
       let engine = this.engines[firstTrackChannel];
-      console.debug(
-        "ENGINE (idx, channel, engine): ",
-        index,
-        firstTrackChannel,
-        engine
-      );
+      // console.debug(
+      //   "ENGINE (idx, channel, engine): ",
+      //   index,
+      //   firstTrackChannel,
+      //   engine
+      // );
 
       this.sequences[index] = this.createSequenceFromPattern(
         this.song.patterns.filter((pattern) => pattern.id == firstPatternID)[0],

@@ -1,5 +1,5 @@
 import { useUIStore } from "@/stores/ui";
-import type { IndexableByString } from "../zss/Utils";
+type IndexableByString = { [key: string]: any };
 const ui = useUIStore();
 
 export const defaultOctave = 3;

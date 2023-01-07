@@ -48,7 +48,7 @@ export default class ZSSService {
     this.zssData = this.getObjectFromContent(ZSSJson) as IZSS;
     if (this.zssData) {
       let arrayBuffer = this.getZynseqBuffer(this.zssData);
-      console.log("ARRAYBUFFER TOTAL LENGTH: ", arrayBuffer.byteLength);
+      console.debug("ARRAYBUFFER TOTAL LENGTH: ", arrayBuffer.byteLength);
       this.zynseq = new ZynseqContainer();
       this.zynseq.readFromBuffer(arrayBuffer);
       this.zssData.zynseq_riff_b64 = undefined;

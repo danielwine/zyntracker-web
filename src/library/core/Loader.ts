@@ -13,7 +13,7 @@ export const downloadSong = async (songName: string) => {
     console.log("error", err);
     return false;
   }
-  if (json) console.debug(json);
+  if (json) console.debug("RAW ZSS: ", json);
   return json;
 };
 
@@ -36,8 +36,8 @@ export const loadSong = async (songName: string, data = {}) => {
   zss.load(JSON.stringify(json));
   if (!json || !zss.preset || !zss.seq) return false;
 
-  console.debug(zss.preset.layers);
-  console.debug(zss.seq);
+  console.debug("ZSS META data: ", zss.preset);
+  console.debug("ZSS SEQ data: ", zss.seq);
 
   let song = new Song();
   const imported = await song.importFromZSS(zss);
@@ -45,14 +45,14 @@ export const loadSong = async (songName: string, data = {}) => {
   song.name = songName;
 
   // ZSS write test
-  const rawJson = zss.save();
+  // const rawJson = zss.save();
   // console.log("saved raw data: ", rawJson);
 
-  console.debug("Entire Song Object:", song);
-  console.debug("Song TONES: ", song.tones);
-  console.debug("Song PATTERNS: ", song.patterns);
-  console.debug("Song SEQUENCES: ", song.sequences);
-  console.debug("getBankContent(0): ", song.getBankContent(0));
+  console.debug("SONG Object:", song);
+  // console.debug("Song TONES: ", song.tones);
+  // console.debug("Song PATTERNS: ", song.patterns);
+  // console.debug("Song SEQUENCES: ", song.sequences);
+  console.debug("  getBankContent(0): ", song.getBankContent(0));
   return song;
 };
 
@@ -65,7 +65,7 @@ export const load = async (fileName: string, release = true, data = {}) => {
     as.use(song);
     await as.initEngines();
     await as.addBasicPatterns();
-    console.debug("AudioSequences: ", as.sequences);
+    console.debug("AUDIO SEQUENCES: ", as.sequences);
     return song;
   }
 };

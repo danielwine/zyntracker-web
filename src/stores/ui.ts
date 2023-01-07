@@ -10,6 +10,8 @@ export enum Panels {
   "pattern",
   "options",
   "help",
+  "instruments",
+  "snapshots"
 }
 
 export interface ISwitch {

@@ -23,7 +23,7 @@ export default defineComponent({
       next()
     },
     beforeRouteLeave(to, from, next) {
-      if (window.innerWidth < 992) useUIStore().showPadsPanel = true;
+      if (window.innerWidth >= 992) useUIStore().showPadsPanel = true;
       document.getElementById("mainpanel")?.classList.remove("fullscreen");
       next()
     },

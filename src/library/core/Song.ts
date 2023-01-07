@@ -52,7 +52,6 @@ export class Song {
     success = await this.importZSSTones(zss);
     this.importZSSPatterns(zss);
     this.importZSSSequences(zss);
-    console.debug("ZSSReader returning with: ", success);
     return success;
   }
 
