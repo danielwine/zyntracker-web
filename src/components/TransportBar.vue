@@ -151,6 +151,7 @@ export default defineComponent({
         @buttonClicked="navigateToAboutPage()"
         hint="Help (F9)"
         iconName="question"
+        customClass="spec-hide"
       ></IconBarButton>
       <span class="version-number">{{ version }}</span>
     </template>
@@ -176,4 +177,11 @@ export default defineComponent({
     display: none;
   }
 }
+
+@media (min-width: 992px) and (max-width: 1025px) {
+  .spec-hide {
+    display: none;
+  }
+}
+
 </style>

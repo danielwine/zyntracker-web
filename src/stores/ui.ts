@@ -8,6 +8,7 @@ export enum PlayStates {
 export enum Panels {
   "pad",
   "pattern",
+  "song",
   "options",
   "help",
   "instruments",

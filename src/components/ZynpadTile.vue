@@ -87,6 +87,7 @@ export default defineComponent({
     clickCount() {
       if (this.clickCount == 28) {
         this.ui.selectedPad = this.sequence.id;
+        this.ui.currentPattern = this.sequence.id - 1;
         this.$emit("editRequest");
       }
     },
@@ -144,9 +145,14 @@ export default defineComponent({
   background-color: black;
 }
 
+.tile-header pre,
+.tile-footer pre {
+  overflow: hidden;
+  font-size: 0.84em;
+}
+
 .tile-footer {
   position: absolute;
-  /* bottom: -10px; */
   display: flex;
   gap: 0.9em;
   left: 2%;
@@ -222,7 +228,7 @@ pre.group {
   }
 }
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1499.999px) {
   .tile-footer {
     gap: 0.9em;
     left: 20%;
@@ -237,7 +243,7 @@ pre.group {
     display: none;
   }
 }
-@media screen and (max-width: 1140px) {
+@media screen and (max-width: 1139.999px) {
   .tile-footer {
     gap: 1em;
     left: 20%;
@@ -256,6 +262,18 @@ pre.group {
   .tile {
     width: 150px;
     height: 10vh;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1499.999px) {
+  .tile-header pre {
+    font-size: 0.76em;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199.999px) {
+  .tile-header pre {
+    font-size: 0.70em;
   }
 }
 </style>

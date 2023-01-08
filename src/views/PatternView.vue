@@ -406,7 +406,8 @@ export default defineComponent({
 
 @media (max-width: 768px) {
   .pattern {
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     height: 36vh;
   }
 }

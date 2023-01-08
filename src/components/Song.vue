@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
-import { useUIStore } from "@/stores/ui";
+import { Panels, useUIStore } from "@/stores/ui";
 import {
   minOctave,
   maxOctave,
@@ -18,7 +18,15 @@ export default defineComponent({
   setup() {
     const main = useMainStore();
     const ui = useUIStore();
-    return { main, ui, minOctave, maxOctave, decrementOctave, incrementOctave };
+    return {
+      main,
+      ui,
+      minOctave,
+      maxOctave,
+      decrementOctave,
+      incrementOctave,
+      Panels,
+    };
   },
   data() {
     return { windowWidth: window.innerWidth };
@@ -50,7 +58,7 @@ export default defineComponent({
 
 <template>
   <span class="mobile-hide-small">
-    <PanelHeader title="Song - Octave">
+    <PanelHeader title="Song - Octave" :id="Panels.song">
       <template #option> {{ ui.currentOctave }} </template>
       <template #control>
         <Pager
@@ -68,7 +76,7 @@ export default defineComponent({
   </span>
 
   <div class="panel-content mobile-hide-small">
-    <div class="container ps-2">
+    <div class="container song-info-row">
       <span>[{{ main.song.name.toLowerCase() }}] &nbsp;&nbsp;</span>
       <code class="song-info">
         &nbsp;
@@ -97,6 +105,10 @@ export default defineComponent({
 </template>
 
 <style scoped>
+.song-info-row {
+  margin-left: 0px;
+  padding-left: 2px;
+}
 .song-info {
   font-size: 0.92em;
   color: burlywood;
@@ -105,7 +117,7 @@ export default defineComponent({
 .quickhelp {
   font-size: 1em;
   color: grey;
-  margin: 10px 0 0 8px;
+  margin: 10px 0 0 3px;
 }
 
 @media (min-width: 992px) {

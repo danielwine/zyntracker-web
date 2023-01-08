@@ -19,29 +19,10 @@ body {
   border-radius: 0;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   body {
     overflow: hidden;
   }
-  .mobile-hide-big {
-    display: block;
-  }
-  .mobile-show-big {
-    display: none;
-  }
-}
-@media (max-width: 991.999px) {
-  body {
-    overflow: scroll;
-  }
-  .mobile-hide-big {
-    display: none;
-  }
-  .mobile-show-big {
-    display: block;
-  }
-}
-@media (min-width: 768px) {
   .mobile-hide-small {
     display: block;
   }
@@ -50,10 +31,30 @@ body {
   }
 }
 @media (max-width: 767.999px) {
+  body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
   .mobile-hide-small {
     display: none;
   }
   .mobile-show-small {
+    display: block;
+  }
+}
+@media (min-width: 992px) {
+  .mobile-hide-big {
+    display: block;
+  }
+  .mobile-show-big {
+    display: none;
+  }
+}
+@media (max-width: 991.999px) {
+  .mobile-hide-big {
+    display: none;
+  }
+  .mobile-show-big {
     display: block;
   }
 }

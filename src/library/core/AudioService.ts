@@ -55,7 +55,7 @@ export class AudioService {
       const idx = parseFloat(entry[0]);
       if (entry[1].engine == EngineType.SAMPLER) {
         this.engines[idx] = await this.getSamplerInstance(entry[1]);
-        console.debug("SamplerInstance: ", this.engines[idx]);
+        console.debug("SAMPLERInstance: ", this.engines[idx]);
       } else this.engines[idx] = this.getSynthInstance(entry[1]);
     }
   }
