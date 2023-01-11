@@ -69,6 +69,10 @@ export default defineComponent({
       await this.load("Zynthwave.zss", false);
     }
     window.onresize = () => (this.windowWidth = window.innerWidth);
+    window.addEventListener("beforeunload", function (e) {
+      e.preventDefault();
+      e.returnValue = "";
+    });
   },
 });
 </script>

@@ -44,6 +44,10 @@ export const loadSong = async (songName: string, data = {}) => {
   if (!imported) return false;
   song.name = songName;
 
+  localStorage["song"] = new Song();
+
+  console.log(localStorage);
+
   // ZSS write test
   // const rawJson = zss.save();
   // console.log("saved raw data: ", rawJson);

@@ -47,11 +47,13 @@ export default defineComponent({
     window.addEventListener("keyup", this.keyUp);
     window.addEventListener("wheel", this.wheelScroll);
     if (this.activePanel == Panels.pattern) this.setCursor(true);
+    window.addEventListener("blur", this.releaseKeys);
   },
   unmounted() {
     window.removeEventListener("keydown", this.keyDown);
     window.removeEventListener("keyup", this.keyUp);
     window.removeEventListener("wheel", this.wheelScroll);
+    window.removeEventListener("blur", this.releaseKeys);
   },
   data() {
     return {
@@ -222,15 +224,15 @@ export default defineComponent({
     keyDown(event: KeyboardEvent) {
       if (this.keyPressed[event.key] == true) return;
       const note = keymap.keys[event.code];
-      if (note && event.code != "NumpadSubtract") {
+      if (note && !this.keyPressed["Control"]) {
         audioService.startNote(note, this.currentPattern);
         this.keyPressed[event.key] = true;
         if (this.editMode && this.ui.activePanel == Panels.pattern) {
           this.editValue(note);
         }
       } else {
-        if (this.ui.activePanel == Panels.pad) return;
         if (event.key == "Control") this.keyPressed[event.key] = true;
+        if (this.ui.activePanel == Panels.pad) return;
         this.checkControllerKeys(event.code);
       }
     },
@@ -239,6 +241,15 @@ export default defineComponent({
       if (note && event.code != "NumpadSubtract")
         audioService.stopNote(note, this.currentPattern);
       this.keyPressed[event.key] = false;
+    },
+    releaseKeys() {
+      console.debug("RELEASING...");
+      Object.entries(this.keyPressed).forEach((entries) => {
+        const note = keymap.keys[entries[0]];
+        console.debug(entries, note);
+        if (note) audioService.stopNote(note, this.currentPattern);
+      });
+      this.keyPressed = {};
     },
     wheelScroll(event: WheelEvent) {
       if (event.deltaY > 0) {
@@ -258,7 +269,7 @@ export default defineComponent({
     events() {
       const events = this.audioService.sequences[this.currentPattern].sequence
         .events as ToneSequenceEvents;
-      console.debug('CURRENT PATTERN EVENTS (view): ', events);
+      console.debug("CURRENT PATTERN EVENTS (view): ", events);
       return events;
     },
     view() {

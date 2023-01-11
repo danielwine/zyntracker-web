@@ -106,8 +106,8 @@ export default defineComponent({
     <IconBar>
       <template #icons>
         <IconBarButton
-          hint="Download snapshot file"
-          iconName="download"
+          hint="Save"
+          iconName="save"
           :disabled="true"
         ></IconBarButton>
 
@@ -119,8 +119,8 @@ export default defineComponent({
         ></IconBarButton>
 
         <IconBarButton
-          hint="Save"
-          iconName="save"
+          hint="Download snapshot file"
+          iconName="download"
           :disabled="true"
         ></IconBarButton>
       </template>
