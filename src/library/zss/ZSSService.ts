@@ -11,6 +11,10 @@ export default class ZSSService {
   private zssData!: IZSS;
   private zynseq!: ZynseqContainer;
 
+  /**
+   * Use this method to instantiate this singleton service
+   */
+
   public static getInstance(): ZSSService {
     if (!ZSSService.instance) {
       ZSSService.instance = new ZSSService();
@@ -23,7 +27,6 @@ export default class ZSSService {
     try {
       data = JSON.parse(ZSSJson);
     } catch (err) {
-      // console.error(err);
       return null;
     }
     return data;
@@ -44,8 +47,15 @@ export default class ZSSService {
     return this.zynseq.object;
   }
 
-  public load(ZSSJson: string): boolean {
+  /**
+   * Parses the raw JSON string, creates a structured container object
+   * filled with data decoded from the base64 encoded 'zynseq' buffer
+   */
+
+  public async load(ZSSJson: string): Promise<boolean> {
     this.zssData = this.getObjectFromContent(ZSSJson) as IZSS;
+    console.log(this.zssData);
+
     if (this.zssData) {
       let arrayBuffer = this.getZynseqBuffer(this.zssData);
       console.debug("ARRAYBUFFER TOTAL LENGTH: ", arrayBuffer.byteLength);
@@ -56,10 +66,27 @@ export default class ZSSService {
     } else return false;
   }
 
-  public save(): string {
+  /**
+   * Encodes the content of the container object into the buffer,
+   * converts it into base64 then returns with a stringified JSON
+   */
+
+  public async save(): Promise<string> {
     this.zynseq.writeBuffer();
     this.zssData.zynseq_riff_b64 = Base64.fromArrayBuffer(this.zynseq.buffer);
     console.log(this.zssData.zynseq_riff_b64);
     return JSON.stringify(this.zssData);
+  }
+
+  /**
+   * Imports 'phrases' from the content of an XRNS (Renoise) song file
+   * translates them into sequences grouped by engine names
+   * and creates a container object from it
+   * NOT IMPLEMENTED
+   */
+
+  public async import(xrnsContent: ArrayBuffer) {
+    console.debug("Importing.");
+    return false;
   }
 }

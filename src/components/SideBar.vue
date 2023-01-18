@@ -2,8 +2,9 @@
 import { defineComponent, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { Panels, useUIStore } from "@/stores/ui";
+import { localSnapshots } from "@/library/res/Resources";
 import { AudioService } from "@/library/core/AudioService";
-import { load, loadSong } from "@/library/core/Loader";
+import { load as loadAndInit, ImportFile } from "@/library/core/FileManager";
 import err from "@/library/res/Error";
 import Tabs from "@/components/NavTab.vue";
 import FileSelector from "@/components/FileSelector.vue";
@@ -39,6 +40,7 @@ export default defineComponent({
       ui,
       audioService,
       Panels,
+      localSnapshots,
     };
   },
   methods: {
@@ -52,57 +54,46 @@ export default defineComponent({
       this.ui.currentPattern = 0;
     },
     async load(fileName: string, release = true) {
-      const song = await load(fileName, release);
+      const iFile = new ImportFile();
+      iFile.name = fileName;
+      const song = await loadAndInit(iFile, release);
       if (!song) this.main.error.message = err.import;
       else this.applySong(song);
     },
-    async loadFile(file: File, release = true) {
+    async loadSong(file: ImportFile, release: boolean) {
+      try {
+        let song = await loadAndInit(file, release);
+        if (song) this.applySong(song);
+        else this.main.error.message = err.import;
+      } catch {
+        this.main.error.message = err.json;
+      }
+    },
+    async openFile(file: File, release = true) {
       const FileInput = ref<File | null>();
-      let fileName = "";
+      let iFile = new ImportFile();
       FileInput.value = file;
-      if (FileInput.value) fileName = FileInput.value.name;
+      if (FileInput.value) iFile.name = FileInput.value.name;
       let fileReader = new FileReader();
       fileReader.onload = async (event) => {
-        let res =
-          event.target && event.target.result ? event.target.result : null;
-        if (res && typeof res === "string") {
-          console.log(res);
-          try {
-            let song = await load(fileName, release, JSON.parse(res));
-            if (song) this.applySong(song);
-            else this.main.error.message = err.import;
-          } catch {
-            this.main.error.message = err.json;
-          }
-          this.$emit("fileloaded", fileName);
-        }
+        iFile.content =
+          event.target && event.target.result ? event.target.result : undefined;
+        if (iFile.content) {
+          await this.loadSong(iFile, release);
+          this.$emit("fileloaded", iFile.name);
+        } else this.main.error.message = err.import;
       };
-      let content = FileInput.value;
-      fileReader.readAsText(FileInput.value);
+      if (iFile.binary) fileReader.readAsArrayBuffer(FileInput.value);
+      else fileReader.readAsText(FileInput.value);
+      if (!iFile.valid) this.main.error.message = err.ext;
     },
   },
 });
 </script>
 <template>
-  <!-- <Tabs :tabList="tabList"> -->
-  <!-- <template v-slot:tabPanel-1> -->
   <div class="d-block d-md-none d-lg-block">
     <PanelHeader title="Snapshots" :id="Panels.snapshots"></PanelHeader>
-    <FileSelector
-      @fileselected="load"
-      :names="[
-        'FieryRedSunset.zss',
-        'Exeunt.zss',
-        'CityInTheRain.zss',
-        'Zynthwave.zss',
-        'factory/001-ThreeOnThree.zss',
-        'factory/002-House In RTP.zss',
-        'factory/003-FluidR3 GM.zss',
-        'factory/004-Mistic Arp.zss',
-        'factory/005-Techno Base 01.zss',
-      ]"
-    >
-    </FileSelector>
+    <FileSelector @fileselected="load" :names="localSnapshots"> </FileSelector>
     <IconBar>
       <template #icons>
         <IconBarButton
@@ -112,14 +103,14 @@ export default defineComponent({
         ></IconBarButton>
 
         <IconBarButton
-          @fileSelected="loadFile"
-          hint="Upload snapshot file"
+          @fileSelected="openFile"
+          hint="Open/import a ZSS or XRNS file"
           iconName="upload"
           :fileinput="true"
         ></IconBarButton>
 
         <IconBarButton
-          hint="Download snapshot file"
+          hint="Save ZSS file"
           iconName="download"
           :disabled="true"
         ></IconBarButton>
@@ -142,11 +133,6 @@ export default defineComponent({
       {{ formatIndex(index) }} - {{ tone.meta.originalPreset }} >
       {{ tone.engine }}
     </div>
-    <!-- </template> -->
-    <!-- <template v-slot:tabPanel-2> -->
-    <!-- </template> -->
-    <!-- <template v-slot:tabPanel-3> </template> -->
-    <!-- </Tabs> -->
   </div>
 </template>
 <style scoped>

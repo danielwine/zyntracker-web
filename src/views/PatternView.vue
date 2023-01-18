@@ -246,7 +246,6 @@ export default defineComponent({
       console.debug("RELEASING...");
       Object.entries(this.keyPressed).forEach((entries) => {
         const note = keymap.keys[entries[0]];
-        console.debug(entries, note);
         if (note) audioService.stopNote(note, this.currentPattern);
       });
       this.keyPressed = {};

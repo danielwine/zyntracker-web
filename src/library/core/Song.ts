@@ -11,7 +11,7 @@ import {
   type ZynseqTrack,
 } from "../zss/interface/IFormat";
 import { Pattern, setTimeSignature } from "./Pattern";
-import { local, remote } from "../res/Samples";
+import { localSamples, remoteSamples } from "../res/Resources";
 import type ZSS from "../zss/ZSSService";
 
 /**
@@ -45,7 +45,7 @@ export class Song {
     return bank;
   }
 
-  public async importFromZSS(zss: ZSS): Promise<boolean> {
+  public async import(zss: ZSS): Promise<boolean> {
     let success = true;
     let data = zss.seq as IZynseq;
     setTimeSignature(data.header.beatsPerBar);
@@ -65,7 +65,7 @@ export class Song {
   }
 
   private getToneClass(engineType: EngineType, layer: IZSSLayer): ToneClass {
-    if (local.drums.includes(layer.preset_name)) return ToneClass.DRUM;
+    if (localSamples.drums.includes(layer.preset_name)) return ToneClass.DRUM;
     return ToneClass.UNKNOWN;
   }
 
@@ -76,7 +76,7 @@ export class Song {
   ): string {
     if (engineType == EngineType.SAMPLER) {
       if (toneClass == ToneClass.UNKNOWN)
-        return Object.values(remote.default)[0];
+        return Object.values(remoteSamples.default)[0];
       else return `${toneClass}/${layer.preset_name.replace(" ", "_")}.sfz`;
     }
     return "";

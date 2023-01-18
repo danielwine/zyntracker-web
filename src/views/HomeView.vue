@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { Panels, useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
-import { load } from "@/library/core/Loader";
+import { load, ImportFile } from "@/library/core/FileManager";
 import err from "@/library/res/Error";
 
 import BsNavBar from "../components/BsNavBar.vue";
@@ -39,7 +39,10 @@ export default defineComponent({
   },
   methods: {
     async load(fileName: string, release = true) {
-      const song = await load(fileName, release);
+      let iFile = new ImportFile(fileName);
+      const song = await load(iFile, release);
+      console.log(fileName, song);
+
       if (!song) this.main.error.message = err.import;
       else {
         this.ui.clear();

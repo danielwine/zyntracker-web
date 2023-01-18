@@ -1,4 +1,5 @@
-import { downloadSFZ } from "../core/Loader";
+import { downloadFile } from "../core/FileManager";
+import { pathSounds } from "./Resources";
 
 export class SFZRegion {
   [key: string]: any;
@@ -20,7 +21,7 @@ export class SFZ {
   raw: string | boolean = "";
   regions: SFZRegion[] = [];
   async load(fileName: string) {
-    this.raw = await downloadSFZ(fileName);
+    this.raw = await downloadFile(fileName, pathSounds);
     this.regions = this.getRegions();
   }
   private getRegions() {

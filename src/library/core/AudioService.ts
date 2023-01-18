@@ -15,7 +15,7 @@ import type { ToneSequenceEvent } from "./interface/IPattern";
 import { ToneSequence, type Engine } from "./interface/IAudio";
 import type { Song } from "./Song";
 import { EngineType, type IZyntrackerTone } from "./interface/ISong";
-import { localhostIP, noteMaps, pathSounds } from "../res/Samples";
+import { localhostIP, noteMaps, pathSounds } from "../res/Resources";
 import { getNoteFromMidiCode } from "../res/Keymap";
 import { SFZ, SFZRegion } from "../res/SFZ";
 
