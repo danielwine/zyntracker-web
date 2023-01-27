@@ -2,7 +2,7 @@
 import { useUIStore, Panels } from "@/stores/ui";
 import { defineComponent } from 'vue';
 import PanelHeader from "@/components/PanelHeader.vue";
-import { appName, author } from "@/library/res/Config";
+import { appName, author } from "@/library/res/config";
 
 export default defineComponent({
     setup() {
@@ -23,7 +23,10 @@ export default defineComponent({
       next()
     },
     beforeRouteLeave(to, from, next) {
-      if (window.innerWidth >= 992) useUIStore().showPadsPanel = true;
+      if (window.innerWidth < 992) {
+        useUIStore().showPadsPanel = true;
+        this.ui.activePanel = Panels.pad;
+      }
       document.getElementById("mainpanel")?.classList.remove("fullscreen");
       next()
     },

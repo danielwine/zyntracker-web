@@ -1,5 +1,5 @@
-import { ZynseqBuffer } from "./Buffer";
-import { BlockType, headerLength, ZynSeqFormat } from "./Format";
+import { ZynseqBuffer } from "./buffer";
+import { BlockType, headerLength, ZynSeqFormat } from "./format";
 import type {
   IZynseqHeader,
   IZynseqPattern,
@@ -11,7 +11,7 @@ import {
   type IZynseqObject,
   type IZynseqVariable,
 } from "./interface/IContainer";
-import { bufferLimit } from "../res/Config";
+import { bufferLimit } from "./config";
 
 export class ZynseqContainer extends ZynseqBuffer {
   object: IZynseqObject = {

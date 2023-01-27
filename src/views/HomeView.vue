@@ -3,8 +3,8 @@ import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { Panels, useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
-import { load, ImportFile } from "@/library/core/FileManager";
-import err from "@/library/res/Error";
+import { load, ImportFile } from "@/library/core/filemanager";
+import err from "@/library/res/error";
 
 import BsNavBar from "../components/BsNavBar.vue";
 import BsToast from "@/components/BsToast.vue";
@@ -16,7 +16,7 @@ import SideBar from "@/components/SideBar.vue";
 import Footer from "../components/Footer.vue";
 import Song from "@/components/Song.vue";
 import TransportBar from "@/components/TransportBar.vue";
-import { appName } from "@/library/res/Config";
+import { appName } from "@/library/res/config";
 
 export default defineComponent({
   components: {
@@ -69,6 +69,7 @@ export default defineComponent({
   },
   async created() {
     if (this.main.song.patterns.length == 0) {
+      // await this.load("template.xrns", false);
       await this.load("Zynthwave.zss", false);
     }
     window.onresize = () => (this.windowWidth = window.innerWidth);

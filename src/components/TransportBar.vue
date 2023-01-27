@@ -2,11 +2,11 @@
 import { useMainStore } from "@/stores/zss";
 import { Panels, PlayStates, useUIStore } from "@/stores/ui";
 import IconBar from "@/components/IconBar.vue";
-import { AudioService } from "@/library/core/AudioService";
+import { AudioService } from "@/library/core/audioservice";
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
 import IconBarButton from "./IconBarButton.vue";
-import { version } from "@/library/res/Config";
+import { version } from "@/library/res/config";
 
 const audioService = AudioService.getInstance();
 
@@ -43,8 +43,10 @@ export default defineComponent({
       } else this.ui.activePanel = Panels.pad;
     },
     navigateToAboutPage() {
-      if (this.windowWidth < 992) this.ui.showPadsPanel = false;
-      this.$router.push("/about");
+      this.ui.selectedPad = Panels.help;
+      if (this.$route.name != "about") this.$router.push("/about");
+      console.log(this.$route.name, this.ui.selectedPad);
+      
     },
     onResize(e: Event) {
       this.windowWidth = (e.target as Window).innerWidth;
@@ -183,5 +185,4 @@ export default defineComponent({
     display: none;
   }
 }
-
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { AudioService } from "@/library/core/AudioService";
+import { AudioService } from "@/library/core/audioservice";
 import { defineComponent } from "vue";
 import { useUIStore, PlayStates } from "@/stores/ui";
 import { isNumber } from "tone";

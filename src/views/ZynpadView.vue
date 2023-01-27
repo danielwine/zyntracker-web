@@ -8,7 +8,7 @@ import PanelHeader from "@/components/PanelHeader.vue";
 import IconBar from "@/components/IconBar.vue";
 import IconBarButton from "@/components/IconBarButton.vue";
 import { storeToRefs } from "pinia";
-import * as keymap from "@/library/res/Keymap";
+import * as keymap from "@/library/res/keymap";
 
 interface PlayAble {
   togglePlay(): Function;

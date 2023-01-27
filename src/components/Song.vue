@@ -7,7 +7,7 @@ import {
   maxOctave,
   incrementOctave,
   decrementOctave,
-} from "../library/res/Keymap";
+} from "../library/res/keymap";
 import PanelHeader from "@/components/PanelHeader.vue";
 import TransportBar from "./TransportBar.vue";
 import Pager from "./Pager.vue";

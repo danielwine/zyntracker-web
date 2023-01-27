@@ -1,12 +1,13 @@
 import type { IZSS } from "./interface/IFormat";
-import { ZynseqContainer } from "./Container";
-import { Base64 } from "./Buffer";
+import { ZynseqContainer } from "./container";
+import { XRNSImporter } from "./importer";
+import { Base64 } from "./buffer";
 
 /**
  * Service for parsing ZSS metadata and encoding / decoding
  *         base64-encoded binary content
  */
-export default class ZSSService {
+export class ZSSService {
   private static instance: ZSSService;
   private zssData!: IZSS;
   private zynseq!: ZynseqContainer;
@@ -87,6 +88,8 @@ export default class ZSSService {
 
   public async import(xrnsContent: ArrayBuffer) {
     console.debug("Importing.");
+    const importer = new XRNSImporter(xrnsContent);
+    await importer.import();
     return false;
   }
 }

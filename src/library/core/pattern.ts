@@ -1,4 +1,4 @@
-import * as keymap from "../res/Keymap";
+import * as keymap from "../res/keymap";
 import type {
   IZynseqPattern,
   IZynseqPatternEvent,

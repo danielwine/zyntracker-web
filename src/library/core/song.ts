@@ -10,9 +10,9 @@ import {
   type IZynseqBank,
   type ZynseqTrack,
 } from "../zss/interface/IFormat";
-import { Pattern, setTimeSignature } from "./Pattern";
-import { localSamples, remoteSamples } from "../res/Resources";
-import type ZSS from "../zss/ZSSService";
+import { Pattern, setTimeSignature } from "./pattern";
+import { localSamples, remoteSamples } from "../res/resources";
+import type { ZSSService as ZSS } from "../zss/ZSSService";
 
 /**
  * Basic song structure with metadata and sequence data importer methods

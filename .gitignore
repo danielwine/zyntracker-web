@@ -42,6 +42,15 @@ firebase.json
 firestore.*
 .firebase/*
 
-# Misc
+# Library builder
 
+libbuilder
+libbuilder/build
+libbuilder/src/lib
+
+# Test data
+
+*.zss.json
 *.xrns
+public/songs/custom
+libbuilder/testdata

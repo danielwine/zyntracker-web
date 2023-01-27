@@ -1,4 +1,4 @@
-import { production } from "./Config";
+import { production } from "./config";
 
 /**
  * List of locally available demo snapshots

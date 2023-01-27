@@ -2,16 +2,16 @@
 import { defineComponent, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { Panels, useUIStore } from "@/stores/ui";
-import { localSnapshots } from "@/library/res/Resources";
-import { AudioService } from "@/library/core/AudioService";
-import { load as loadAndInit, ImportFile } from "@/library/core/FileManager";
-import err from "@/library/res/Error";
+import { localSnapshots } from "@/library/res/resources";
+import { AudioService } from "@/library/core/audioservice";
+import { load as loadAndInit, ImportFile } from "@/library/core/filemanager";
+import err from "@/library/res/error";
 import Tabs from "@/components/NavTab.vue";
 import FileSelector from "@/components/FileSelector.vue";
 import PanelHeader from "./PanelHeader.vue";
 import IconBar from "./IconBar.vue";
 import IconBarButton from "./IconBarButton.vue";
-import type { Song } from "@/library/core/Song";
+import type { Song } from "@/library/core/song";
 import Footer from "./Footer.vue";
 
 export default defineComponent({

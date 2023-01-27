@@ -4,9 +4,9 @@ import { useMainStore } from "@/stores/zss";
 import { Panels, useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
 
-import { AudioService } from "@/library/core/AudioService";
+import { AudioService } from "@/library/core/audioservice";
 import type { ToneSequenceEvents } from "@/library/core/interface/IPattern";
-import * as keymap from "@/library/res/Keymap";
+import * as keymap from "@/library/res/keymap";
 
 import PanelHeader from "../components/PanelHeader.vue";
 import Pager from "@/components/Pager.vue";
