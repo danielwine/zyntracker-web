@@ -6,13 +6,13 @@ import { localSnapshots } from "@/library/res/resources";
 import { AudioService } from "@/library/core/audioservice";
 import { load as loadAndInit, ImportFile } from "@/library/core/filemanager";
 import err from "@/library/res/error";
-import Tabs from "@/components/NavTab.vue";
-import FileSelector from "@/components/FileSelector.vue";
+import Tabs from "./shared/NavTab.vue";
+import FileSelector from "./shared/FileSelector.vue";
 import PanelHeader from "./PanelHeader.vue";
-import IconBar from "./IconBar.vue";
-import IconBarButton from "./IconBarButton.vue";
+import IconBar from "./shared/IconBar.vue";
+import IconBarButton from "./shared/IconBarButton.vue";
 import type { Song } from "@/library/core/song";
-import Footer from "./Footer.vue";
+import Footer from "./shared/Footer.vue";
 
 export default defineComponent({
   name: "FileUpload",

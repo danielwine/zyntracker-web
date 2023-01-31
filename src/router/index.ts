@@ -6,13 +6,19 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: () => import("@/views/HomeView.vue"),
+      component: () => import("@/views/MainLayout.vue"),
       children: [
         {
           path: "",
           name: "pattern",
           props: true,
-          component: () => import("@/views/PatternView.vue"),
+          component: () => {
+            // console.log(useMainStore().song.name);
+
+            // if (useMainStore().song.name)
+            return import("@/views/PatternView.vue");
+            // return import("@/views/ImportView.vue");
+          },
         },
         {
           path: "about",

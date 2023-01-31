@@ -6,14 +6,14 @@ import { storeToRefs } from "pinia";
 import { load, ImportFile } from "@/library/core/filemanager";
 import err from "@/library/res/error";
 
-import BsNavBar from "../components/BsNavBar.vue";
-import BsToast from "@/components/BsToast.vue";
+import BsNavBar from "../components/shared/BsNavBar.vue";
+import BsToast from "@/components/shared/BsToast.vue";
 
-import LoadingScreen from "@/components/LoadingScreen.vue";
+import LoadingScreen from "@/components/shared/BsSpinner.vue";
 
-import ZynpadView from "../views/ZynpadView.vue";
+import ZynpadView from "./ZynpadView.vue";
 import SideBar from "@/components/SideBar.vue";
-import Footer from "../components/Footer.vue";
+import Footer from "@/components/shared/Footer.vue";
 import Song from "@/components/Song.vue";
 import TransportBar from "@/components/TransportBar.vue";
 import { appName } from "@/library/res/config";
@@ -33,24 +33,10 @@ export default defineComponent({
     return {
       tabList: ["Instruments", "Test songs"],
       windowWidth: window.innerWidth,
-      audioReady: false,
       appName,
     };
   },
   methods: {
-    async load(fileName: string, release = true) {
-      let iFile = new ImportFile(fileName);
-      const song = await load(iFile, release);
-      console.log(fileName, song);
-
-      if (!song) this.main.error.message = err.import;
-      else {
-        this.ui.clear();
-        this.main.song = song;
-        this.audioReady = true;
-        (this.$refs.padcolumn as HTMLElement).classList.remove("splash");
-      }
-    },
     toggleAbout() {
       const route = this.$route.name?.toString();
       if (route == "pad") this.$router.push("about");
@@ -68,10 +54,6 @@ export default defineComponent({
     };
   },
   async created() {
-    if (this.main.song.patterns.length == 0) {
-      // await this.load("template.xrns", false);
-      await this.load("Zynthwave.zss", false);
-    }
     window.onresize = () => (this.windowWidth = window.innerWidth);
     window.addEventListener("beforeunload", function (e) {
       e.preventDefault();
@@ -82,22 +64,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <BsNavBar>
-    <template #brand
-      >{{ appName }} &nbsp;<font-awesome-icon
-        class="btn-green"
-        icon="align-justify"
-      />
-    </template>
-    <template #rawcontent>
-      <template v-if="windowWidth < 769">
-        <TransportBar></TransportBar>
-      </template>
-    </template>
-  </BsNavBar>
   <div class="container-fluid">
     <div class="row">
-      <div ref="padcolumn" class="col-md-6 col-lg-4 splash g-0">
+      <div ref="padcolumn" class="col-md-6 col-lg-4 bg-black g-0">
         <div v-if="main.song.patterns.length > 0 && ui.showPadsPanel">
           <ZynpadView />
           <div class="mb-3"></div>
@@ -109,7 +78,7 @@ export default defineComponent({
         ref="patterncolumn"
         class="col-md-6 col-lg-5 col-xl-6 w-30 gx-0 gx-md-4 splash"
       >
-        <div v-if="main.song.patterns.length > 0 && audioReady">
+        <div v-if="main.song.patterns.length > 0 && main.loaded">
           <RouterView> </RouterView>
         </div>
       </div>
@@ -119,40 +88,6 @@ export default defineComponent({
     </div>
   </div>
   <span class="mobile-show-small"><Footer></Footer></span>
-  <BsToast v-if="main.error.message"></BsToast>
 </template>
 
-<style>
-@import "@/assets/base.css";
-a {
-  color: white;
-  text-decoration: underline;
-}
-
-.bg-darkgray {
-  background: #333;
-}
-
-.splash {
-  background-color: black;
-}
-
-.content {
-  height: 20vh;
-}
-
-@media (min-width: 992px) {
-  .splash {
-    height: 95vh;
-  }
-}
-
-@media (max-width: 991.999px) {
-  .splash {
-    height: 47vh;
-  }
-  .fullscreen {
-    height: 100%;
-  }
-}
-</style>
+<style></style>

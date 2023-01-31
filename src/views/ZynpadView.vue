@@ -1,12 +1,12 @@
 <script lang="ts">
 import { defineComponent, nextTick } from "vue";
 import Tile from "@/components/ZynpadTile.vue";
-import Pager from "@/components/Pager.vue";
+import Pager from "@/components/PanelPageBar.vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore, Panels } from "@/stores/ui";
 import PanelHeader from "@/components/PanelHeader.vue";
-import IconBar from "@/components/IconBar.vue";
-import IconBarButton from "@/components/IconBarButton.vue";
+import IconBar from "@/components/shared/IconBar.vue";
+import IconBarButton from "@/components/shared/IconBarButton.vue";
 import { storeToRefs } from "pinia";
 import * as keymap from "@/library/res/keymap";
 
@@ -34,7 +34,7 @@ export default defineComponent({
     window.addEventListener("keyup", this.keyUp);
     window.addEventListener("load", function (event) {
       console.debug("EVERYTHING IS RENDERED!!!");
-      useMainStore().rendered = true;
+      useUIStore().rendered = true;
     });
   },
   unmounted() {

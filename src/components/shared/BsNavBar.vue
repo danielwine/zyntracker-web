@@ -1,9 +1,31 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useMainStore } from "@/stores/zss";
+import { Song } from "@/library/core/song";
+
+export default defineComponent({
+  setup() {
+    return {
+      main: useMainStore(),
+    };
+  },
+  methods: {
+    restart() {
+      this.main.song = new Song();
+      this.main.loaded = false;
+      this.$router.push("/");
+    },
+  },
+});
+</script>
+
 <template>
-  <nav class="navbar navbar-expand-qlg navbar-dark bg-dark">
+  <nav class="navbar navbar-exp navbar-dark bg-dark">
     <div class="container-fluid">
-      <RouterLink class="navbar-brand" to="/"
-        ><slot name="brand"></slot> </RouterLink
-      >&nbsp;
+      <a class="navbar-brand" @click="restart">
+        <slot name="brand"></slot>
+      </a>
+      &nbsp;
       <slot name="rawcontent"></slot>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -57,5 +79,8 @@
 <style>
 .bg-dark {
   background-color: #333 !important;
+}
+a.navbar-brand {
+  cursor: pointer;
 }
 </style>

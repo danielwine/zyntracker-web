@@ -3,7 +3,7 @@ import { useUIStore } from "@/stores/ui";
 import type { ISwitch } from "@/stores/ui";
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
-import TransportBar from "./TransportBar.vue";
+import TransportBar from "../TransportBar.vue";
 import { version, author, appName } from "@/library/res/config";
 
 export default defineComponent({

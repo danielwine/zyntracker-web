@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { AudioService } from "@/library/core/audioservice";
-import IconBarButton from "./IconBarButton.vue";
+import IconBarButton from "./shared/IconBarButton.vue";
 
 const audioService = AudioService.getInstance();
 

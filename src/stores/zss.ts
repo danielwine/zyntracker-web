@@ -7,8 +7,8 @@ export class Error {
 
 export const useMainStore = defineStore("main", {
   state: () => ({
+    loaded: false,
     loading: false,
-    rendered: false,
     song: new Song(),
     error: new Error(),
   }),

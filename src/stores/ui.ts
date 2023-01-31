@@ -9,6 +9,7 @@ export enum Panels {
   "pad",
   "pattern",
   "song",
+  "info",
   "options",
   "help",
   "instruments",
@@ -25,6 +26,7 @@ export interface ISwitch {
 
 export const useUIStore = defineStore("ui", {
   state: () => ({
+    rendered: false,
     isPadActive: [] as Array<PlayStates>,
     selectedPad: 1,
     showPadsPanel: true,
