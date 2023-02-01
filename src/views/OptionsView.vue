@@ -1,5 +1,6 @@
 <script lang="ts">
-import { useUIStore, Panels } from "@/stores/ui";
+import { useUIStore } from "@/stores/ui";
+import { Panels } from "@/stores/model";
 import { defineComponent } from "vue";
 import PanelHeader from "@/components/PanelHeader.vue";
 

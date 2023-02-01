@@ -1,7 +1,8 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
-import { Panels, useUIStore } from "@/stores/ui";
+import { useUIStore } from "@/stores/ui";
+import { Panels } from "@/stores/model";
 import { localSnapshots } from "@/library/res/resources";
 import { AudioService } from "@/library/core/audioservice";
 import { load as loadAndInit, ImportFile } from "@/library/core/filemanager";

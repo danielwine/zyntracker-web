@@ -6,6 +6,7 @@ export default defineComponent({
   props: {
     iconName: String,
     hint: String,
+    caption: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
     transparent: { type: Boolean, default: false },
     fileinput: { type: Boolean, default: false },
@@ -38,7 +39,13 @@ export default defineComponent({
 
   <button
     class="ms-2 btn"
-    :class="(!transparent ? 'btn-dark' : 'btn-transparent') + ' ' + customClass"
+    :class="
+      (caption ? '' : 'button-simple') +
+      ' ' +
+      (!transparent ? 'btn-dark' : 'btn-transparent') +
+      ' ' +
+      customClass
+    "
     v-on:click="onClick()"
     data-bs-toggle="tooltip"
     data-bs-placement="top"
@@ -46,11 +53,12 @@ export default defineComponent({
     :disabled="disabled"
   >
     <font-awesome-icon class="btn-green" :icon="['fas', iconName]" />
+    <span v-if="caption"> &nbsp;{{ caption }} </span>
   </button>
 </template>
 
 <style scoped>
-button {
+.button-simple {
   width: 42px;
 }
 .btn-green {

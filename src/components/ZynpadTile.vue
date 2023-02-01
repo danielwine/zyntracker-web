@@ -1,7 +1,8 @@
 <script lang="ts">
 import { AudioService } from "@/library/core/audioservice";
 import { defineComponent } from "vue";
-import { useUIStore, PlayStates } from "@/stores/ui";
+import { useUIStore } from "@/stores/ui";
+import { PlayStates } from "@/stores/model";
 import { isNumber } from "tone";
 
 export default defineComponent({
@@ -273,7 +274,7 @@ pre.group {
 
 @media screen and (min-width: 992px) and (max-width: 1199.999px) {
   .tile-header pre {
-    font-size: 0.70em;
+    font-size: 0.7em;
   }
 }
 </style>

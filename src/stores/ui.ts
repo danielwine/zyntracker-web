@@ -1,32 +1,15 @@
 import { defineStore } from "pinia";
+import { Alert, Panels, type PlayStates } from "./model";
 
-export enum PlayStates {
-  "stopped",
-  "playing",
-}
-
-export enum Panels {
-  "pad",
-  "pattern",
-  "song",
-  "info",
-  "options",
-  "help",
-  "instruments",
-  "snapshots"
-}
-
-export interface ISwitch {
-  [key: string]: any;
-  name: string;
-  active: boolean;
-  isView: boolean;
-  disabled: boolean;
-}
+/**
+ * Store for managing UI related states
+ */
 
 export const useUIStore = defineStore("ui", {
   state: () => ({
     rendered: false,
+    alert: new Alert(),
+    alertReturned: "",
     isPadActive: [] as Array<PlayStates>,
     selectedPad: 1,
     showPadsPanel: true,

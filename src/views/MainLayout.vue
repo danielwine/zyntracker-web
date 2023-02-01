@@ -8,8 +8,9 @@ import err from "@/library/res/error";
 
 import BsNavBar from "../components/shared/BsNavBar.vue";
 import BsToast from "@/components/shared/BsToast.vue";
-
+import BsModal from "@/components/shared/BsModal.vue";
 import LoadingScreen from "@/components/shared/BsSpinner.vue";
+
 import ImportBox from "@/components/ImportBox.vue";
 
 import TransportBar from "@/components/TransportBar.vue";
@@ -20,6 +21,7 @@ export default defineComponent({
   components: {
     BsNavBar,
     BsToast,
+    BsModal,
     LoadingScreen,
     TransportBar,
     ImportBox,
@@ -87,6 +89,7 @@ export default defineComponent({
     </template>
   </BsNavBar>
 
+  <BsModal v-if="ui.alert.message"></BsModal>
   <ImportBox v-if="main.song.name == ''" @browse="load('Zynthwave.zss')" />
   <LoadingScreen v-if="main.loading" />
   <AppContainer v-if="main.loaded"></AppContainer>

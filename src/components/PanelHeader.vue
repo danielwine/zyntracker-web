@@ -1,5 +1,6 @@
 <script lang="ts">
-import { useUIStore, type Panels } from "@/stores/ui";
+import { useUIStore } from "@/stores/ui";
+import type { Panels } from "@/stores/model";
 import { defineComponent, type PropType } from "vue";
 
 export default defineComponent({
@@ -64,5 +65,4 @@ export default defineComponent({
   right: 0.5em;
   top: 0.25em;
 }
-
 </style>

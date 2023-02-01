@@ -1,6 +1,5 @@
 <script lang="ts">
 import { useUIStore } from "@/stores/ui";
-import type { ISwitch } from "@/stores/ui";
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import TransportBar from "../TransportBar.vue";
@@ -17,13 +16,6 @@ export default defineComponent({
       version,
       author,
     };
-  },
-  methods: {
-    getSwitchClass(item: ISwitch, attribute: string) {
-      console.log(attribute, item);
-      if (attribute in item)
-        return item[attribute] ? `switch-${attribute}` : "";
-    },
   },
   components: { TransportBar },
 });

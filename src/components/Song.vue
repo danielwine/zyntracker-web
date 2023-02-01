@@ -1,7 +1,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
-import { Panels, useUIStore } from "@/stores/ui";
+import { useUIStore } from "@/stores/ui";
+import { Panels } from "@/stores/model";
+
 import {
   minOctave,
   maxOctave,

@@ -1,7 +1,8 @@
 <script lang="ts">
 import { defineComponent, nextTick, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
-import { Panels, useUIStore } from "@/stores/ui";
+import { useUIStore } from "@/stores/ui";
+import { Panels } from "@/stores/model";
 import { storeToRefs } from "pinia";
 
 import { AudioService } from "@/library/core/audioservice";

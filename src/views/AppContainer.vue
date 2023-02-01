@@ -1,14 +1,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
-import { Panels, useUIStore } from "@/stores/ui";
+import { useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
-import { load, ImportFile } from "@/library/core/filemanager";
-import err from "@/library/res/error";
 
 import BsNavBar from "../components/shared/BsNavBar.vue";
 import BsToast from "@/components/shared/BsToast.vue";
-
 import LoadingScreen from "@/components/shared/BsSpinner.vue";
 
 import ZynpadView from "./ZynpadView.vue";

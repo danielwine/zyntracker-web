@@ -12,13 +12,7 @@ const router = createRouter({
           path: "",
           name: "pattern",
           props: true,
-          component: () => {
-            // console.log(useMainStore().song.name);
-
-            // if (useMainStore().song.name)
-            return import("@/views/PatternView.vue");
-            // return import("@/views/ImportView.vue");
-          },
+          component: () => import("@/views/PatternView.vue"),
         },
         {
           path: "about",

@@ -1,6 +1,7 @@
 <script lang="ts">
 import { useMainStore } from "@/stores/zss";
-import { Panels, PlayStates, useUIStore } from "@/stores/ui";
+import { useUIStore } from "@/stores/ui";
+import { Panels, PlayStates } from "@/stores/model";
 import IconBar from "./shared/IconBar.vue";
 import { AudioService } from "@/library/core/audioservice";
 import { defineComponent, ref } from "vue";
@@ -46,7 +47,6 @@ export default defineComponent({
       this.ui.selectedPad = Panels.help;
       if (this.$route.name != "about") this.$router.push("/about");
       console.log(this.$route.name, this.ui.selectedPad);
-      
     },
     onResize(e: Event) {
       this.windowWidth = (e.target as Window).innerWidth;

@@ -3,7 +3,9 @@ import { defineComponent, nextTick } from "vue";
 import Tile from "@/components/ZynpadTile.vue";
 import Pager from "@/components/PanelPageBar.vue";
 import { useMainStore } from "@/stores/zss";
-import { useUIStore, Panels } from "@/stores/ui";
+import { useUIStore } from "@/stores/ui";
+import { Panels } from "@/stores/model";
+
 import PanelHeader from "@/components/PanelHeader.vue";
 import IconBar from "@/components/shared/IconBar.vue";
 import IconBarButton from "@/components/shared/IconBarButton.vue";

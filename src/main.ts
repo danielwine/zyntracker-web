@@ -20,6 +20,7 @@ import {
   faWrench,
   faPlus,
   faMinus,
+  faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -39,7 +40,8 @@ library.add(
   faAlignJustify,
   faWrench,
   faPlus,
-  faMinus
+  faMinus,
+  faExclamationTriangle
 );
 
 import { createApp } from "vue";

@@ -1,9 +1,10 @@
 import { Song } from "@/library/core/song";
 import { defineStore } from "pinia";
+import { Error } from "./model";
 
-export class Error {
-  constructor(public type: string = "", public message: string = "") {}
-}
+/**
+ * Store for managing sequence states
+ */
 
 export const useMainStore = defineStore("main", {
   state: () => ({

@@ -1,19 +1,33 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useUIStore } from "@/stores/ui";
 import { useMainStore } from "@/stores/zss";
+import { Action, Alert } from "@/stores/model";
+import alerts from "@/library/res/alert";
+import { storeToRefs } from "pinia";
 import { Song } from "@/library/core/song";
 
 export default defineComponent({
   setup() {
+    const { alert, alertReturned } = storeToRefs(useUIStore());
     return {
       main: useMainStore(),
+      alerts,
+      alert,
+      alertReturned,
     };
   },
-  methods: {
-    restart() {
-      this.main.song = new Song();
-      this.main.loaded = false;
-      this.$router.push("/");
+  watch: {
+    alertReturned() {
+      if (this.alertReturned != "") {
+        const value = this.alertReturned;
+        this.alertReturned = "";
+        if (this.alert.buttons[value] == Action.restart) {
+          this.main.loaded = false;
+          this.main.song = new Song();
+          this.alert = new Alert();
+        }
+      }
     },
   },
 });
@@ -22,7 +36,7 @@ export default defineComponent({
 <template>
   <nav class="navbar navbar-exp navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" @click="restart">
+      <a class="navbar-brand" @click="alert = alerts['notsaved']">
         <slot name="brand"></slot>
       </a>
       &nbsp;
