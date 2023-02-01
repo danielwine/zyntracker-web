@@ -1,19 +1,22 @@
 <script lang="ts">
 import { Alert, AlertType } from "@/stores/model";
 import { useUIStore } from "@/stores/ui";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "Alert",
   setup() {
-    return { ui: useUIStore(), Alert, AlertType };
+    const ui = useUIStore();
+    return { ui, Alert, AlertType };
   },
   computed: {
     icon() {
-      if (this.ui.alert.type == AlertType.confirmation) return "exclamation-triangle";
+      if (this.ui.alert.type == AlertType.confirmation)
+        return "exclamation-triangle";
       if (this.ui.alert.type == AlertType.info) return "info";
     },
   },
-};
+});
 </script>
 
 <template>

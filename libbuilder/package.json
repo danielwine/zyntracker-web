@@ -1,0 +1,30 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "pull": "sudo rm -r -f ./src/lib && cp -r ../src/library/zss ./src/lib",
+    "dev": "npm run pull && ts-node ./src/nodetest.ts",
+    "compile": "npm run pull && tsc",
+    "build": "npm run compile && webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.9.5",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "stream": "^0.0.2",
+    "xml-js": "^1.6.11"
+  },
+  "browser": {
+    "stream": false
+  }
+}

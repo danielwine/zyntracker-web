@@ -44,9 +44,11 @@ firestore.*
 
 # Library builder
 
-libbuilder
 libbuilder/build
 libbuilder/src/lib
+!libbuilder/dist/
+libbuilder/dist/*.js
+libbuilder/dist/*.txt
 
 # Test data
 

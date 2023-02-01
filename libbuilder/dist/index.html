@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.rawgit.com/caldwell/renderjson/master/renderjson.js"></script>
+  </head>
+  <body>
+    <h3>Preset data</h3>
+    <div class="item" id="preset"></div>
+    <h3>Sequence data</h3>
+    <div class="item" id="seq"></div>
+
+    <script src="./main.js"></script>
+    <script type="text/javascript">
+      const zss = ZSS.ZSSService.getInstance();
+      fetch("test.zss").then((res) => {
+        res.text().then((jsonString) => {
+          zss.load(jsonString).then(() => {
+            const preset = document.querySelector("#preset");
+            const seq = document.querySelector("#seq");
+            preset.appendChild(renderjson(zss.preset));
+            seq.appendChild(renderjson(zss.seq));
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
