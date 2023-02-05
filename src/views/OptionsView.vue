@@ -2,7 +2,7 @@
 import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 import { defineComponent } from "vue";
-import PanelHeader from "@/components/PanelHeader.vue";
+import PanelHeader from "@/components/elements/PanelHeader.vue";
 
 export default defineComponent({
   setup() {

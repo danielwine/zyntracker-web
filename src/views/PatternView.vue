@@ -9,8 +9,8 @@ import { AudioService } from "@/library/core/audioservice";
 import type { ToneSequenceEvents } from "@/library/core/interface/IPattern";
 import * as keymap from "@/library/res/keymap";
 
-import PanelHeader from "../components/PanelHeader.vue";
-import Pager from "@/components/PanelPageBar.vue";
+import PanelHeader from "../components/elements/PanelHeader.vue";
+import Pager from "@/components/elements/PanelPageBar.vue";
 
 const audioService = AudioService.getInstance();
 

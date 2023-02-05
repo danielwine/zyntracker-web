@@ -3,18 +3,13 @@ import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
-import { load, ImportFile } from "@/library/core/filemanager";
-import err from "@/library/res/error";
-
-import BsNavBar from "../components/shared/BsNavBar.vue";
-import BsToast from "@/components/shared/BsToast.vue";
-import BsModal from "@/components/shared/BsModal.vue";
-import LoadingScreen from "@/components/shared/BsSpinner.vue";
-
-import ImportBox from "@/components/ImportBox.vue";
+import BsNavBar from "../components/layout/BsNavBar.vue";
+import BsToast from "@/components/elements/BsToast.vue";
+import BsModal from "@/components/elements/BsModal.vue";
 
 import TransportBar from "@/components/TransportBar.vue";
 import AppContainer from "@/views/AppContainer.vue";
+import HomeView from "@/views/HomeView.vue";
 import { appName } from "@/library/res/config";
 
 export default defineComponent({
@@ -22,10 +17,9 @@ export default defineComponent({
     BsNavBar,
     BsToast,
     BsModal,
-    LoadingScreen,
     TransportBar,
-    ImportBox,
     AppContainer,
+    HomeView,
   },
   data() {
     return {
@@ -34,20 +28,6 @@ export default defineComponent({
     };
   },
   methods: {
-    async load(fileName: string, release = true) {
-      this.main.loading = true;
-      let iFile = new ImportFile(fileName);
-      const song = await load(iFile, release);
-      console.log(fileName, song);
-
-      if (!song) this.main.error.message = err.import;
-      else {
-        this.main.loaded = true;
-        this.main.loading = false;
-        this.ui.clear();
-        this.main.song = song;
-      }
-    },
     toggleAbout() {
       const route = this.$route.name?.toString();
       if (route == "pad") this.$router.push("about");
@@ -55,11 +35,10 @@ export default defineComponent({
     },
   },
   setup() {
-    const main = useMainStore();
     const ui = useUIStore();
     let { currentPattern } = storeToRefs(ui);
     return {
-      main,
+      main: useMainStore(),
       ui,
       currentPattern,
     };
@@ -90,30 +69,7 @@ export default defineComponent({
   </BsNavBar>
 
   <BsModal v-if="ui.alert.message"></BsModal>
-  <ImportBox v-if="main.song.name == ''" @browse="load('Zynthwave.zss')" />
-  <LoadingScreen v-if="main.loading" />
+  <HomeView v-if="main.song.name == ''"></HomeView>
   <AppContainer v-if="main.loaded"></AppContainer>
   <BsToast v-if="main.error.message"></BsToast>
 </template>
-
-<style>
-@import "@/assets/base.css";
-a {
-  color: white;
-  text-decoration: underline;
-}
-
-.bg-darkgray {
-  background: #333;
-}
-
-.content {
-  height: 20vh;
-}
-
-@media (max-width: 991.999px) {
-  .fullscreen {
-    height: 100%;
-  }
-}
-</style>

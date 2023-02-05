@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent, nextTick } from "vue";
 import Tile from "@/components/ZynpadTile.vue";
-import Pager from "@/components/PanelPageBar.vue";
+import Pager from "@/components/elements/PanelPageBar.vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 
-import PanelHeader from "@/components/PanelHeader.vue";
-import IconBar from "@/components/shared/IconBar.vue";
-import IconBarButton from "@/components/shared/IconBarButton.vue";
+import PanelHeader from "@/components/elements/PanelHeader.vue";
+import IconBar from "@/components/elements/IconBar.vue";
+import IconBarButton from "@/components/elements/IconBarButton.vue";
 import { storeToRefs } from "pinia";
 import * as keymap from "@/library/res/keymap";
 

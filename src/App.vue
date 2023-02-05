@@ -7,15 +7,13 @@ import { RouterLink, RouterView } from "vue-router";
 </template>
 
 <style>
-.bg-darkgray {
-  background: #333 !important;
+
+#app {
+  height: 100vh;
 }
 
-@keyframes fadein {
-  to {
-    opacity: 1;
-    visibility: visible;
-  }
+.content {
+  height: 20vh;
 }
 
 .nav-button {
@@ -31,12 +29,16 @@ import { RouterLink, RouterView } from "vue-router";
   box-shadow: 1px 1px 20px #222;
 }
 
+a {
+  color: white;
+  text-decoration: underline;
+}
+
 a.router-link-active {
   color: white;
   transition: 0.15s ease-in-out;
 }
 
-/* a, */
 a.nav-button,
 a.router-link-exact-active {
   text-decoration: none;

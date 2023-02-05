@@ -1,23 +1,25 @@
 <script lang="ts">
+import { useUpload } from "@/composables/upload";
 import { defineComponent } from "vue";
-import IconBarButton from "./shared/IconBarButton.vue";
+import IconBarButton from "./elements/IconBarButton.vue";
 
 export default defineComponent({
   emits: ["browse", "upload", "import"],
   components: { IconBarButton },
-  methods: {
-    openFile() {
-      return;
-    },
+  setup() {
+    const { openFile } = useUpload();
+    return { openFile };
   },
 });
 </script>
 
 <template>
-  <div class="import-box">
+  <div class="col-12">
     <button class="btn btn-secondary" @click="$emit('browse')">
       Browse test songs
     </button>
+  </div>
+  <div class="col-6">
     <IconBarButton
       @fileSelected="openFile"
       iconName="upload"

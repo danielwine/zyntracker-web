@@ -1,6 +1,5 @@
 <script lang="ts">
 import { useUIStore } from "@/stores/ui";
-import type { Panels } from "@/stores/model";
 import { defineComponent, type PropType } from "vue";
 
 export default defineComponent({

@@ -4,13 +4,13 @@ import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
 
-import BsNavBar from "../components/shared/BsNavBar.vue";
-import BsToast from "@/components/shared/BsToast.vue";
-import LoadingScreen from "@/components/shared/BsSpinner.vue";
+import BsNavBar from "../components/layout/BsNavBar.vue";
+import BsToast from "@/components/elements/BsToast.vue";
+import LoadingScreen from "@/components/elements/BsSpinner.vue";
 
 import ZynpadView from "./ZynpadView.vue";
-import SideBar from "@/components/SideBar.vue";
-import Footer from "@/components/shared/Footer.vue";
+import SideBar from "@/components/layout/SideBar.vue";
+import Footer from "@/components/layout/Footer.vue";
 import Song from "@/components/Song.vue";
 import TransportBar from "@/components/TransportBar.vue";
 import { appName } from "@/library/res/config";
@@ -63,7 +63,7 @@ export default defineComponent({
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div ref="padcolumn" class="col-md-6 col-lg-4 bg-black g-0">
+      <div ref="padcolumn" class="col-md-6 col-lg-4 g-0">
         <div v-if="main.song.patterns.length > 0 && ui.showPadsPanel">
           <ZynpadView />
           <div class="mb-3"></div>
@@ -73,7 +73,7 @@ export default defineComponent({
       <div
         id="mainpanel"
         ref="patterncolumn"
-        class="col-md-6 col-lg-5 col-xl-6 w-30 gx-0 gx-md-4 splash"
+        class="main-panel col-md-6 col-lg-5 col-xl-6 w-30 gx-0 gx-md-4"
       >
         <div v-if="main.song.patterns.length > 0 && main.loaded">
           <RouterView> </RouterView>
@@ -87,4 +87,20 @@ export default defineComponent({
   <span class="mobile-show-small"><Footer></Footer></span>
 </template>
 
-<style></style>
+<style>
+.main-panel {
+  background-color: black;
+}
+
+@media (min-width: 992px) {
+  .main-panel {
+    height: 94vh;
+  }
+}
+
+@media (max-width: 992px) {
+  .main-panel {
+    height: 45vh;
+  }
+}
+</style>

@@ -2,11 +2,11 @@
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { Panels, PlayStates } from "@/stores/model";
-import IconBar from "./shared/IconBar.vue";
+import IconBar from "./elements/IconBar.vue";
 import { AudioService } from "@/library/core/audioservice";
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
-import IconBarButton from "./shared/IconBarButton.vue";
+import IconBarButton from "./elements/IconBarButton.vue";
 import { version } from "@/library/res/config";
 
 const audioService = AudioService.getInstance();

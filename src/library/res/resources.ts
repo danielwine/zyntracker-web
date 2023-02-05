@@ -15,6 +15,8 @@ export const localSnapshots = [
   "factory/005-Techno Base 01.zss",
 ];
 
+export const defaultSnapshot = "Zynthwave.zss";
+
 /**
  * List of locally available sample sets
  */

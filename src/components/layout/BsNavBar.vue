@@ -23,6 +23,7 @@ export default defineComponent({
         const value = this.alertReturned;
         this.alertReturned = "";
         if (this.alert.buttons[value] == Action.restart) {
+          this.$router.replace("/");
           this.main.loaded = false;
           this.main.song = new Song();
           this.alert = new Alert();

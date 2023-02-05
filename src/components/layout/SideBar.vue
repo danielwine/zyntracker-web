@@ -5,15 +5,12 @@ import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 import { localSnapshots } from "@/library/res/resources";
 import { AudioService } from "@/library/core/audioservice";
-import { load as loadAndInit, ImportFile } from "@/library/core/filemanager";
-import err from "@/library/res/error";
-import Tabs from "./shared/NavTab.vue";
-import FileSelector from "./shared/FileSelector.vue";
-import PanelHeader from "./PanelHeader.vue";
-import IconBar from "./shared/IconBar.vue";
-import IconBarButton from "./shared/IconBarButton.vue";
-import type { Song } from "@/library/core/song";
-import Footer from "./shared/Footer.vue";
+import { useUpload } from "@/composables/upload";
+import Tabs from "../elements/NavTab.vue";
+import FileSelector from "../elements/FileSelector.vue";
+import PanelHeader from "../elements/PanelHeader.vue";
+import IconBar from "../elements/IconBar.vue";
+import IconBarButton from "../elements/IconBarButton.vue";
 
 export default defineComponent({
   name: "FileUpload",
@@ -24,7 +21,6 @@ export default defineComponent({
     PanelHeader,
     IconBar,
     IconBarButton,
-    Footer,
   },
   data() {
     return {
@@ -34,11 +30,16 @@ export default defineComponent({
   setup(props, { emit }) {
     const ui = useUIStore();
     const main = useMainStore();
+    const { openFile, load, loaded, FileInput } = useUpload();
     const audioService = AudioService.getInstance();
 
     return {
       main,
       ui,
+      openFile,
+      load,
+      loaded,
+      FileInput,
       audioService,
       Panels,
       localSnapshots,
@@ -47,46 +48,6 @@ export default defineComponent({
   methods: {
     formatIndex(index: number): string {
       return index < 10 ? "0" + index.toString() : index.toString();
-    },
-    applySong(song: Song) {
-      this.ui.clear();
-      this.main.song = song;
-      this.ui.currentPattern = -1;
-      this.ui.currentPattern = 0;
-    },
-    async load(fileName: string, release = true) {
-      const iFile = new ImportFile();
-      iFile.name = fileName;
-      const song = await loadAndInit(iFile, release);
-      if (!song) this.main.error.message = err.import;
-      else this.applySong(song);
-    },
-    async loadSong(file: ImportFile, release: boolean) {
-      try {
-        let song = await loadAndInit(file, release);
-        if (song) this.applySong(song);
-        else this.main.error.message = err.import;
-      } catch {
-        this.main.error.message = err.json;
-      }
-    },
-    async openFile(file: File, release = true) {
-      const FileInput = ref<File | null>();
-      let iFile = new ImportFile();
-      FileInput.value = file;
-      if (FileInput.value) iFile.name = FileInput.value.name;
-      let fileReader = new FileReader();
-      fileReader.onload = async (event) => {
-        iFile.content =
-          event.target && event.target.result ? event.target.result : undefined;
-        if (iFile.content) {
-          await this.loadSong(iFile, release);
-          this.$emit("fileloaded", iFile.name);
-        } else this.main.error.message = err.import;
-      };
-      if (iFile.binary) fileReader.readAsArrayBuffer(FileInput.value);
-      else fileReader.readAsText(FileInput.value);
-      if (!iFile.valid) this.main.error.message = err.ext;
     },
   },
 });

@@ -2,7 +2,7 @@
 import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 import { defineComponent } from 'vue';
-import PanelHeader from "@/components/PanelHeader.vue";
+import PanelHeader from "@/components/elements/PanelHeader.vue";
 import { appName, author } from "@/library/res/config";
 
 export default defineComponent({
@@ -18,19 +18,19 @@ export default defineComponent({
     mounted() {
         this.ui.activePanel = Panels.help;
     },
-    beforeRouteEnter(to, from, next) {
-      if (window.innerWidth < 992) useUIStore().showPadsPanel = false;
-      document.getElementById("mainpanel")?.classList.add("fullscreen");
-      next()
-    },
-    beforeRouteLeave(to, from, next) {
-      if (window.innerWidth < 992) {
-        useUIStore().showPadsPanel = true;
-        this.ui.activePanel = Panels.pad;
-      }
-      document.getElementById("mainpanel")?.classList.remove("fullscreen");
-      next()
-    },
+    // beforeRouteEnter(to, from, next) {
+    //   if (window.innerWidth < 992) useUIStore().showPadsPanel = false;
+    //   document.getElementById("mainpanel")?.classList.add("fullscreen");
+    //   next()
+    // },
+    // beforeRouteLeave(to, from, next) {
+    //   if (window.innerWidth < 992) {
+    //     useUIStore().showPadsPanel = true;
+    //     this.ui.activePanel = Panels.pad;
+    //   }
+    //   document.getElementById("mainpanel")?.classList.remove("fullscreen");
+    //   next()
+    // },
     components: { PanelHeader }
 })
 </script>
