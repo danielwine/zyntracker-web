@@ -1,11 +1,11 @@
 <script lang="ts">
 import { useUpload } from "@/composables/upload";
 import { defineComponent } from "vue";
-import IconBarButton from "./elements/IconBarButton.vue";
+import Button from "./elements/Button.vue";
 
 export default defineComponent({
   emits: ["browse", "upload", "import"],
-  components: { IconBarButton },
+  components: { Button },
   setup() {
     const { openFile } = useUpload();
     return { openFile };
@@ -20,17 +20,17 @@ export default defineComponent({
     </button>
   </div>
   <div class="col-6">
-    <IconBarButton
+    <Button
       @fileSelected="openFile"
       iconName="upload"
       caption="Upload snapshot file"
-      :fileinput="true"
+      type="fileinput"
     />
-    <IconBarButton
+    <Button
       @fileSelected="openFile"
       iconName="upload"
       caption="Import phrases from XRNS"
-      :fileinput="true"
+      type="fileinput"
     />
   </div>
 </template>

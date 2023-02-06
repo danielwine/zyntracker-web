@@ -8,7 +8,7 @@ import { Panels } from "@/stores/model";
 
 import PanelHeader from "@/components/elements/PanelHeader.vue";
 import IconBar from "@/components/elements/IconBar.vue";
-import IconBarButton from "@/components/elements/IconBarButton.vue";
+import IconBarButton from "@/components/elements/Button.vue";
 import { storeToRefs } from "pinia";
 import * as keymap from "@/library/res/keymap";
 

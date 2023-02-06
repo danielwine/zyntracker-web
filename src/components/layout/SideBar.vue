@@ -10,7 +10,7 @@ import Tabs from "../elements/NavTab.vue";
 import FileSelector from "../elements/FileSelector.vue";
 import PanelHeader from "../elements/PanelHeader.vue";
 import IconBar from "../elements/IconBar.vue";
-import IconBarButton from "../elements/IconBarButton.vue";
+import Button from "../elements/Button.vue";
 
 export default defineComponent({
   name: "FileUpload",
@@ -20,7 +20,7 @@ export default defineComponent({
     FileSelector,
     PanelHeader,
     IconBar,
-    IconBarButton,
+    Button,
   },
   data() {
     return {
@@ -58,30 +58,25 @@ export default defineComponent({
     <FileSelector @fileselected="load" :names="localSnapshots"> </FileSelector>
     <IconBar>
       <template #icons>
-        <IconBarButton
-          hint="Save"
-          iconName="save"
-          :disabled="true"
-        ></IconBarButton>
+        <Button hint="Save" iconName="save" :disabled="true"></Button>
 
-        <IconBarButton
+        <Button
           @fileSelected="openFile"
           hint="Open/import a ZSS or XRNS file"
           iconName="upload"
-          :fileinput="true"
-        ></IconBarButton>
+          type="fileinput"
+        ></Button>
 
-        <IconBarButton
+        <Button
           hint="Save ZSS file"
           iconName="download"
           :disabled="true"
-        ></IconBarButton>
+        ></Button>
       </template>
     </IconBar>
   </div>
 
   <div class="mb-3"></div>
-  <!-- <span class="me-4"></span> -->
 
   <div class="d-block d-md-none d-lg-block">
     <PanelHeader title="Instruments" :id="Panels.instruments"></PanelHeader>

@@ -3,25 +3,29 @@ import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 
-import ImportBox from "@/components/ImportBox.vue";
 import Spinner from "@/components/elements/BsSpinner.vue";
+import LoginCard from "@/components/elements/BsLoginCard.vue";
+import Button from "@/components/elements/Button.vue";
 
-import { load, ImportFile } from "@/library/core/filemanager";
 import { defaultSnapshot } from "@/library/res/resources";
+import { appNameShort } from "@/library/res/config";
 import { useUpload } from "@/composables/upload";
 
 export default defineComponent({
   components: {
-    ImportBox,
+    LoginCard,
     Spinner,
+    Button,
   },
   setup() {
-    const { load } = useUpload();
+    const { load, openFile } = useUpload();
     return {
       main: useMainStore(),
       ui: useUIStore(),
       load,
+      openFile,
       defaultSnapshot,
+      appNameShort,
     };
   },
 });
@@ -29,15 +33,43 @@ export default defineComponent({
 
 <template>
   <div class="container d-flex h-100">
-    <div class="row justify-content-center align-self-center w-100">
-      <ImportBox
-        v-if="main.song.name == '' && !main.loading"
-        @browse="load(defaultSnapshot)"
-      />
-
+    <div class="row login-box justify-content-center align-self-center w-100">
+      <template v-if="main.song.name == '' && !main.loading">
+        <LoginCard :title="appNameShort">
+          <template #header>
+            Import / browse test files
+            <span class="text-muted"> or login to your account</span>
+          </template>
+          <template #extra>
+            <div class="col-xl-4">
+              <Button
+                @clicked="load(defaultSnapshot)"
+                caption="Browse songs"
+                hint="Browse / test factory ZSS files"
+                highlighted
+                wide
+              />
+            </div>
+            <div class="col-xl-4">
+              <Button
+                @fileSelected="openFile"
+                iconName="upload"
+                caption="Import file"
+                hint="Open / import ZSS or XRNS file"
+                type="fileinput"
+                wide
+              />
+            </div>
+          </template>
+        </LoginCard>
+      </template>
       <Spinner v-if="main.loading" />
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.login-box {
+  margin-top: -80px;
+}
+</style>

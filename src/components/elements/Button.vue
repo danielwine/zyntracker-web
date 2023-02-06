@@ -2,14 +2,16 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  emits: ["buttonClicked", "fileSelected"],
+  emits: ["clicked", "fileSelected"],
   props: {
-    iconName: String,
+    iconName: { type: String, default: "" },
     hint: String,
     caption: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
     transparent: { type: Boolean, default: false },
-    fileinput: { type: Boolean, default: false },
+    highlighted: { type: Boolean, default: false },
+    wide: { type: Boolean, default: false },
+    type: { type: String, default: "" },
     customClass: String,
   },
   methods: {
@@ -21,8 +23,8 @@ export default defineComponent({
       document.getElementById("FileInput")?.click();
     },
     onClick() {
-      if (this.fileinput) this.browse();
-      this.$emit("buttonClicked");
+      if (this.type == "fileinput") this.browse();
+      this.$emit("clicked");
     },
   },
 });
@@ -30,7 +32,7 @@ export default defineComponent({
 
 <template>
   <input
-    v-if="fileinput"
+    v-if="type == 'fileinput'"
     type="file"
     style="display: none"
     id="FileInput"
@@ -38,13 +40,20 @@ export default defineComponent({
   />
 
   <button
-    class="ms-2 btn"
+    class="btn"
+    :type="type == 'submit' ? type : 'button'"
     :class="
       (caption ? '' : 'button-simple') +
       ' ' +
-      (!transparent ? 'btn-dark' : 'btn-transparent') +
+      (transparent ? 'btn-transparent' : '') +
       ' ' +
-      customClass
+      (wide ? 'w-100' : 'ms-2') +
+      ' ' +
+      (highlighted ? 'btn-success' : '') +
+      ' ' +
+      (!highlighted && !transparent ? 'btn-dark' : '') +
+      ' ' +
+      (customClass ? customClass : '')
     "
     v-on:click="onClick()"
     data-bs-toggle="tooltip"
@@ -52,20 +61,11 @@ export default defineComponent({
     :title="hint"
     :disabled="disabled"
   >
-    <font-awesome-icon class="btn-green" :icon="['fas', iconName]" />
+    <font-awesome-icon
+      v-if="iconName"
+      class="btn-green"
+      :icon="['fas', iconName]"
+    />
     <span v-if="caption"> &nbsp;{{ caption }} </span>
   </button>
 </template>
-
-<style scoped>
-.button-simple {
-  width: 42px;
-}
-.btn-green {
-  color: #66e969;
-}
-.btn-transparent {
-  background-color: transparent;
-  border-color: transparent;
-}
-</style>

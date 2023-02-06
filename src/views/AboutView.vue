@@ -3,7 +3,7 @@ import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 import { defineComponent } from 'vue';
 import PanelHeader from "@/components/elements/PanelHeader.vue";
-import { appName, author } from "@/library/res/config";
+import { appName, author, version } from "@/library/res/config";
 
 export default defineComponent({
     setup() {
@@ -11,26 +11,12 @@ export default defineComponent({
         return {
             ui,
             Panels,
-            appName,
-            author
+            appName, author, version
         };
     },
     mounted() {
         this.ui.activePanel = Panels.help;
     },
-    // beforeRouteEnter(to, from, next) {
-    //   if (window.innerWidth < 992) useUIStore().showPadsPanel = false;
-    //   document.getElementById("mainpanel")?.classList.add("fullscreen");
-    //   next()
-    // },
-    // beforeRouteLeave(to, from, next) {
-    //   if (window.innerWidth < 992) {
-    //     useUIStore().showPadsPanel = true;
-    //     this.ui.activePanel = Panels.pad;
-    //   }
-    //   document.getElementById("mainpanel")?.classList.remove("fullscreen");
-    //   next()
-    // },
     components: { PanelHeader }
 })
 </script>
@@ -40,7 +26,7 @@ export default defineComponent({
     <div class="p-4">
       <h4>About</h4>
       <p>
-        {{  appName }} is an
+        {{ appName }} is an
         <strong>online sequence manipulator, musical sketchpad</strong>
         and player compatible with the MIDI sequencer "ZynSeq" written in C++ by
         <em>Brian Walton</em> for the
@@ -61,7 +47,7 @@ export default defineComponent({
         keyboard</strong> (keymap is similar to Renoise). </p>
       <p></p>
       <h4>Project state</h4>
-      <p>Version 0.0.1 implements:
+      <p>Currently (v{{ version }}) implemented:
           <ul>
               <li>Loading snapshot files containing sequence data</li>
               <li>Playing back patterns using a simple synth engine or a sampler (SFZ)</li>

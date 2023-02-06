@@ -43,7 +43,7 @@ export default defineComponent({
       currentPattern,
     };
   },
-  async created() {
+  created() {
     window.onresize = () => (this.windowWidth = window.innerWidth);
     window.addEventListener("beforeunload", function (e) {
       e.preventDefault();
@@ -57,13 +57,20 @@ export default defineComponent({
   <BsNavBar>
     <template #brand
       >{{ appName }} &nbsp;<font-awesome-icon
-        class="btn-green"
+        class="brand-icon"
         icon="align-justify"
       />
     </template>
     <template #rawcontent>
       <template v-if="main.loaded && windowWidth < 769">
         <TransportBar></TransportBar>
+      </template>
+      <template v-if="!main.loaded">
+        <span class="me-4 text-muted">
+          <!-- <RouterLink to=""> -->
+            Sign up
+          <!-- </RouterLink> -->
+        </span>
       </template>
     </template>
   </BsNavBar>
@@ -73,3 +80,9 @@ export default defineComponent({
   <AppContainer v-if="main.loaded"></AppContainer>
   <BsToast v-if="main.error.message"></BsToast>
 </template>
+
+<style>
+.brand-icon {
+  color: lightseagreen;
+}
+</style>

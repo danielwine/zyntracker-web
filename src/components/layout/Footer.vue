@@ -3,7 +3,7 @@ import { useUIStore } from "@/stores/ui";
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import TransportBar from "../TransportBar.vue";
-import { version, author, appName } from "@/library/res/config";
+import { version, author, appNameShort } from "@/library/res/config";
 
 export default defineComponent({
   setup() {
@@ -12,7 +12,7 @@ export default defineComponent({
     return {
       main,
       ui,
-      appName,
+      appNameShort,
       version,
       author,
     };
@@ -24,7 +24,7 @@ export default defineComponent({
 <template>
   <div class="footer bg-dark">
     <span class="app-info">
-      <span class="app-name"> {{ appName.split(" ")[0] }} {{ version }} </span
+      <span class="app-name"> {{ appNameShort }} {{ version }} </span
       >&nbsp;&nbsp;<span class="app-author">by {{ author }}</span>
     </span>
   </div>

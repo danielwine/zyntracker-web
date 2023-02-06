@@ -4,7 +4,6 @@ import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
 
-import BsNavBar from "../components/layout/BsNavBar.vue";
 import BsToast from "@/components/elements/BsToast.vue";
 import LoadingScreen from "@/components/elements/BsSpinner.vue";
 
@@ -17,7 +16,6 @@ import { appName } from "@/library/res/config";
 
 export default defineComponent({
   components: {
-    BsNavBar,
     BsToast,
     LoadingScreen,
     ZynpadView,

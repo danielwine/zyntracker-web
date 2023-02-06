@@ -1,9 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { AudioService } from "@/library/core/audioservice";
-import IconBarButton from "./IconBarButton.vue";
-
-const audioService = AudioService.getInstance();
+import Button from "./Button.vue";
 
 export default defineComponent({
   emits: ["next", "previous"],
@@ -20,23 +17,23 @@ export default defineComponent({
       return index < 10 ? "0" + index.toString() : index.toString();
     },
   },
-  components: { IconBarButton },
+  components: { Button },
 });
 </script>
 
 <template>
   <span class="pager">
-    <IconBarButton
-      @buttonClicked="$emit('previous')"
+    <Button
+      @clicked="$emit('previous')"
       :hint="
         customHintBack ? customHintBack : 'Previous ' + title + ' (Ctrl-Left)'
       "
       iconName="minus"
       :disabled="value == min"
-      :transparent="true"
-    ></IconBarButton>
-    <IconBarButton
-      @buttonClicked="$emit('next')"
+      transparent
+    ></Button>
+    <Button
+      @clicked="$emit('next')"
       :hint="
         customHintForward
           ? customHintForward
@@ -44,9 +41,8 @@ export default defineComponent({
       "
       iconName="plus"
       :disabled="value == max"
-      :transparent="true"
-    ></IconBarButton>
-    <!-- <code class="caption"> </code> -->
+      transparent
+    ></Button>
   </span>
 </template>
 

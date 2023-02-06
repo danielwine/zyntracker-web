@@ -25,7 +25,7 @@ export default defineComponent({
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            <font-awesome-icon class="btn-green" :icon="['fas', icon]" />&nbsp;
+            <font-awesome-icon class="text-warning" :icon="['fas', icon]" />&nbsp;
             {{ AlertType[ui.alert.type] }}
           </h5>
           <button

@@ -6,7 +6,7 @@ import IconBar from "./elements/IconBar.vue";
 import { AudioService } from "@/library/core/audioservice";
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
-import IconBarButton from "./elements/IconBarButton.vue";
+import Button from "./elements/Button.vue";
 import { version } from "@/library/res/config";
 
 const audioService = AudioService.getInstance();
@@ -101,60 +101,60 @@ export default defineComponent({
       this.toggleCurrentPattern();
     },
   },
-  components: { IconBar, IconBarButton },
+  components: { IconBar, Button },
 });
 </script>
 
 <template>
   <IconBar>
     <template #icons>
-      <IconBarButton
-        @buttonClicked="togglePlay"
+      <Button
+        @clicked="togglePlay"
         hint="Toggle transport (Space)"
         :iconName="transportState ? 'stop' : 'play'"
-      ></IconBarButton>
+      ></Button>
 
-      <IconBarButton
-        @buttonClicked="toggleCurrentPattern"
+      <Button
+        @clicked="toggleCurrentPattern"
         hint="Play/stop current pattern (F2)"
         iconName="play-circle"
-      ></IconBarButton>
+      ></Button>
 
       <span class="me-4 d-none d-md-inline"></span>
 
-      <IconBarButton
-        @buttonClicked="ui.activePanel = Panels.pad"
+      <Button
+        @clicked="ui.activePanel = Panels.pad"
         hint="Focus Zynpad (ESC)"
         iconName="th"
         customClass="d-none d-md-inline"
-      ></IconBarButton>
+      ></Button>
 
-      <IconBarButton
-        @buttonClicked="navigateToPattern()"
+      <Button
+        @clicked="navigateToPattern()"
         hint="Focus Pattern editor (ESC)"
         iconName="align-justify"
         customClass="d-none d-md-inline"
-      ></IconBarButton>
+      ></Button>
 
-      <!-- <IconBarButton
-        @buttonClicked="toggleView"
+      <!-- <Button
+        @clicked="toggleView"
         :hint="getViewPopupText"
         :iconName="getViewIconClass"
-      ></IconBarButton> -->
+      ></Button> -->
 
-      <IconBarButton
+      <Button
         hint="Options (F8)"
         iconName="wrench"
         disabled
         customClass="d-none d-md-inline"
-      ></IconBarButton>
+      ></Button>
 
-      <IconBarButton
-        @buttonClicked="navigateToAboutPage()"
+      <Button
+        @clicked="navigateToAboutPage()"
         hint="Help (F9)"
         iconName="question"
         customClass="spec-hide"
-      ></IconBarButton>
+      ></Button>
       <span class="version-number">{{ version }}</span>
     </template>
   </IconBar>

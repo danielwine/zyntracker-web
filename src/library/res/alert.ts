@@ -6,7 +6,7 @@ import { Action, AlertType } from "@/stores/model";
 export default {
   notsaved: {
     type: AlertType.confirmation,
-    message: "Your project is not saved. Load a new one?",
+    message: "Your project is not saved. Leave?",
     buttons: {
       ok: Action.restart,
     },
