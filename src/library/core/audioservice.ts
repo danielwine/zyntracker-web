@@ -15,7 +15,7 @@ import type { ToneSequenceEvent } from "./interface/IPattern";
 import { ToneSequence, type Engine } from "./interface/IAudio";
 import type { Song } from "./song";
 import { EngineType, type IZyntrackerTone } from "./interface/ISong";
-import { localhostIP, noteMaps, pathSounds } from "../res/resources";
+import { appUrl, noteMaps, pathSounds } from "../res/resources";
 import { getNoteFromMidiCode } from "../res/keymap";
 import { SFZ, SFZRegion } from "../res/SFZ";
 
@@ -63,15 +63,10 @@ export class AudioService {
   getSynthInstance(tone: IZyntrackerTone) {
     let synth: typeof Synth | typeof MembraneSynth = Synth;
     if (tone.engine == EngineType.PERCSYNTH) synth = MembraneSynth;
-    return new PolySynth(synth, {
-      oscillator: {
-        partials: [0, 2, 3, 4],
-      },
-    }).connect(this.masterVolume);
-    // this.synth = new PolySynth(Synth, {
+    // let options = {
     //   oscillator: {
     //     type: "amsine",
-    //     harmonicity: 5,
+    //     // harmonicity: 1,
     //     modulationType: "sine",
     //   },
     //   envelope: {
@@ -82,7 +77,13 @@ export class AudioService {
     //     release: 1,
     //   },
     //   portamento: 0.05,
-    // }).toDestination();
+    // };
+    let options = {
+      oscillator: {
+        partials: [0, 2, 3, 4],
+      },
+    };
+    return new PolySynth(synth, options as any).connect(this.masterVolume);
   }
 
   async getSamplerInstance(tone: IZyntrackerTone) {
@@ -97,7 +98,7 @@ export class AudioService {
     let samplerParams = {
       urls: noteMap ? noteMap : noteMaps.minimal,
       baseUrl: noteMap
-        ? `${localhostIP}/${pathSounds}/${tone.toneClass}/`
+        ? `${appUrl}/${pathSounds}/${tone.toneClass}/`
         : tone.toneURI,
     };
 

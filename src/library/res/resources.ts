@@ -8,14 +8,11 @@ export const localSnapshots = [
   "Exeunt.zss",
   "CityInTheRain.zss",
   "Zynthwave.zss",
-  "factory/001-ThreeOnThree.zss",
-  "factory/002-House In RTP.zss",
-  "factory/003-FluidR3 GM.zss",
-  "factory/004-Mistic Arp.zss",
-  "factory/005-Techno Base 01.zss",
+  "ThreeOnThree.zss",
+  "Techno Base 01.zss",
 ];
 
-export const defaultSnapshot = "Zynthwave.zss";
+export const defaultSnapshot = "FieryRedSunset.zss";
 
 /**
  * List of locally available sample sets
@@ -43,8 +40,21 @@ export const noteMaps = {
   },
 };
 
-export const localhostIP = production
-  ? "https://zyntracker.web.app"
-  : "http://localhost:5173";
+/**
+ * Url of the API server
+ */
+export const apiBaseUrl = production
+  ? "http://localhost:8000/api/v1/"
+  : "http://localhost:8000/api/v1/";
+
+/**
+ * Url of the application
+ */
+export const appUrl = production
+  ? "https://zyntracker.web.ap p"
+  : "http://localhost:3000";
+
+
+// Paths
 export const pathSounds = "soundfonts";
 export const pathSongs = "songs";

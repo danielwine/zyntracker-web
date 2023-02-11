@@ -23,14 +23,15 @@ const loadSong = async (file: ImportFile, release: boolean) => {
     if (song) applySong(song);
     else main.error.message = err.import;
   } catch {
-    main.error.message = err.json;
+    if (!file.isZSS) main.error.message = err.notimplemented;
+    else main.error.message = err.json;
   }
 };
 
 /**
  * Composable for handling uploaded files
  */
-export function useUpload() {
+export default function useUpload() {
   const FileInput = ref<File | null>();
   let loaded = ref("");
 

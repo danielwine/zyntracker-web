@@ -11,6 +11,9 @@ export interface ApiResponse {
   data: [];
 }
 
+/**
+ * Composable for API management
+ */
 export default function useAPI() {
   const items = ref([]);
   const item = ref([]);

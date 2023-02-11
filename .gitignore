@@ -55,4 +55,5 @@ libbuilder/dist/*.txt
 *.zss.json
 *.xrns
 public/songs/custom
+public/songs/factory
 libbuilder/testdata

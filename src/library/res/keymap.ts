@@ -15,6 +15,7 @@ const physical_keys = [
     "KeyD",
     "KeyC",
     "KeyV",
+    "KeyG",
     "KeyB",
     "KeyH",
     "KeyN",
@@ -146,6 +147,8 @@ const setOctave = (octaveToSet: number) => {
   mapKeys(octaveToSet);
   ui.currentOctave = octaveToSet;
   octave = octaveToSet;
+  console.log(keys);
+  
 };
 
 const incrementOctave = () => {
