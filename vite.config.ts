@@ -12,4 +12,7 @@ export default defineConfig({
       emitter: require.resolve("emitter-component"),
     },
   },
+  server: {
+    port: 3000,
+  },
 });
