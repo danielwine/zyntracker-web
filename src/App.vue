@@ -7,13 +7,16 @@ import { RouterLink, RouterView } from "vue-router";
 </template>
 
 <style>
-
 #app {
   height: 100vh;
 }
 
 .content {
   height: 20vh;
+}
+
+.row.login-box [class*="col-"] {
+  transition: all 0.4s ease-in-out;
 }
 
 .nav-button {

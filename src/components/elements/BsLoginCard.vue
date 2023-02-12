@@ -1,25 +1,25 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Button from "./Button.vue";
+import Logo from "./Logo.vue";
 
 export default defineComponent({
   name: "LoginCard",
   props: {
     title: String,
   },
-  components: { Button },
+  components: { Button, Logo },
 });
 </script>
 
 <template>
-  <div class="col-12 col-md-8 col-lg-6">
+  <div class="col-12 col-md-8 col-lg-8 col-xl-6">
     <div class="card bg-dark">
       <div class="card-body p-5">
         <form class="mb-3 mt-md-3">
           <h2 class="fw-bold mb-2 text-uppercase">{{ title }}</h2>
-          <p class="mb-5">
-            <slot name="header"></slot>
-          </p>
+          <slot name="header"></slot>
+          <Logo />
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input

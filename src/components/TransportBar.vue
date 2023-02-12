@@ -34,6 +34,7 @@ export default defineComponent({
   },
   mounted() {
     this.transportState = audioService.isPlaying;
+    this.togglePlay()
   },
   methods: {
     async navigateToPattern() {

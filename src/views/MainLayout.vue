@@ -83,6 +83,6 @@ export default defineComponent({
 
 <style>
 .brand-icon {
-  color: lightseagreen;
+  color: lightcyan;
 }
 </style>

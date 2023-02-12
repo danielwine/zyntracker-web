@@ -17,6 +17,11 @@ export default defineComponent({
       alertReturned,
     };
   },
+  methods: {
+    handleClick() {
+      if (this.main.loaded) this.alert = alerts["notsaved"];
+    },
+  },
   watch: {
     alertReturned() {
       if (this.alertReturned != "") {
@@ -37,7 +42,7 @@ export default defineComponent({
 <template>
   <nav class="navbar navbar-exp navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" @click="alert = alerts['notsaved']">
+      <a class="navbar-brand" @click="handleClick">
         <slot name="brand"></slot>
       </a>
       &nbsp;

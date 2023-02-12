@@ -5,7 +5,7 @@ import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 import { localSnapshots } from "@/library/res/resources";
 import { AudioService } from "@/library/core/audioservice";
-import { useUpload } from "@/composables/upload";
+import useUpload from "@/composables/upload";
 import Tabs from "../elements/NavTab.vue";
 import FileSelector from "../elements/FileSelector.vue";
 import PanelHeader from "../elements/PanelHeader.vue";
@@ -94,6 +94,6 @@ export default defineComponent({
 </template>
 <style scoped>
 .listbox-item {
-  padding: 0.1em 0.5em 0.1em 17px;
+  padding: 0.22em 0.5em 0.22em 17px;
 }
 </style>

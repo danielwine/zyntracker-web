@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useUpload } from "@/composables/upload";
+import useUpload from "@/composables/upload";
 import { defineComponent } from "vue";
 import Button from "./elements/Button.vue";
 

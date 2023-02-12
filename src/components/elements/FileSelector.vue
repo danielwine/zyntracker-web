@@ -29,7 +29,7 @@ ul {
 .file-item {
   list-style: none;
   cursor: pointer;
-  padding: 0.1em 0.5em 0.15em 0.5em;
+  padding: 0.25em 0.5em 0.25em 0.5em;
 }
 .file-item:hover {
   background-color: #333;
