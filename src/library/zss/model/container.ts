@@ -1,4 +1,4 @@
-import type { IZynseqBank, IZynseqHeader, IZynseqPattern } from "./IFormat";
+import type { IZynseqBank, IZynseqHeader, IZynseqPattern } from "./format";
 
 export class ZynseqBlockHeader {
   id: string = "";

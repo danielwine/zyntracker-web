@@ -1,7 +1,7 @@
 import jszip from "jszip";
 import { xml2js } from "xml-js";
-import { RenoiseSong } from "./interface/IImporter";
-import type { XMLElement } from "./interface/IImporter";
+import { RenoiseSong } from "./model/importer";
+import type { XMLElement } from "./model/importer";
 
 export class XRNSImporter {
   private zip = new jszip();

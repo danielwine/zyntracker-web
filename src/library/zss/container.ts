@@ -4,13 +4,13 @@ import type {
   IZynseqHeader,
   IZynseqPattern,
   IZynseqPatternEvent,
-} from "./interface/IFormat";
+} from "./model/format";
 import {
   ZynseqBlockHeader,
   type IZynseqBlockItem,
   type IZynseqObject,
   type IZynseqVariable,
-} from "./interface/IContainer";
+} from "./model/container";
 import { bufferLimit } from "./config";
 
 export class ZynseqContainer extends ZynseqBuffer {

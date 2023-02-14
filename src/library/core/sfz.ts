@@ -1,5 +1,5 @@
-import { downloadFile } from "../core/filemanager";
-import { pathSounds } from "./resources";
+import { downloadFile } from "../core/file";
+import { pathSounds } from "./res/resource";
 
 export class SFZRegion {
   [key: string]: any;

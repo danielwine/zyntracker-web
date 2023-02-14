@@ -1,5 +1,3 @@
-import { production } from "./config";
-
 /**
  * List of locally available demo snapshots
  */
@@ -39,21 +37,6 @@ export const noteMaps = {
     A2: "A2.mp3",
   },
 };
-
-/**
- * Url of the API server
- */
-export const apiBaseUrl = production
-  ? "http://localhost:8000/api/v1/"
-  : "http://localhost:8000/api/v1/";
-
-/**
- * Url of the application
- */
-export const appUrl = production
-  ? "https://zyntracker.web.ap p"
-  : "http://localhost:3000";
-
 
 // Paths
 export const pathSounds = "soundfonts";

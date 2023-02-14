@@ -1,18 +1,14 @@
-import {
-  EngineType,
-  ToneClass,
-  type IZyntrackerTones,
-} from "./interface/ISong";
+import { EngineType, ToneClass, type IZyntrackerTones } from "./model/song";
 import {
   ZynseqSequence,
   type IZSSLayer,
   type IZynseq,
   type IZynseqBank,
   type ZynseqTrack,
-} from "../zss/interface/IFormat";
+} from "../zss/model/format";
 import { Pattern, setTimeSignature } from "./pattern";
-import { localSamples, remoteSamples } from "../res/resources";
-import type { ZSSService as ZSS } from "../zss/ZSSService";
+import { localSamples, remoteSamples } from "./res/resource";
+import type { ZSSService as ZSS } from "../zss/zss";
 
 /**
  * Basic song structure with metadata and sequence data importer methods

@@ -9,10 +9,10 @@ import {
   maxOctave,
   incrementOctave,
   decrementOctave,
-} from "../library/res/keymap";
-import PanelHeader from "./elements/PanelHeader.vue";
-import TransportBar from "./TransportBar.vue";
-import Pager from "./elements/PanelPageBar.vue";
+} from "@/library/core/res/keymap";
+import PanelHeader from "../elements/PanelHeader.vue";
+import TransportBar from "../app/TransportBar.vue";
+import Pager from "../elements/PanelPageBar.vue";
 
 export default defineComponent({
   emits: ["nextPattern", "prevPattern"],

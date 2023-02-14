@@ -1,7 +1,7 @@
 import { ref } from "vue";
-import { apiBaseUrl } from "@/library/res/resources";
+import { apiBaseUrl } from "./config";
 import { useMainStore } from "@/stores/zss";
-import error from "@/library/res/error";
+import error from "./error";
 import axios from "axios";
 
 const main = useMainStore();

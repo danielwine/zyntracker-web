@@ -1,10 +1,10 @@
-import * as keymap from "../res/keymap";
+import * as keymap from "./res/keymap";
 import type {
   IZynseqPattern,
   IZynseqPatternEvent,
-} from "../zss/interface/IFormat";
-import { ToneSequenceEvent } from "./interface/IPattern";
-import type { ToneSequenceEvents } from "./interface/IPattern";
+} from "../zss/model/format";
+import { ToneSequenceEvent } from "./model/pattern";
+import type { ToneSequenceEvents } from "./model/pattern";
 
 let beatsPerBar = 4;
 export const setTimeSignature = (beatsPerBar: number) => {

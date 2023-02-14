@@ -5,11 +5,11 @@ import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 import { storeToRefs } from "pinia";
 
-import { AudioService } from "@/library/core/audioservice";
-import type { ToneSequenceEvents } from "@/library/core/interface/IPattern";
-import * as keymap from "@/library/res/keymap";
+import { AudioService } from "@/library/core/audio";
+import type { ToneSequenceEvents } from "@/library/core/model/pattern";
+import * as keymap from "@/library/core/res/keymap";
 
-import PanelHeader from "../components/elements/PanelHeader.vue";
+import PanelHeader from "../elements/PanelHeader.vue";
 import Pager from "@/components/elements/PanelPageBar.vue";
 
 const audioService = AudioService.getInstance();

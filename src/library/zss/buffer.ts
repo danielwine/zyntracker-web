@@ -1,5 +1,5 @@
-import type { IZynseqVariable } from "./interface/IContainer";
-import type { IndexableByString } from "./interface/ITypes";
+import type { IZynseqVariable } from "./model/container";
+import type { IndexableByString } from "./model/types";
 
 export class ZynseqBuffer {
   dv!: DataView;

@@ -3,11 +3,11 @@ import { defineComponent } from "vue";
 import { useUIStore } from "@/stores/ui";
 import { useMainStore } from "@/stores/zss";
 import { Action, Alert } from "@/stores/model";
-import alerts from "@/library/res/alert";
+import alerts from "@/composables/alert";
 import { storeToRefs } from "pinia";
-import { Song } from "@/library/core/song";
 
 export default defineComponent({
+  emits: ["resetRequest"],
   setup() {
     const { alert, alertReturned } = storeToRefs(useUIStore());
     return {
@@ -28,10 +28,8 @@ export default defineComponent({
         const value = this.alertReturned;
         this.alertReturned = "";
         if (this.alert.buttons[value] == Action.restart) {
-          this.$router.replace("/");
-          this.main.loaded = false;
-          this.main.song = new Song();
           this.alert = new Alert();
+          this.$emit("resetRequest");
         }
       }
     },

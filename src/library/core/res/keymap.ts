@@ -147,8 +147,6 @@ const setOctave = (octaveToSet: number) => {
   mapKeys(octaveToSet);
   ui.currentOctave = octaveToSet;
   octave = octaveToSet;
-  console.log(keys);
-  
 };
 
 const incrementOctave = () => {

@@ -3,14 +3,17 @@ import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
-import BsNavBar from "../components/layout/BsNavBar.vue";
-import BsToast from "@/components/elements/BsToast.vue";
-import BsModal from "@/components/elements/BsModal.vue";
+import BsNavBar from "./NavBar.vue";
+import BsToast from "../elements/BsToast.vue";
+import BsModal from "../elements/BsModal.vue";
 
-import TransportBar from "@/components/TransportBar.vue";
-import AppContainer from "@/views/AppContainer.vue";
-import HomeView from "@/views/HomeView.vue";
-import { appName } from "@/library/res/config";
+import TransportBar from "../app/TransportBar.vue";
+import AppContainer from "../app/AppContainer.vue";
+import StartScreen from "../app/StartScreen.vue";
+
+import { appName, appUrl } from "@/composables/config";
+import { AudioService } from "@/library/core/audio";
+import { Song } from "@/library/core/song";
 
 export default defineComponent({
   components: {
@@ -19,15 +22,23 @@ export default defineComponent({
     BsModal,
     TransportBar,
     AppContainer,
-    HomeView,
+    StartScreen,
   },
   data() {
     return {
       windowWidth: window.innerWidth,
+      register: false,
       appName,
+      audio: AudioService.getInstance(),
     };
   },
   methods: {
+    reset() {
+      this.audio.release();
+      this.$router.replace("/");
+      this.main.loaded = false;
+      this.main.song = new Song();
+    },
     toggleAbout() {
       const route = this.$route.name?.toString();
       if (route == "pad") this.$router.push("about");
@@ -44,6 +55,7 @@ export default defineComponent({
     };
   },
   created() {
+    this.audio.setUrl(appUrl);
     window.onresize = () => (this.windowWidth = window.innerWidth);
     window.addEventListener("beforeunload", function (e) {
       e.preventDefault();
@@ -54,7 +66,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <BsNavBar>
+  <BsNavBar @reset-request="reset">
     <template #brand
       >{{ appName }} &nbsp;<font-awesome-icon
         class="brand-icon"
@@ -66,17 +78,15 @@ export default defineComponent({
         <TransportBar></TransportBar>
       </template>
       <template v-if="!main.loaded">
-        <span class="me-4 text-muted">
-          <!-- <RouterLink to=""> -->
-            Sign up
-          <!-- </RouterLink> -->
+        <span class="me-4">
+          <a @click="register = !register"> Sign up </a>
         </span>
       </template>
     </template>
   </BsNavBar>
 
   <BsModal v-if="ui.alert.message"></BsModal>
-  <HomeView v-if="main.song.name == ''"></HomeView>
+  <StartScreen v-if="main.song.name == ''" :register="register"></StartScreen>
   <AppContainer v-if="main.loaded"></AppContainer>
   <BsToast v-if="main.error.message"></BsToast>
 </template>

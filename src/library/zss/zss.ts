@@ -1,4 +1,4 @@
-import type { IZSS } from "./interface/IFormat";
+import type { IZSS } from "./model/format";
 import { ZynseqContainer } from "./container";
 import { XRNSImporter } from "./importer";
 import { Base64 } from "./buffer";

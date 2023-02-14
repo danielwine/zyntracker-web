@@ -1,6 +1,6 @@
-import { load as loadAndInit, ImportFile } from "@/library/core/filemanager";
+import { load as loadAndInit, ImportFile } from "@/library/core/file";
 import { useMainStore } from "@/stores/zss";
-import err from "@/library/res/error";
+import err from "./error";
 import { ref } from "vue";
 import { useUIStore } from "@/stores/ui";
 import type { Song } from "@/library/core/song";

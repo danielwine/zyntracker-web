@@ -2,12 +2,12 @@
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { Panels, PlayStates } from "@/stores/model";
-import IconBar from "./elements/IconBar.vue";
-import { AudioService } from "@/library/core/audioservice";
+import IconBar from "../elements/IconBar.vue";
+import { AudioService } from "@/library/core/audio";
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
-import Button from "./elements/Button.vue";
-import { version } from "@/library/res/config";
+import Button from "@/components/elements/Button.vue";
+import { autostartTransport, version } from "@/composables/config";
 
 const audioService = AudioService.getInstance();
 
@@ -34,7 +34,7 @@ export default defineComponent({
   },
   mounted() {
     this.transportState = audioService.isPlaying;
-    this.togglePlay()
+    if (!this.transportState && autostartTransport) this.togglePlay();
   },
   methods: {
     async navigateToPattern() {

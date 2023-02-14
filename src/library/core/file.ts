@@ -1,6 +1,6 @@
-import { ZSSService as ZSS } from "../zss/ZSSService";
-import { AudioService } from "./audioservice";
-import { pathSounds, pathSongs } from "../res/resources";
+import { ZSSService as ZSS } from "../zss/zss";
+import { AudioService } from "./audio";
+import { pathSounds, pathSongs } from "./res/resource";
 import { Song } from "./song";
 
 export class ImportFile {

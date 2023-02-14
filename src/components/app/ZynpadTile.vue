@@ -1,5 +1,5 @@
 <script lang="ts">
-import { AudioService } from "@/library/core/audioservice";
+import { AudioService } from "@/library/core/audio";
 import { defineComponent } from "vue";
 import { useUIStore } from "@/stores/ui";
 import { PlayStates } from "@/stores/model";
@@ -70,13 +70,13 @@ export default defineComponent({
     },
     playModeUrl() {
       return new URL(
-        `../assets/images/state_${this.playMode}.png`,
+        `../../assets/images/state_${this.playMode}.png`,
         import.meta.url
       ).href;
     },
     playStateUrl() {
       return new URL(
-        `../assets/images/state_${this.playStateString}.png`,
+        `../../assets/images/state_${this.playStateString}.png`,
         import.meta.url
       ).href;
     },

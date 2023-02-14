@@ -1,16 +1,16 @@
 <script lang="ts">
 import { defineComponent, nextTick } from "vue";
-import Tile from "@/components/ZynpadTile.vue";
-import Pager from "@/components/elements/PanelPageBar.vue";
+import Tile from "../app/ZynpadTile.vue";
+import Pager from "../elements/PanelPageBar.vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 
-import PanelHeader from "@/components/elements/PanelHeader.vue";
-import IconBar from "@/components/elements/IconBar.vue";
-import IconBarButton from "@/components/elements/Button.vue";
+import PanelHeader from "../elements/PanelHeader.vue";
+import IconBar from "../elements/IconBar.vue";
+import IconBarButton from "../elements/Button.vue";
 import { storeToRefs } from "pinia";
-import * as keymap from "@/library/res/keymap";
+import * as keymap from "@/library/core/res/keymap";
 
 interface PlayAble {
   togglePlay(): Function;

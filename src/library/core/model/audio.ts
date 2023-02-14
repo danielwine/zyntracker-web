@@ -1,6 +1,6 @@
 import type { Sampler, PolySynth, Sequence } from "tone";
-import type { ToneSequenceEvent } from "./IPattern";
-import { ZynseqSequenceInfo } from "../../zss/interface/IFormat";
+import type { ToneSequenceEvent } from "./pattern";
+import { ZynseqSequenceInfo } from "../../zss/model/format";
 
 export type Engine = PolySynth | Sampler;
 

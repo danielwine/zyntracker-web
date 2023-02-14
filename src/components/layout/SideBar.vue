@@ -3,10 +3,9 @@ import { defineComponent, ref } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
-import { localSnapshots } from "@/library/res/resources";
-import { AudioService } from "@/library/core/audioservice";
+import { localSnapshots } from "@/library/core/res/resource";
+import { AudioService } from "@/library/core/audio";
 import useUpload from "@/composables/upload";
-import Tabs from "../elements/NavTab.vue";
 import FileSelector from "../elements/FileSelector.vue";
 import PanelHeader from "../elements/PanelHeader.vue";
 import IconBar from "../elements/IconBar.vue";
@@ -16,7 +15,6 @@ export default defineComponent({
   name: "FileUpload",
   emits: ["fileloaded"],
   components: {
-    Tabs,
     FileSelector,
     PanelHeader,
     IconBar,

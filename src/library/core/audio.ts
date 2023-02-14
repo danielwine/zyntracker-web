@@ -11,18 +11,19 @@ import {
   Volume,
 } from "tone";
 import type { Pattern } from "./pattern";
-import type { ToneSequenceEvent } from "./interface/IPattern";
-import { ToneSequence, type Engine } from "./interface/IAudio";
+import type { ToneSequenceEvent } from "./model/pattern";
+import { ToneSequence, type Engine } from "./model/audio";
 import type { Song } from "./song";
-import { EngineType, type IZyntrackerTone } from "./interface/ISong";
-import { appUrl, noteMaps, pathSounds } from "../res/resources";
-import { getNoteFromMidiCode } from "../res/keymap";
-import { SFZ, SFZRegion } from "../res/SFZ";
+import { EngineType, type IZyntrackerTone } from "./model/song";
+import { noteMaps, pathSounds } from "./res/resource";
+import { getNoteFromMidiCode } from "./res/keymap";
+import { SFZ, SFZRegion } from "./sfz";
 
 /**
  * Service for managing webaudio resources
  */
 export class AudioService {
+  private url!: string;
   private static instance: AudioService;
   song!: Song;
   engines: Engine[] = [];
@@ -40,6 +41,10 @@ export class AudioService {
       AudioService.instance = new AudioService();
     }
     return AudioService.instance;
+  }
+
+  setUrl(appUrl: string) {
+    this.url = appUrl;
   }
 
   use(song: Song) {
@@ -98,7 +103,7 @@ export class AudioService {
     let samplerParams = {
       urls: noteMap ? noteMap : noteMaps.minimal,
       baseUrl: noteMap
-        ? `${appUrl}/${pathSounds}/${tone.toneClass}/`
+        ? `${this.url}/${pathSounds}/${tone.toneClass}/`
         : tone.toneURI,
     };
 

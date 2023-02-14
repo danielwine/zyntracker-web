@@ -4,15 +4,15 @@ import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
 
-import BsToast from "@/components/elements/BsToast.vue";
-import LoadingScreen from "@/components/elements/BsSpinner.vue";
+import BsToast from "../elements/BsToast.vue";
+import LoadingScreen from "../elements/BsSpinner.vue";
 
-import ZynpadView from "./ZynpadView.vue";
-import SideBar from "@/components/layout/SideBar.vue";
-import Footer from "@/components/layout/Footer.vue";
-import Song from "@/components/Song.vue";
-import TransportBar from "@/components/TransportBar.vue";
-import { appName } from "@/library/res/config";
+import ZynpadView from "../pages/ZynpadView.vue";
+import SideBar from "../layout/SideBar.vue";
+import Footer from "../layout/Footer.vue";
+import Song from "../app/SongInfo.vue";
+import TransportBar from "../app/TransportBar.vue";
+import { appName } from "@/composables/config";
 
 export default defineComponent({
   components: {

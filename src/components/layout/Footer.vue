@@ -2,8 +2,8 @@
 import { useUIStore } from "@/stores/ui";
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
-import TransportBar from "../TransportBar.vue";
-import { version, author, appNameShort } from "@/library/res/config";
+import TransportBar from "../app/TransportBar.vue";
+import { version, author, appNameShort } from "@/composables/config";
 
 export default defineComponent({
   setup() {

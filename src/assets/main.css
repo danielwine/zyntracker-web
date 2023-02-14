@@ -31,6 +31,10 @@ body {
   width: 42px;
 }
 
+.form-control {
+  border-radius: 0;
+}
+
 @media (min-width: 768px) {
   body {
     overflow: hidden;
