@@ -1,12 +1,28 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script setup lang="ts">
+import { reactive, ref } from "vue";
 import Button from "../elements/Button.vue";
 import ImportBar from "../app/ImportBar.vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
-export default defineComponent({
-  components: { Button, ImportBar },
+const router = useRouter()
+
+let form = reactive({
+  email: "",
+  password: "",
 });
+let error = ref("");
+
+const login = async () => {
+  await axios.post("/api/login", form).then((response) => {
+    if (response.data.success) {
+      localStorage.setItem("token", response.data.data.token);
+      router.push('/')
+    } else {
+      error.value = response.data.message;
+    }
+  });
+};
 </script>
 
 <template>
@@ -14,16 +30,18 @@ export default defineComponent({
     <div class="mb-3">
       <label for="email" class="form-label">Email address</label>
       <input
+        v-model="form.email"
         type="email"
         class="form-control"
         id="email"
-        placeholder="name@example.com"
+        placeholder="Enter your Email"
         disabled
       />
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
       <input
+        v-model="form.password"
         type="password"
         class="form-control"
         id="password"
@@ -31,6 +49,7 @@ export default defineComponent({
         disabled
       />
     </div>
+    <p class="text-danger" v-if="error">{{ error }}</p>
     <p class="small">
       <RouterLink disabled to="" class="text-info">Forgot password?</RouterLink>
     </p>

@@ -8,8 +8,10 @@ import { Alert, Panels, type PlayStates } from "./model";
 export const useUIStore = defineStore("ui", {
   state: () => ({
     rendered: false,
+    loggedin: false,
     alert: new Alert(),
     alertReturned: "",
+    isFirstRun: true,
     isPadActive: [] as Array<PlayStates>,
     selectedPad: 1,
     showPadsPanel: true,

@@ -59,7 +59,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="mobile-hide-small">
+  <span class="">
     <PanelHeader title="Song - Octave" :id="Panels.song">
       <template #option> {{ ui.currentOctave }} </template>
       <template #control>
@@ -77,23 +77,24 @@ export default defineComponent({
     </PanelHeader>
   </span>
 
-  <div class="panel-content mobile-hide-small">
-    <div class="container song-info-row">
-      <span>[{{ main.song.name.toLowerCase() }}] &nbsp;&nbsp;</span>
-      <code class="song-info">
-        &nbsp;
-        <span class="song-info-detail"
-          >#sequences: {{ main.song?.sequences.length }}&nbsp;</span
-        >
-        <span class="song-info-detail">
-          <span
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            :title="patterns"
-            >&nbsp;#patterns: {{ main.song?.patterns.length }} &nbsp;
+  <div class="panel-content">
+    <div class="container song-info-row row">
+      <div class="col-12 col-xxl-4">[{{ main.song.name.toLowerCase() }}]</div>
+      <div class="col-12 col-xxl-8 text-xxl-start">
+        <code class="song-info">
+          <span class="song-info-detail"
+            >#sequences: {{ main.song?.sequences.length }}</span
+          >
+          <span class="song-info-detail">
+            <span
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              :title="patterns"
+              >&nbsp;&nbsp;#patterns: {{ main.song?.patterns.length }}
+            </span>
           </span>
-        </span>
-      </code>
+        </code>
+      </div>
     </div>
     <div class="quickhelp">
       <div>Press any alphanumeric key to play a note.</div>
@@ -101,16 +102,12 @@ export default defineComponent({
     </div>
     <span class="me-4"></span>
   </div>
-  <template v-if="windowWidth >= 769">
-    <TransportBar></TransportBar>
-  </template>
+  <!-- <template v-if="windowWidth >= 769"> -->
+  <TransportBar></TransportBar>
+  <!-- </template> -->
 </template>
 
 <style scoped>
-.song-info-row {
-  margin-left: 0px;
-  padding-left: 2px;
-}
 .song-info {
   font-size: 0.92em;
   color: burlywood;
@@ -122,14 +119,23 @@ export default defineComponent({
   margin: 10px 0 0 3px;
 }
 
+@media (max-width: 992px) {
+  .song-info-row {
+    padding-left: 20px;
+  }
+}
+
 @media (min-width: 992px) {
   .panel-content {
     margin-left: 15px;
   }
+  .song-info-row {
+    padding-left: 1px;
+  }
 }
 
 @media (max-width: 1350px) {
-  .song-info {
+  .quickhelp {
     display: none;
   }
 }

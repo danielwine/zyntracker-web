@@ -13,6 +13,9 @@ const router = createRouter({
           name: "pattern",
           props: true,
           component: () => import("@/components/pages/PatternView.vue"),
+          meta: {
+            type: 'page'
+          }
         },
         {
           path: "about",

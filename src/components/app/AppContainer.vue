@@ -10,16 +10,20 @@ import LoadingScreen from "../elements/BsSpinner.vue";
 import ZynpadView from "../pages/ZynpadView.vue";
 import SideBar from "../layout/SideBar.vue";
 import Footer from "../layout/Footer.vue";
-import Song from "../app/SongInfo.vue";
+import SongInfo from "../app/SongInfo.vue";
 import TransportBar from "../app/TransportBar.vue";
 import { appName } from "@/composables/config";
+
+/**
+ * Main container for the actual application UI
+ */
 
 export default defineComponent({
   components: {
     BsToast,
     LoadingScreen,
     ZynpadView,
-    Song,
+    SongInfo,
     SideBar,
     Footer,
     TransportBar,
@@ -65,7 +69,7 @@ export default defineComponent({
         <div v-if="main.song.patterns.length > 0 && ui.showPadsPanel">
           <ZynpadView />
           <div class="mb-3"></div>
-          <Song></Song>
+          <SongInfo></SongInfo>
         </div>
       </div>
       <div
@@ -73,7 +77,11 @@ export default defineComponent({
         ref="patterncolumn"
         class="main-panel col-md-6 col-lg-5 col-xl-6 w-30 gx-0 gx-md-4"
       >
-        <div v-if="main.song.patterns.length > 0 && main.loaded">
+        <div
+          v-if="
+            main.song.patterns.length > 0 && main.loaded && windowWidth > 768
+          "
+        >
           <RouterView> </RouterView>
         </div>
       </div>
@@ -88,6 +96,7 @@ export default defineComponent({
 <style>
 .main-panel {
   background-color: black;
+  font-size: 1em;
 }
 
 @media (min-width: 992px) {

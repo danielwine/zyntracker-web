@@ -22,6 +22,10 @@ body {
 .btn-green {
   color: #66e969;
 }
+.btn-inverse {
+  background-color: #66e969;
+  color: green;
+}
 .btn-transparent {
   background-color: transparent;
   border-color: transparent;
@@ -48,7 +52,7 @@ body {
 }
 @media (max-width: 767.999px) {
   body {
-    overflow-y: scroll;
+    overflow-y: hidden;
     overflow-x: hidden;
   }
   .mobile-hide-small {

@@ -34,6 +34,7 @@
 a {
   color: white;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 a.router-link-active {

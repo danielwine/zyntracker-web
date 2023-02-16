@@ -11,6 +11,10 @@ import { autostartTransport, version } from "@/composables/config";
 
 const audioService = AudioService.getInstance();
 
+/**
+ * Component for controlling audio playback and UI operations
+ */
+
 export default defineComponent({
   setup(props) {
     const main = useMainStore();

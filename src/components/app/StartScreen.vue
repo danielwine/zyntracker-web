@@ -6,14 +6,20 @@ import { appNameShort } from "@/composables/config";
 
 import BsSpinner from "../elements/BsSpinner.vue";
 import BsCard from "../elements/BsCard.vue";
+import CardHeader from "../elements/CardHeader.vue";
 import Logo from "../elements/AppLogo.vue";
 import LoginForm from "@/components/auth/LoginForm.vue";
 import SignupForm from "@/components/auth/SignupForm.vue";
+
+/**
+ * Container for the start screen
+ */
 
 export default defineComponent({
   components: {
     BsSpinner,
     BsCard,
+    CardHeader,
     LoginForm,
     SignupForm,
     Logo,
@@ -31,22 +37,30 @@ export default defineComponent({
 
 <template>
   <div class="home-background">
-    <div class="container background d-flex h-100">
+    <div class="container d-flex h-100">
       <div
-        class="row start-screen justify-content-center align-self-center w-100"
+        class="row start-screen justify-content-center align-self-center w-100 mx-auto"
       >
         <template v-if="main.song.name == '' && !main.loading">
           <BsCard>
             <template #content>
-              <h2 class="fw-bold mb-2 text-uppercase">{{ appNameShort }}</h2>
-              <span class="subtitle ms-0"
-                >Load Zynthian sequences in the browser</span
-              >
               <template v-if="!register">
+                <CardHeader
+                  :title="appNameShort"
+                  subtitle="Load Zynthian sequences in the browser
+"
+                ></CardHeader>
                 <Logo />
                 <LoginForm :title="appNameShort"></LoginForm>
               </template>
-              <div v-else><SignupForm :title="appNameShort"></SignupForm></div>
+              <div v-else>
+                <CardHeader
+                  title="Sign up"
+                  subtitle="Sign up to manage your snapshots."
+                ></CardHeader>
+                <div class="mb-5"></div>
+                <SignupForm :title="appNameShort"></SignupForm>
+              </div>
             </template>
           </BsCard>
         </template>

@@ -42,13 +42,19 @@ export default defineComponent({
       Panels,
     };
   },
-
   mounted() {
     window.addEventListener("keydown", this.keyDown);
     window.addEventListener("keyup", this.keyUp);
     window.addEventListener("wheel", this.wheelScroll);
-    if (this.activePanel == Panels.pattern) this.setCursor(true);
     window.addEventListener("blur", this.releaseKeys);
+
+    if (this.activePanel == Panels.pattern) this.setCursor(true);
+    if (this.ui.isFirstRun) {
+      this.ui.activePanel = Panels.pad;
+      this.ui.isFirstRun = false;
+    } else {
+      this.ui.activePanel = Panels.pattern;
+    }
   },
   unmounted() {
     window.removeEventListener("keydown", this.keyDown);

@@ -12,8 +12,11 @@ import AppContainer from "../app/AppContainer.vue";
 import StartScreen from "../app/StartScreen.vue";
 
 import { appName, appUrl } from "@/composables/config";
+import alerts from "@/composables/alert";
+
 import { AudioService } from "@/library/core/audio";
 import { Song } from "@/library/core/song";
+import { Action, Alert } from "@/stores/model";
 
 export default defineComponent({
   components: {
@@ -33,6 +36,9 @@ export default defineComponent({
     };
   },
   methods: {
+    confirm() {
+      if (this.main.loaded) this.alert = alerts["notsaved"];
+    },
     reset() {
       this.audio.release();
       this.$router.replace("/");
@@ -47,11 +53,14 @@ export default defineComponent({
   },
   setup() {
     const ui = useUIStore();
+    const { alert, alertReturned } = storeToRefs(useUIStore());
     let { currentPattern } = storeToRefs(ui);
     return {
       main: useMainStore(),
       ui,
       currentPattern,
+      alert,
+      alertReturned,
     };
   },
   created() {
@@ -62,37 +71,45 @@ export default defineComponent({
       e.returnValue = "";
     });
   },
+  watch: {
+    alertReturned() {
+      if (this.alertReturned != "") {
+        const value = this.alertReturned;
+        this.alertReturned = "";
+        if (this.alert.buttons[value] == Action.restart) {
+          this.alert = new Alert();
+          this.reset();
+        }
+      }
+    },
+  },
 });
 </script>
 
 <template>
-  <BsNavBar @reset-request="reset">
-    <template #brand
-      >{{ appName }} &nbsp;<font-awesome-icon
-        class="brand-icon"
-        icon="align-justify"
-      />
-    </template>
-    <template #rawcontent>
-      <template v-if="main.loaded && windowWidth < 769">
-        <TransportBar></TransportBar>
-      </template>
-      <template v-if="!main.loaded">
-        <span class="me-4">
-          <a @click="register = !register"> Sign up </a>
-        </span>
-      </template>
+  <BsNavBar
+    @brandClicked="confirm"
+    :togglerVisible="true"
+    :togglerActive="main.loaded && (windowWidth < 768 || ui.loggedin)"
+    :pagesVisible="main.loaded"
+  >
+    <template #brand>{{ appName }} &nbsp; </template>
+    <template #content>
+      <span class="me-4">
+        <template v-if="ui.loggedin">
+          <a> Log out </a>
+        </template>
+        <template v-if="!ui.loggedin && !main.loaded">
+          <a v-if="!register" @click="register = !register"> Sign up </a>
+          <a v-else @click="register = !register"> Login </a>
+        </template>
+      </span>
     </template>
   </BsNavBar>
 
   <BsModal v-if="ui.alert.message"></BsModal>
+  <BsToast v-if="main.error.message"></BsToast>
+
   <StartScreen v-if="main.song.name == ''" :register="register"></StartScreen>
   <AppContainer v-if="main.loaded"></AppContainer>
-  <BsToast v-if="main.error.message"></BsToast>
 </template>
-
-<style>
-.brand-icon {
-  color: lightcyan;
-}
-</style>

@@ -4,6 +4,8 @@ import "bootstrap/dist/js/bootstrap.js";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faBars,
+  faArrowLeft,
   faPlay,
   faPlayCircle,
   faStop,
@@ -25,6 +27,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(
+  faBars,
+  faArrowLeft,
   faPlay,
   faPlayCircle,
   faStop,

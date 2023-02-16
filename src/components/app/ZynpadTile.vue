@@ -172,7 +172,7 @@ export default defineComponent({
   right: 3px;
   top: 3px;
   bottom: 3px;
-  font-size: 1.1em;
+  font-size: 1.05em;
   text-align: center;
   font-weight: bolder;
 }
@@ -263,6 +263,9 @@ pre.group {
   .tile {
     width: 150px;
     height: 10vh;
+  }
+  .tile-header pre {
+    font-size: 0.7em;
   }
 }
 
