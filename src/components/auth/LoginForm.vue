@@ -1,61 +1,53 @@
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import Button from "../elements/Button.vue";
 import ImportBar from "../app/ImportBar.vue";
-import axios from "axios";
-import { useRouter } from "vue-router";
+import useAuth from "@/composables/auth";
 
-const router = useRouter()
-
-let form = reactive({
+let user = ref({
   email: "",
   password: "",
 });
-let error = ref("");
 
-const login = async () => {
-  await axios.post("/api/login", form).then((response) => {
-    if (response.data.success) {
-      localStorage.setItem("token", response.data.data.token);
-      router.push('/')
-    } else {
-      error.value = response.data.message;
-    }
-  });
-};
+const { validationErrors, login } = useAuth();
 </script>
 
 <template>
-  <form class="mb-3 mt-md-3">
+  <form @submit.prevent="login(user)" class="mb-3 mt-md-3">
     <div class="mb-3">
       <label for="email" class="form-label">Email address</label>
       <input
-        v-model="form.email"
+        v-model="user.email"
         type="email"
         class="form-control"
         id="email"
         placeholder="Enter your Email"
-        disabled
+        required
       />
+      <div v-if="validationErrors['email']">
+        <span class="text-danger">{{ validationErrors["email"][0] }}</span>
+      </div>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
       <input
-        v-model="form.password"
+        v-model="user.password"
         type="password"
         class="form-control"
         id="password"
         placeholder="*******"
-        disabled
+        required
       />
+      <div v-if="validationErrors['password']">
+        <span class="text-danger">{{ validationErrors["password"][0] }}</span>
+      </div>
     </div>
-    <p class="text-danger" v-if="error">{{ error }}</p>
     <p class="small">
       <RouterLink disabled to="" class="text-info">Forgot password?</RouterLink>
     </p>
     <div class="mt-4 mb-0 row g-2 w-100">
       <div class="col-xl-4">
-        <Button type="submit" caption="Login" :wide="true" disabled />
+        <Button type="submit" caption="Login" :wide="true" />
       </div>
       <ImportBar></ImportBar>
     </div>

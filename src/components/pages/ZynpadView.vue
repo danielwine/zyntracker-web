@@ -161,7 +161,7 @@ export default defineComponent({
   <div
     v-for="row in [0, 1, 2, 3]"
     ref="'row-' + row"
-    class="container d-flex align-items-center"
+    class="container d-flex align-items-center mx-auto"
   >
     <Tile
       v-for="sequence in sequences.filter(

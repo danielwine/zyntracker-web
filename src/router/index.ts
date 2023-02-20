@@ -14,8 +14,8 @@ const router = createRouter({
           props: true,
           component: () => import("@/components/pages/PatternView.vue"),
           meta: {
-            type: 'page'
-          }
+            type: "page",
+          },
         },
         {
           path: "about",
@@ -28,6 +28,11 @@ const router = createRouter({
           component: () => import("@/components/pages/OptionsView.vue"),
         },
       ],
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "notFound",
+      component: () => import("@/components/pages/NotFoundView.vue"),
     },
   ],
 });

@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { Action, Alert } from "@/stores/model";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
 import { storeToRefs } from "pinia";
@@ -13,10 +14,8 @@ import StartScreen from "../app/StartScreen.vue";
 
 import { appName, appUrl } from "@/composables/config";
 import alerts from "@/composables/alert";
-
-import { AudioService } from "@/library/core/audio";
-import { Song } from "@/library/core/song";
-import { Action, Alert } from "@/stores/model";
+import useAuth from "@/composables/auth";
+import useUtils from "@/composables/util";
 
 export default defineComponent({
   components: {
@@ -28,22 +27,22 @@ export default defineComponent({
     StartScreen,
   },
   data() {
+    const { init, reset } = useUtils();
     return {
       windowWidth: window.innerWidth,
       register: false,
       appName,
-      audio: AudioService.getInstance(),
+      init,
+      reset,
     };
   },
   methods: {
     confirm() {
       if (this.main.loaded) this.alert = alerts["notsaved"];
     },
-    reset() {
-      this.audio.release();
+    exit() {
       this.$router.replace("/");
-      this.main.loaded = false;
-      this.main.song = new Song();
+      this.reset();
     },
     toggleAbout() {
       const route = this.$route.name?.toString();
@@ -61,10 +60,11 @@ export default defineComponent({
       currentPattern,
       alert,
       alertReturned,
+      logout: useAuth().logout,
     };
   },
   created() {
-    this.audio.setUrl(appUrl);
+    this.init();
     window.onresize = () => (this.windowWidth = window.innerWidth);
     window.addEventListener("beforeunload", function (e) {
       e.preventDefault();
@@ -78,7 +78,8 @@ export default defineComponent({
         this.alertReturned = "";
         if (this.alert.buttons[value] == Action.restart) {
           this.alert = new Alert();
-          this.reset();
+          this.ui.loggedin = false;
+          this.exit();
         }
       }
     },
@@ -97,7 +98,7 @@ export default defineComponent({
     <template #content>
       <span class="me-4">
         <template v-if="ui.loggedin">
-          <a> Log out </a>
+          <a @click="logout"> Log out </a>
         </template>
         <template v-if="!ui.loggedin && !main.loaded">
           <a v-if="!register" @click="register = !register"> Sign up </a>

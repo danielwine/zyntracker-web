@@ -10,6 +10,9 @@ import CardHeader from "../elements/CardHeader.vue";
 import Logo from "../elements/AppLogo.vue";
 import LoginForm from "@/components/auth/LoginForm.vue";
 import SignupForm from "@/components/auth/SignupForm.vue";
+import { defaultSnapshot } from "@/library/core/res/resource";
+import useUpload from "@/composables/upload";
+import { storeToRefs } from "pinia";
 
 /**
  * Container for the start screen
@@ -26,11 +29,19 @@ export default defineComponent({
   },
   props: { register: Boolean },
   setup() {
+    const { loggedin } = storeToRefs(useUIStore());
     return {
       main: useMainStore(),
-      ui: useUIStore(),
+      load: useUpload().load,
       appNameShort,
+      defaultSnapshot,
+      loggedin,
     };
+  },
+  watch: {
+    loggedin() {
+      this.load(defaultSnapshot);
+    },
   },
 });
 </script>
@@ -56,10 +67,13 @@ export default defineComponent({
               <div v-else>
                 <CardHeader
                   title="Sign up"
-                  subtitle="Sign up to manage your snapshots."
+                  subtitle="Sign up to manage your sequences."
                 ></CardHeader>
+                <p class="text-info">
+                  The account you create can currently only be used to log in.
+                </p>
                 <div class="mb-5"></div>
-                <SignupForm :title="appNameShort"></SignupForm>
+                <SignupForm></SignupForm>
               </div>
             </template>
           </BsCard>

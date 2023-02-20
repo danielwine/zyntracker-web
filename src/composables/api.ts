@@ -12,13 +12,12 @@ export interface ApiResponse {
 }
 
 /**
- * Composable for API management
+ * Composable for sending API requests
  */
-export default function useAPI() {
+export default function useAPI(endpoint = "item") {
   const items = ref([]);
   const item = ref([]);
   const errors = ref({});
-  const endpoint = "test";
 
   const index = async () => {
     try {
