@@ -22,7 +22,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <PanelHeader title="Help" :id="Panels.help"></PanelHeader>
+    <PanelHeader title="About" :id="Panels.help"></PanelHeader>
     <div class="p-4">
       <h4>About</h4>
       <p>
@@ -50,7 +50,7 @@ export default defineComponent({
       <p>Currently (v{{ version }}) implemented:
           <ul>
               <li>Loading snapshot files containing sequence data</li>
-              <li>Playing back patterns using a simple synth engine or a sampler (SFZ)</li>
+              <li>Playing back patterns using a simple tone.js synth or sampler (SFZ)</li>
               <li>Zynpad and pattern editor interface</li>
           </ul>
       </p>

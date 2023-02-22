@@ -2,6 +2,7 @@
 const props = defineProps({
   toggle: Boolean,
 });
+const emit = defineEmits(["logout"]);
 </script>
 
 <template>
@@ -25,9 +26,7 @@ const props = defineProps({
       </li>
       <li>
         <a>Pattern</a>
-        <a data-toggle="collapse" aria-expanded="false"
-          >Snapshots</a
-        >
+        <a data-toggle="collapse" aria-expanded="false">Snapshots</a>
         <ul class="list-unstyled" id="pageSubmenu">
           <li>
             <a>Testpage 1</a>
@@ -49,7 +48,7 @@ const props = defineProps({
     </ul>
     <ul class="list-unstyled">
       <li>
-        <a>Logout</a>
+        <a @click="emit('logout')">Logout</a>
       </li>
     </ul>
   </nav>

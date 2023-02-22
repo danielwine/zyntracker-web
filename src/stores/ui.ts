@@ -30,6 +30,7 @@ export const useUIStore = defineStore("ui", {
       this.isPadActive = [];
       this.selectedPad = 1;
       this.currentPattern = 0;
+      this.isFirstRun = true;
     },
   },
 });

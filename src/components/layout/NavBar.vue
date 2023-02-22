@@ -2,7 +2,7 @@
 import MenuSideBar from "../elements/MenuSideBar.vue";
 
 export default {
-  emits: ["brandClicked"],
+  emits: ["brandClicked", "logout"],
   props: {
     togglerVisible: { type: Boolean, default: true },
     togglerActive: { type: Boolean, default: true },
@@ -15,8 +15,12 @@ export default {
     toggle() {
       this.toggleState = !this.toggleState;
     },
+    logout() {
+      this.toggle();
+      this.$emit("logout");
+    },
     isActive(name: string) {
-      return this.$route.name == name ? "nav-item-active" : "sads";
+      return this.$route.name == name ? "nav-item-active" : "";
     },
   },
   components: { MenuSideBar },
@@ -24,7 +28,7 @@ export default {
 </script>
 
 <template>
-  <MenuSideBar :toggle="toggleState" @toggleRequest="toggle"></MenuSideBar>
+  <MenuSideBar :toggle="toggleState" @logout="logout"></MenuSideBar>
   <div id="content">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
@@ -65,7 +69,7 @@ export default {
           id="navbarSupportedContent"
         >
           <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item active me-3">
+            <li class="nav-item active me-2">
               <RouterLink
                 class="nav-item-page"
                 :class="isActive('pattern')"
@@ -73,7 +77,7 @@ export default {
                 >Pattern</RouterLink
               >
             </li>
-            <li class="nav-item active me-3">
+            <li class="nav-item active me-2">
               <RouterLink
                 class="nav-item-page"
                 :class="isActive('options')"
@@ -81,7 +85,7 @@ export default {
                 >Options</RouterLink
               >
             </li>
-            <li class="nav-item active me-3">
+            <li class="nav-item active me-2">
               <RouterLink
                 class="nav-item-page"
                 :class="isActive('about')"
@@ -110,12 +114,29 @@ p {
   color: #999;
 }
 
-a,
-a:hover,
-a:focus {
-  color: inherit;
+a.nav-item-auth,
+a.nav-item-page {
   text-decoration: none;
+  padding: 7px 9px 7px 9px;
+}
+
+a.nav-item-auth:hover,
+a.nav-item-page:hover,
+a.nav-item-page:focus {
+  color: white !important;
+  cursor: pointer;
+}
+
+a.nav-item-page:hover,
+a.nav-item-page:focus {
   transition: all 0.3s;
+}
+
+a.nav-item-auth:hover,
+a.nav-item-page:hover {
+  background-color: #444;
+  /* background-color: #018680; */
+  /* background-color: #474; */
 }
 
 .navbar {

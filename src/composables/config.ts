@@ -19,7 +19,7 @@ export const autostartTransport = true;
  */
 
 export const apiBaseUrl = production
-  ? "http://zyntracker.sly.io/api"
+  ? "https://zyntracker.sly.io/api"
   : "http://localhost:8000/api";
 
 export const appUrl = production

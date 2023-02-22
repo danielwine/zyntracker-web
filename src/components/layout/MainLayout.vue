@@ -27,13 +27,12 @@ export default defineComponent({
     StartScreen,
   },
   data() {
-    const { init, reset } = useUtils();
+    const { init } = useUtils();
     return {
       windowWidth: window.innerWidth,
       register: false,
       appName,
       init,
-      reset,
     };
   },
   methods: {
@@ -42,7 +41,7 @@ export default defineComponent({
     },
     exit() {
       this.$router.replace("/");
-      this.reset();
+      this.logout();
     },
     toggleAbout() {
       const route = this.$route.name?.toString();
@@ -78,7 +77,6 @@ export default defineComponent({
         this.alertReturned = "";
         if (this.alert.buttons[value] == Action.restart) {
           this.alert = new Alert();
-          this.ui.loggedin = false;
           this.exit();
         }
       }
@@ -90,6 +88,7 @@ export default defineComponent({
 <template>
   <BsNavBar
     @brandClicked="confirm"
+    @logout="exit"
     :togglerVisible="true"
     :togglerActive="main.loaded && (windowWidth < 768 || ui.loggedin)"
     :pagesVisible="main.loaded"
@@ -98,11 +97,19 @@ export default defineComponent({
     <template #content>
       <span class="me-4">
         <template v-if="ui.loggedin">
-          <a @click="logout"> Log out </a>
+          <a class="nav-item-auth" @click="exit"> Log out </a>
         </template>
         <template v-if="!ui.loggedin && !main.loaded">
-          <a v-if="!register" @click="register = !register"> Sign up </a>
-          <a v-else @click="register = !register"> Login </a>
+          <a
+            v-if="!register"
+            class="nav-item-auth"
+            @click="register = !register"
+          >
+            Sign up
+          </a>
+          <a v-else class="nav-item-auth" @click="register = !register">
+            Login
+          </a>
         </template>
       </span>
     </template>

@@ -99,13 +99,13 @@ export default defineComponent({
   font-size: 1em;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .main-panel {
     height: 94vh;
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 768px) {
   .main-panel {
     height: 45vh;
   }
