@@ -34,12 +34,17 @@ export default defineComponent({
       :value="70"
     ></OptionsItem>
     <OptionsItem
+      label="Note scheduling delay (lookahead)"
+      id="note-scheduling"
+      :value="0"
+    ></OptionsItem>
+    <OptionsItem
       label="Autostart transport on startup"
       id="autostart-transport"
       :value="true"
     ></OptionsItem>
     <OptionsItem
-      label="Replace original synth engines with samples classified as possibly similar (instead of using primitive web synthesis)" 
+      label="Try to use samples from a limited sample library instead of web synthesis" 
       id="use-samples"
       :value="false"
     ></OptionsItem>
