@@ -10,14 +10,23 @@ export enum ToneClass {
   "FMSYNTH" = "fmsynths",
 }
 
+export class SampledInstruments {
+  [key: string]: SampledInstrument;
+}
+export class SampledInstrument {
+  class = "";
+  sub = "";
+}
+
 export interface IZyntrackerTones {
   [key: number]: IZyntrackerTone;
 }
 
 export interface IZyntrackerTone {
   engine: EngineType;
-  toneClass: ToneClass;
-  toneURI?: string;
+  class: string | ToneClass;
+  subclass: string;
+  URI?: string;
   meta: {
     originalEngine: string;
     originalPreset: string;

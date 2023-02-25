@@ -13,22 +13,6 @@ export const localSnapshots = [
 export const defaultSnapshot = "FieryRedSunset.zss";
 
 /**
- * List of locally available sample sets
- */
-export const localSamples = {
-  drums: ["Roland TR808", "Roland TR909", "Akai XR10"],
-};
-
-/**
- * List of remote sample sets
- */
-export const remoteSamples = {
-  default: {
-    casio: "https://tonejs.github.io/audio/casio/",
-  },
-};
-
-/**
  * Predefined notemaps for tone.js
  */
 export const noteMaps = {
@@ -39,5 +23,9 @@ export const noteMaps = {
 };
 
 // Paths
-export const pathSounds = "soundfonts";
-export const pathSongs = "songs";
+export const paths = {
+  soundsFolder: "soundfonts",
+  songsFolder: "songs",
+  instruments: "instruments.json",
+  defaults: "defaults.json",
+};

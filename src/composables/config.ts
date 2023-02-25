@@ -2,17 +2,22 @@
  * Application info
  */
 
-export const version = "0.0.2";
-export const appName = "ZynTracker alpha";
-export const appNameShort = "ZynTracker";
-export const author = "danielwine";
+export const appInfo = {
+  version: "0.0.3",
+  name: "ZynTracker alpha",
+  nameShort: "ZynTracker",
+  author: "danielwine",
+};
 
 /**
  * General settings
  */
 
-export const production = true;
-export const autostartTransport = true;
+export const production = false;
+export const settings = {
+  autostartTransport: true,
+  preferSampleLibrary: true,
+};
 
 /**
  * Urls of the API server & the application

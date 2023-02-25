@@ -2,7 +2,7 @@
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import { useUIStore } from "@/stores/ui";
-import { appNameShort } from "@/composables/config";
+import { appInfo } from "@/composables/config";
 
 import BsSpinner from "../elements/BsSpinner.vue";
 import BsCard from "../elements/BsCard.vue";
@@ -33,7 +33,7 @@ export default defineComponent({
     return {
       main: useMainStore(),
       load: useUpload().load,
-      appNameShort,
+      appNameShort: appInfo.nameShort,
       defaultSnapshot,
       loggedin,
     };

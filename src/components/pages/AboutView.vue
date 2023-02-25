@@ -3,7 +3,7 @@ import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 import { defineComponent } from 'vue';
 import PanelHeader from "@/components/elements/PanelHeader.vue";
-import { appName, author, version } from "@/composables/config";
+import { appInfo } from "@/composables/config";
 
 export default defineComponent({
     setup() {
@@ -11,7 +11,8 @@ export default defineComponent({
         return {
             ui,
             Panels,
-            appName, author, version
+            appName: appInfo.name, 
+            author: appInfo.author, version: appInfo.version
         };
     },
     mounted() {

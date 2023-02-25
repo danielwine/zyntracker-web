@@ -7,7 +7,7 @@ import { AudioService } from "@/library/core/audio";
 import { defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
 import Button from "@/components/elements/Button.vue";
-import { autostartTransport, version } from "@/composables/config";
+import { appInfo, settings } from "@/composables/config";
 
 const audioService = AudioService.getInstance();
 
@@ -30,7 +30,7 @@ export default defineComponent({
       transportState,
       togglePatternTriggered,
       selectedPad,
-      version,
+      version: appInfo.version,
     };
   },
   data() {
@@ -38,7 +38,7 @@ export default defineComponent({
   },
   mounted() {
     this.transportState = audioService.isPlaying;
-    if (!this.transportState && autostartTransport) this.togglePlay();
+    if (!this.transportState && settings.autostartTransport) this.togglePlay();
   },
   methods: {
     async navigateToPattern() {

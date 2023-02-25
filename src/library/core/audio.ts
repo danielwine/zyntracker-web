@@ -15,16 +15,16 @@ import type { ToneSequenceEvent } from "./model/pattern";
 import { ToneSequence, type Engine } from "./model/audio";
 import type { Song } from "./song";
 import { EngineType, type IZyntrackerTone } from "./model/song";
-import { noteMaps, pathSounds } from "./res/resource";
-import { getNoteFromMidiCode } from "./res/keymap";
-import { SFZ, SFZRegion } from "./sfz";
+import { noteMaps, paths } from "./res/resource";
+import { LibraryService } from "./library";
 
 /**
- * Service for managing webaudio resources
+ * Service for managing webaudio
  */
 export class AudioService {
-  private url!: string;
   private static instance: AudioService;
+  private library = LibraryService.getInstance();
+
   song!: Song;
   engines: Engine[] = [];
   sequences: ToneSequence[] = new Array(16);
@@ -41,10 +41,6 @@ export class AudioService {
       AudioService.instance = new AudioService();
     }
     return AudioService.instance;
-  }
-
-  setUrl(appUrl: string) {
-    this.url = appUrl;
   }
 
   use(song: Song) {
@@ -93,35 +89,18 @@ export class AudioService {
 
   async getSamplerInstance(tone: IZyntrackerTone) {
     let noteMap;
-    if (tone.toneURI?.endsWith(".sfz")) {
-      let sfz = new SFZ();
-      await sfz.load(tone.toneURI);
-      console.debug("SFZ regions: ", sfz.regions);
-      noteMap = this.createNoteMap(sfz.regions);
+    if (tone.URI?.endsWith(".sfz")) {
+      noteMap = await this.library.loadSFZ(tone.URI);
       console.debug("NOTEMAP: ", noteMap);
     }
     let samplerParams = {
       urls: noteMap ? noteMap : noteMaps.minimal,
       baseUrl: noteMap
-        ? `${this.url}/${pathSounds}/${tone.toneClass}/`
-        : tone.toneURI,
+        ? this.library.getBaseURL(tone.URI ? tone.URI : "")
+        : tone.URI,
     };
-
     console.debug("SAMPLERParams:", { samplerParams });
     return new Sampler(samplerParams).connect(this.masterVolume);
-  }
-
-  createNoteMap(regions: SFZRegion[]) {
-    let noteMap: { [key: string]: any } = {};
-    regions.forEach((region) => {
-      const note = getNoteFromMidiCode(region.lokey);
-      const path = region.sample
-        .replace(".wav", ".mp3")
-        .replace(/\\/g, "/")
-        .replace(/ /g, "_");
-      noteMap[note] = path;
-    });
-    return noteMap;
   }
 
   startNote(note: string, seqId: number) {
