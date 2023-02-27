@@ -17,6 +17,7 @@ import type { Song } from "./song";
 import { EngineType, type IZyntrackerTone } from "./model/song";
 import { noteMaps, paths } from "./res/resource";
 import { LibraryService } from "./library";
+import { settings } from "@/composables/config";
 
 /**
  * Service for managing webaudio
@@ -54,7 +55,10 @@ export class AudioService {
     this.masterVolume = new Volume(-5).toDestination();
     for (let entry of Object.entries(this.song.tones)) {
       const idx = parseFloat(entry[0]);
-      if (entry[1].engine == EngineType.SAMPLER) {
+      if (
+        entry[1].engine == EngineType.SAMPLER ||
+        settings.preferSampleLibrary
+      ) {
         this.engines[idx] = await this.getSamplerInstance(entry[1]);
         console.debug("SAMPLERInstance: ", this.engines[idx]);
       } else this.engines[idx] = this.getSynthInstance(entry[1]);
@@ -89,16 +93,24 @@ export class AudioService {
 
   async getSamplerInstance(tone: IZyntrackerTone) {
     let noteMap;
+    let baseUrl;
     if (tone.URI?.endsWith(".sfz")) {
       noteMap = await this.library.loadSFZ(tone.URI);
+      baseUrl = this.library.getBaseURL(tone.URI ? tone.URI : "");
       console.debug("NOTEMAP: ", noteMap);
+    } else {
+      baseUrl = tone.URI ? this.library.getBaseURL(tone.URI, false) : "";
+    }
+
+    if (tone.instrument?.resolution) {
+      noteMap = noteMaps[tone.instrument.resolution];
     }
     let samplerParams = {
       urls: noteMap ? noteMap : noteMaps.minimal,
-      baseUrl: noteMap
-        ? this.library.getBaseURL(tone.URI ? tone.URI : "")
-        : tone.URI,
+      baseUrl,
     };
+    console.log(tone, samplerParams);
+
     console.debug("SAMPLERParams:", { samplerParams });
     return new Sampler(samplerParams).connect(this.masterVolume);
   }

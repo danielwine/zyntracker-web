@@ -1,3 +1,5 @@
+import type { SampledInstrument } from "./library";
+
 export enum EngineType {
   "UNKNOWN" = "Sine",
   "SAMPLER" = "Sampler",
@@ -10,22 +12,14 @@ export enum ToneClass {
   "FMSYNTH" = "fmsynths",
 }
 
-export class SampledInstruments {
-  [key: string]: SampledInstrument;
-}
-export class SampledInstrument {
-  class = "";
-  sub = "";
-}
-
 export interface IZyntrackerTones {
   [key: number]: IZyntrackerTone;
 }
 
 export interface IZyntrackerTone {
   engine: EngineType;
-  class: string | ToneClass;
-  subclass: string;
+  toneclass?: ToneClass;
+  instrument: SampledInstrument;
   URI?: string;
   meta: {
     originalEngine: string;
