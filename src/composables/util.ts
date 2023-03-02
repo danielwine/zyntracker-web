@@ -8,9 +8,6 @@ export default function useUtils() {
   const main = useMainStore();
   const ui = useUIStore();
   const audio = AudioService.getInstance();
-  function init() {
-    audio.setUrl(appUrl);
-  }
   function reset() {
     audio.release();
     ui.clear();
@@ -19,7 +16,6 @@ export default function useUtils() {
   }
 
   return {
-    init,
     reset,
   };
 }

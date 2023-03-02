@@ -1,18 +1,7 @@
 import { downloadFile } from "../core/file";
-import { pathSounds } from "./res/resource";
-
-export class SFZRegion {
-  [key: string]: any;
-  sample = "";
-  lokey = 36;
-  hikey = 36;
-  pitch_keycenter = 60;
-  loop_mode = "no_loop";
-  ampeg_decay = 14.304;
-  ampeg_sustain = 0.001;
-  ampeg_release = 0.1;
-  pan = 0;
-}
+import { paths } from "./res/resource";
+import { SFZRegion } from "./model/sfz";
+import { getNoteFromMidiCode, base_midi_note } from "./res/keymap";
 
 /**
  * Dummy SFZ file parser
@@ -21,7 +10,7 @@ export class SFZ {
   raw: string | boolean = "";
   regions: SFZRegion[] = [];
   async load(fileName: string) {
-    this.raw = await downloadFile(fileName, pathSounds);
+    this.raw = await downloadFile(fileName, paths.soundsFolder);
     this.regions = this.getRegions();
   }
   private getRegions() {
@@ -42,6 +31,24 @@ export class SFZ {
       });
       regions.push(region);
     });
+    console.log(regions);
+
     return regions;
+  }
+  public createNoteMap() {
+    let noteMap: { [key: string]: any } = {};
+    this.regions.forEach((region) => {
+      const note = getNoteFromMidiCode(
+        region.lokey > 0 ? region.lokey : region.hikey
+      );
+      const path = region.sample
+        .replace(".wav", ".mp3")
+        .replace(/\\/g, "/")
+        .replace(/ /g, "_");
+      noteMap[note] = path;
+    });
+    console.log(noteMap);
+
+    return noteMap;
   }
 }

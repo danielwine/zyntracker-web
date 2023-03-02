@@ -12,7 +12,7 @@ import TransportBar from "../app/TransportBar.vue";
 import AppContainer from "../app/AppContainer.vue";
 import StartScreen from "../app/StartScreen.vue";
 
-import { appName, appUrl } from "@/composables/config";
+import { appInfo } from "@/composables/config";
 import alerts from "@/composables/alert";
 import useAuth from "@/composables/auth";
 import useUtils from "@/composables/util";
@@ -27,12 +27,10 @@ export default defineComponent({
     StartScreen,
   },
   data() {
-    const { init } = useUtils();
     return {
       windowWidth: window.innerWidth,
       register: false,
-      appName,
-      init,
+      appName: appInfo.name,
     };
   },
   methods: {
@@ -63,7 +61,6 @@ export default defineComponent({
     };
   },
   created() {
-    this.init();
     window.onresize = () => (this.windowWidth = window.innerWidth);
     window.addEventListener("beforeunload", function (e) {
       e.preventDefault();

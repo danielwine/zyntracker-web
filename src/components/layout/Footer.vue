@@ -3,7 +3,7 @@ import { useUIStore } from "@/stores/ui";
 import { defineComponent } from "vue";
 import { useMainStore } from "@/stores/zss";
 import TransportBar from "../app/TransportBar.vue";
-import { version, author, appNameShort } from "@/composables/config";
+import { appInfo } from "@/composables/config";
 
 export default defineComponent({
   setup() {
@@ -12,9 +12,9 @@ export default defineComponent({
     return {
       main,
       ui,
-      appNameShort,
-      version,
-      author,
+      appNameShort: appInfo.nameShort,
+      version: appInfo.version,
+      author: appInfo.author,
     };
   },
   components: { TransportBar },

@@ -1,4 +1,9 @@
-import { EngineType, ToneClass, type IZyntrackerTones } from "./model/song";
+import {
+  EngineType,
+  ToneClass,
+  ZyntrackerInstrument,
+  type IZyntrackerTones,
+} from "./model/song";
 import {
   ZynseqSequence,
   type IZSSLayer,
@@ -6,12 +11,14 @@ import {
   type IZynseqBank,
   type ZynseqTrack,
 } from "../zss/model/format";
+import type { SampledInstrument } from "./model/library";
 import { Pattern, setTimeSignature } from "./pattern";
-import { localSamples, remoteSamples } from "./res/resource";
+import { LibraryService } from "./library";
 import type { ZSSService as ZSS } from "../zss/zss";
+import { settings } from "@/composables/config";
 
 /**
- * Basic song structure with metadata and sequence data importer methods
+ * Basic song class with metadata and sequence data importer methods
  */
 export class Song {
   name: string = "";
@@ -21,12 +28,7 @@ export class Song {
   sequences: ZynseqSequence[] = [];
   patterns: Pattern[] = [];
   bankLength!: number;
-
-  private anyIncludes(array: string[], sequenceName: string): boolean {
-    return array.some((item) => {
-      return sequenceName.includes(item) ? true : false;
-    });
-  }
+  library = LibraryService.getInstance();
 
   public getPatternIDs = () => this.patterns.map((pattern) => pattern.id);
 
@@ -60,37 +62,47 @@ export class Song {
     return EngineType.UNKNOWN;
   }
 
-  private getToneClass(engineType: EngineType, layer: IZSSLayer): ToneClass {
-    if (localSamples.drums.includes(layer.preset_name)) return ToneClass.DRUM;
-    return ToneClass.UNKNOWN;
+  private async getInstrument(engineType: EngineType, presetName: string) {
+    if (settings.preferSampleLibrary) {
+      return await this.library.getInstrument(presetName);
+    }
+    // if (localSamples.drums.includes(layer.preset_name)) return ToneClass.DRUM;
+    return new ZyntrackerInstrument();
   }
 
-  private getToneURI(
+  private async getToneURI(
     engineType: EngineType,
-    toneClass: ToneClass,
-    layer: IZSSLayer
-  ): string {
+    presetName: string,
+    instrument: SampledInstrument
+  ) {
     if (engineType == EngineType.SAMPLER) {
-      if (toneClass == ToneClass.UNKNOWN)
-        return Object.values(remoteSamples.default)[0];
-      else return `${toneClass}/${layer.preset_name.replace(" ", "_")}.sfz`;
+      // if (toneClass == ToneClass.UNKNOWN)
+      // return Object.values(remoteSamples.default)[0];
+      return await this.library.getURL(presetName, instrument);
+      // return `${toneClass}/${layer.preset_name.replace(" ", "_")}.sfz`;
     }
-    return "";
+    return settings.preferSampleLibrary
+      ? await this.library.getURL(presetName, instrument)
+      : "";
   }
 
   public async importZSSTones(zss: ZSS): Promise<boolean> {
     let toneURI = "";
     if (!zss.preset || !zss.preset.layers) return false;
     for (let layer of Object.values(zss.preset.layers)) {
-      if (!this.tones[layer.midi_chan] && layer.preset_name) {
+      const preset = layer.preset_name;
+      if (!this.tones[layer.midi_chan] && preset) {
         const type = this.guessEngineType(layer);
-        const tclass = this.getToneClass(type, layer);
+        const instrument = await this.getInstrument(type, preset);
+        const URI = instrument
+          ? await this.getToneURI(type, instrument.presetName, instrument.meta)
+          : "";
         this.tones[layer.midi_chan] = {
           engine: type,
-          toneClass: tclass,
-          toneURI: this.getToneURI(type, tclass, layer),
+          instrument: instrument.meta,
+          URI,
           meta: {
-            originalPreset: layer.preset_name,
+            originalPreset: preset,
             originalEngine: layer.engine_name,
           },
         };

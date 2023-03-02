@@ -1,6 +1,6 @@
 import { ZSSService as ZSS } from "../zss/zss";
 import { AudioService } from "./audio";
-import { pathSounds, pathSongs } from "./res/resource";
+import { paths} from "./res/resource";
 import { Song } from "./song";
 
 export class ImportFile {
@@ -27,7 +27,11 @@ export class ImportFile {
   }
 }
 
-export const downloadFile = async (fileName: string, folderName: string) => {
+export const downloadFile = async (
+  fileName: string,
+  folderName: string,
+  toJson = false
+) => {
   let raw;
   const path = `/${folderName}/${fileName}`;
   try {
@@ -37,7 +41,7 @@ export const downloadFile = async (fileName: string, folderName: string) => {
     console.log("error", err);
     return false;
   }
-  return raw;
+  return toJson ? await JSON.parse(raw) : raw;
 };
 
 export const createSongFrom = async (zss: ZSS, songName: string) => {
@@ -65,7 +69,7 @@ export const load = async (file: ImportFile, release = true) => {
   let song;
   file.content = file.content
     ? file.content
-    : await downloadFile(file.name, pathSongs);
+    : await downloadFile(file.name, paths.songsFolder);
   console.log(file);
   const zss = ZSS.getInstance();
   if (file.isZSS) {

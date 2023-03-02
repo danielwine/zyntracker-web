@@ -12,7 +12,7 @@ import SideBar from "../layout/SideBar.vue";
 import Footer from "../layout/Footer.vue";
 import SongInfo from "../app/SongInfo.vue";
 import TransportBar from "../app/TransportBar.vue";
-import { appName } from "@/composables/config";
+import { appInfo } from "@/composables/config";
 
 /**
  * Main container for the actual application UI
@@ -32,7 +32,7 @@ export default defineComponent({
     return {
       tabList: ["Instruments", "Test songs"],
       windowWidth: window.innerWidth,
-      appName,
+      appName: appInfo.name,
     };
   },
   methods: {

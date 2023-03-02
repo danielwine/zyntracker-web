@@ -46,7 +46,7 @@ export default defineComponent({
     <OptionsItem
       label="Try to use samples from a limited sample library instead of web synthesis" 
       id="use-samples"
-      :value="false"
+      :value="true"
     ></OptionsItem>
 
     <!-- <h4>Specific options</h4> -->

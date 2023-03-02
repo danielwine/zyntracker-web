@@ -1,3 +1,5 @@
+import { SampledInstrument } from "./library";
+
 export enum EngineType {
   "UNKNOWN" = "Sine",
   "SAMPLER" = "Sampler",
@@ -16,10 +18,16 @@ export interface IZyntrackerTones {
 
 export interface IZyntrackerTone {
   engine: EngineType;
-  toneClass: ToneClass;
-  toneURI?: string;
+  toneclass?: ToneClass;
+  instrument: SampledInstrument;
+  URI?: string;
   meta: {
     originalEngine: string;
     originalPreset: string;
   };
+}
+
+export class ZyntrackerInstrument {
+  presetName = "";
+  meta = new SampledInstrument();
 }
