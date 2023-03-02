@@ -46,7 +46,6 @@ export const downloadFile = async (
 
 export const createSongFrom = async (zss: ZSS, songName: string) => {
   let song = new Song();
-  // song.
   const imported = await song.import(zss);
   if (!imported) return false;
   song.name = songName;
