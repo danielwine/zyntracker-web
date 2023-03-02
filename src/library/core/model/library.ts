@@ -5,6 +5,7 @@ export class SampledInstrument {
   class = "";
   sub = "";
   resolution? = "";
+  generator? = "";
 }
 
 interface IndexableByString {

@@ -1,4 +1,9 @@
-import { EngineType, ToneClass, type IZyntrackerTones } from "./model/song";
+import {
+  EngineType,
+  ToneClass,
+  ZyntrackerInstrument,
+  type IZyntrackerTones,
+} from "./model/song";
 import {
   ZynseqSequence,
   type IZSSLayer,
@@ -57,12 +62,12 @@ export class Song {
     return EngineType.UNKNOWN;
   }
 
-  private async getToneClass(engineType: EngineType, presetName: string) {
+  private async getInstrument(engineType: EngineType, presetName: string) {
     if (settings.preferSampleLibrary) {
-      return await this.library.getClass(presetName);
+      return await this.library.getInstrument(presetName);
     }
     // if (localSamples.drums.includes(layer.preset_name)) return ToneClass.DRUM;
-    return { class: "", sub: "" };
+    return new ZyntrackerInstrument();
   }
 
   private async getToneURI(
@@ -88,11 +93,13 @@ export class Song {
       const preset = layer.preset_name;
       if (!this.tones[layer.midi_chan] && preset) {
         const type = this.guessEngineType(layer);
-        const instrument = await this.getToneClass(type, preset);
-        const URI = await this.getToneURI(type, preset, instrument);
+        const instrument = await this.getInstrument(type, preset);
+        const URI = instrument
+          ? await this.getToneURI(type, instrument.presetName, instrument.meta)
+          : "";
         this.tones[layer.midi_chan] = {
           engine: type,
-          instrument,
+          instrument: instrument.meta,
           URI,
           meta: {
             originalPreset: preset,

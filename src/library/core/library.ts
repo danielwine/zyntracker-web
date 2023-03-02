@@ -1,8 +1,9 @@
-import { SampledInstrument, SampledInstruments } from "./model/library";
-import { paths } from "./res/resource";
+import type { SampledInstrument, SampledInstruments } from "./model/library";
+import { noteMaps, paths } from "./res/resource";
 import { downloadFile } from "./file";
 import { SFZ } from "./sfz";
 import type { LibraryItem } from "./model/library";
+import { ZyntrackerInstrument } from "./model/song";
 
 /**
  * Service for managing a local library of sampled instruments
@@ -17,12 +18,6 @@ export class LibraryService {
       LibraryService.instance = new LibraryService();
     }
     return LibraryService.instance;
-  }
-
-  private anyIncludes(array: string[], sequenceName: string): boolean {
-    return array.some((item) => {
-      return sequenceName.includes(item) ? true : false;
-    });
   }
 
   get instruments() {
@@ -55,17 +50,17 @@ export class LibraryService {
     return { prefix, name };
   }
 
-  async getClass(presetName: string) {
+  async getInstrument(presetName: string): Promise<ZyntrackerInstrument> {
     const instruments = (await this.instruments) as SampledInstruments;
     const { prefix, name } = this.splitPresetName(presetName);
-    console.log(prefix, name);
 
-    if (name in instruments) return instruments[name];
+    if (name in instruments) return { presetName, meta: instruments[name] };
     const underscored = name.split("_").join(" ");
-    if (underscored in instruments) return instruments[underscored];
+    if (underscored in instruments)
+      return { presetName, meta: instruments[underscored] };
 
-    let guess = this.guessPresetClass(prefix, name);
-    if (!guess) return new SampledInstrument();
+    let guess = this.findSimilarEntry(prefix, name);
+    if (!guess) return new ZyntrackerInstrument();
     else return guess;
   }
 
@@ -85,22 +80,35 @@ export class LibraryService {
     );
   }
 
+  public getNoteMap(resolution: string) {
+    const noteMap: { [key: string]: string } = {};
+    noteMaps[resolution].forEach((item) => (noteMap[item] = item + ".mp3"));
+    return noteMap;
+  }
+
   async loadSFZ(URL: string) {
     let sfz = new SFZ();
     await sfz.load(URL);
     return sfz.createNoteMap();
   }
 
-  private async guessPresetClass(prefix: string, name: string) {
-    let instrument = new SampledInstrument();
-    for (let entry of Object.entries(await this.defaults)) {
-      if (
-        name.includes(entry[0]) ||
-        prefix.includes((entry[1] as LibraryItem)["_alias"])
-      )
-        instrument.class = entry[0];
+  private anyIncludes(array: string[], text: string): boolean {
+    return array.some((item) => {
+      return text == item.toLowerCase() ? true : false;
+    });
+  }
+
+  private async findSimilarEntry(
+    prefix: string,
+    name: string
+  ): Promise<ZyntrackerInstrument> {
+    for (let entry of Object.entries(await this.instruments)) {
+      const words = entry[0].split(" ");
+
+      if (name.split(" ").some((word) => this.anyIncludes(words, word))) {
+        return { presetName: entry[0], meta: entry[1] as SampledInstrument };
+      }
     }
-    console.log(instrument);
-    return instrument;
+    return new ZyntrackerInstrument();
   }
 }

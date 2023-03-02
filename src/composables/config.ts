@@ -13,7 +13,7 @@ export const appInfo = {
  * General settings
  */
 
-export const production = false;
+export const production = true;
 export const settings = {
   autostartTransport: true,
   preferSampleLibrary: true,

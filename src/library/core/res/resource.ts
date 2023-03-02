@@ -15,32 +15,11 @@ export const defaultSnapshot = "FieryRedSunset.zss";
 /**
  * Predefined notemaps for tone.js
  */
-export const noteMaps: { [key: string]: any } = {
-  minimal: {
-    A1: "A1.mp3",
-    A2: "A2.mp3",
-  },
-  4: {
-    C1: "C1.mp3",
-    C2: "C2.mp3",
-    C3: "C3.mp3",
-    C4: "C4.mp3",
-    E1: "E1.mp3",
-    E2: "E2.mp3",
-    E3: "E3.mp3",
-    Ab1: "Ab1.mp3",
-    Ab2: "Ab2.mp3",
-    Ab3: "Ab3.mp3",
-  },
-  6: {
-    C1: "C1.mp3",
-    C2: "C2.mp3",
-    C3: "C3.mp3",
-    C4: "C4.mp3",
-    Gb1: "Gb1.mp3",
-    Gb2: "Gb2.mp3",
-    Gb3: "Gb3.mp3",
-  },
+export const noteMaps: { [key: string]: string[] } = {
+  4: ["C2", "C3", "C4", "C5", "E2", "E3", "E4", "Ab2", "Ab3", "Ab4"],
+  6: ["C2", "C3", "C4", "C5", "Gb2", "Gb3", "Gb4"],
+  12: ["C2", "C3"],
+  0: ["C3"],
 };
 
 // Paths

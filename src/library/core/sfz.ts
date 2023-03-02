@@ -1,7 +1,7 @@
 import { downloadFile } from "../core/file";
 import { paths } from "./res/resource";
 import { SFZRegion } from "./model/sfz";
-import { getNoteFromMidiCode } from "./res/keymap";
+import { getNoteFromMidiCode, base_midi_note } from "./res/keymap";
 
 /**
  * Dummy SFZ file parser
@@ -31,18 +31,24 @@ export class SFZ {
       });
       regions.push(region);
     });
+    console.log(regions);
+
     return regions;
   }
   public createNoteMap() {
     let noteMap: { [key: string]: any } = {};
     this.regions.forEach((region) => {
-      const note = getNoteFromMidiCode(region.lokey);
+      const note = getNoteFromMidiCode(
+        region.lokey > 0 ? region.lokey : region.hikey
+      );
       const path = region.sample
         .replace(".wav", ".mp3")
         .replace(/\\/g, "/")
         .replace(/ /g, "_");
       noteMap[note] = path;
     });
+    console.log(noteMap);
+
     return noteMap;
   }
 }

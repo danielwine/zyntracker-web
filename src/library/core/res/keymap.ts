@@ -5,7 +5,7 @@ const ui = useUIStore();
 export const defaultOctave = 3;
 export const minOctave = 1;
 export const maxOctave = 7;
-const base_midi_note = 36;
+export const base_midi_note = 24;
 
 const physical_keys = [
   [
@@ -126,6 +126,18 @@ const notes = [
   "A6",
   "A#6",
   "B6",
+  "C7",
+  "C#7",
+  "D7",
+  "D#7",
+  "E7",
+  "F7",
+  "F#7",
+  "G7",
+  "G#7",
+  "A7",
+  "A#7",
+  "B7",
 ];
 
 const getNoteFromMidiCode = (code: number) => {

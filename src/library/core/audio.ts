@@ -103,13 +103,12 @@ export class AudioService {
     }
 
     if (tone.instrument?.resolution) {
-      noteMap = noteMaps[tone.instrument.resolution];
+      noteMap = this.library.getNoteMap(tone.instrument.resolution);
     }
     let samplerParams = {
       urls: noteMap ? noteMap : noteMaps.minimal,
       baseUrl,
     };
-    console.log(tone, samplerParams);
 
     console.debug("SAMPLERParams:", { samplerParams });
     return new Sampler(samplerParams).connect(this.masterVolume);
