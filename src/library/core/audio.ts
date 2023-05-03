@@ -63,6 +63,8 @@ export class AudioService {
         console.debug("SAMPLERInstance: ", this.engines[idx]);
       } else this.engines[idx] = this.getSynthInstance(entry[1]);
     }
+    Transport.bpm.value = this.song.tempo;
+    console.log('Transport BPM: ', Transport.bpm.value);
   }
 
   getSynthInstance(tone: IZyntrackerTone) {

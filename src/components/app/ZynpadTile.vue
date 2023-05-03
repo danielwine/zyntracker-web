@@ -70,7 +70,7 @@ export default defineComponent({
     },
     playModeUrl() {
       return new URL(
-        `../../assets/images/state_${this.playMode}.png`,
+        `../../assets/images/mode_${this.playMode}.png`,
         import.meta.url
       ).href;
     },
@@ -98,9 +98,7 @@ export default defineComponent({
 <template>
   <div
     class="tile"
-    :class="`group-${sequence.group} ${
-      selected == 'true' ? 'tile-selected' : ''
-    }`"
+    :class="`${selected == 'true' ? 'tile-selected' : ''}`"
     @mousedown="clickStart"
     @mouseleave="clickStop"
     @mouseup="clickStop"
@@ -109,16 +107,20 @@ export default defineComponent({
     @touchcancel="clickStop"
   >
     <div id="innerContent">
-      <div class="tile-header">
-        <pre>{{ sequence.name }}</pre>
-      </div>
-      <div class="tile-footer">
-        <pre class="group"> {{ groupCode }}</pre>
-        <img class="playmode" :src="playModeUrl" alt="" />
-        <span class="playstate">
-          <img :src="playStateUrl" alt="" />
+      <div class="tile-header" :class="`group-header-${sequence.group}`">
+        <!-- <div class="row"> -->
+        <span>
+          <img class="playmode" :src="playModeUrl" alt="" />
+          <pre class="channel">CH{{ sequence.group + 1 }}</pre>
+          <pre class="group"> {{ groupCode }}{{ sequence.id }}</pre>
+          <span class="playstate">
+            <img v-if="playState" :src="playStateUrl" alt="" />
+          </span>
         </span>
-        <!-- <pre>{{ sequence.playMode }}</pre> -->
+        <!-- </div> -->
+      </div>
+      <div class="tile-body" :class="`group-body-${sequence.group}`">
+        {{ sequence.name }}
       </div>
     </div>
   </div>
@@ -126,9 +128,10 @@ export default defineComponent({
 
 <style scoped>
 .tile {
+  /* font-family: "Audiowide"; */
   user-select: none;
-  width: 150px;
-  height: 11vh;
+  width: 25%;
+  height: 10vh;
   color: #fff;
   border: 1px solid black;
 }
@@ -143,116 +146,202 @@ export default defineComponent({
 }
 
 .tile-header {
-  background-color: black;
+  height: 30%;
 }
 
-.tile-header pre,
-.tile-footer pre {
-  overflow: hidden;
-  font-size: 0.84em;
+.tile-header-row {
+  display: block;
 }
 
-.tile-footer {
-  position: absolute;
-  display: flex;
-  gap: 0.9em;
-  left: 2%;
-  top: 50%;
+.channel {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
-.tile-footer .playstate {
-  margin-top: -4px;
-  height: 16px;
-  width: 16px;
+.tile-body {
+  /* font-family: "Audiowide"; */
+  height: 76%;
+  padding-top: 5px;
+  padding-left: 5px;
+}
+
+.tile-header pre {
+  display: inline;
+}
+
+.tile-header .playstate {
+  margin-right: 15px;
+  float: right;
+}
+
+.tile-header .playstate img {
+  height: 14px;
+  width: 14px;
 }
 
 #innerContent {
-  position: absolute;
-  left: 3px;
-  right: 3px;
-  top: 3px;
-  bottom: 3px;
-  font-size: 1.05em;
-  text-align: center;
-  font-weight: bolder;
+  /* font-size: 1.05em; */
+  height: 100%;
+  top: 1px;
+  bottom: 2px;
 }
 
-pre.group {
-  font-size: 1em;
+.group-header-0 {
+  background-color: #662426;
 }
-.group-0 {
-  background-color: #1b0157;
-}
-
-.group-1 {
-  background-color: #018680;
+.group-body-0 {
+  background-color: #8e4c4e;
 }
 
-.group-2 {
-  background-color: #9b5a28;
+.group-header-1 {
+  background-color: #3c6964;
 }
 
-.group-3 {
-  background-color: #c601c4;
+.group-body-1 {
+  background-color: #64918c;
 }
 
-.group-4 {
-  background-color: burlywood;
+.group-header-2 {
+  background-color: #4d6817;
 }
-.group-5 {
-  background-color: #8d985d;
+
+.group-body-2 {
+  background-color: #75903f;
 }
-.group-6 {
-  background-color: #ff27ae;
+
+.group-header-3 {
+  background-color: #664980;
 }
-.group-7 {
-  background-color: #d8765b;
+
+.group-body-3 {
+  background-color: #8e71a8;
 }
-.group-8 {
-  background-color: darkblue;
-  /* background-color: darkolivegreen; */
+
+.group-header-4 {
+  background-color: #4c709a;
 }
-.group-9 {
-  background-color: #cb01c8;
+
+.group-body-4 {
+  background-color: #7498c2;
+}
+
+.group-header-5 {
+  background-color: #4c94cc;
+}
+
+.group-body-5 {
+  background-color: #74bcf4;
+}
+
+.group-header-6 {
+  background-color: #006000;
+}
+
+.group-body-6 {
+  background-color: #288828;
+}
+
+.group-header-7 {
+  background-color: #b7aa5e;
+}
+
+.group-body-7 {
+  background-color: #dfd286;
+}
+
+.group-header-8 {
+  background-color: #996633;
+}
+
+.group-body-8 {
+  background-color: #c18e5b;
+}
+
+.group-header-9 {
+  background-color: #746360;
+}
+
+.group-body-9 {
+  background-color: #9c8b88;
+}
+
+.group-header-10 {
+  background-color: #d07272;
+}
+
+.group-body-10 {
+  background-color: #f89a9a;
+}
+
+.group-header-11 {
+  background-color: #000060;
+}
+
+.group-body-11 {
+  background-color: #282888;
+}
+
+.group-header-12 {
+  background-color: #048c8c;
+}
+
+.group-body-12 {
+  background-color: #2cb4b4;
+}
+.group-header-13 {
+  background-color: #f46815;
+}
+
+.group-body-13 {
+  background-color: #ff903d;
+}
+
+.group-header-14 {
+  background-color: #bf9c7c;
+}
+
+.group-body-14 {
+  background-color: #e7c4a4;
+}
+
+.group-header-15 {
+  background-color: #56a556;
+}
+
+.group-body-15 {
+  background-color: #7ecd7e;
 }
 
 @media screen and (min-width: 1500px) {
-  .tile-footer {
-    gap: 0.9em;
-    left: 5%;
-    top: 50%;
-  }
-  .tile-footer .playmode {
-    margin-top: 4px;
-    width: 40%;
+  .tile-header .playmode {
+    margin-top: 2px;
+    margin-left: 4px;
+    width: 32px;
     height: 16px;
   }
 }
 
 @media screen and (max-width: 1499.999px) {
-  .tile-footer {
-    gap: 0.9em;
-    left: 20%;
-    top: 50%;
-  }
-  .tile-footer .playmode {
-    margin-top: 4px;
-    width: 50%;
+  .tile-header .playmode {
+    /* width: 50%; */
     height: 16px;
   }
   .group {
     display: none;
   }
 }
-@media screen and (max-width: 1139.999px) {
-  .tile-footer {
-    gap: 1em;
-    left: 20%;
-    top: 50%;
+
+@media screen and (max-width: 1699.999px) {
+  .tile-header .channel {
+    display: none;
   }
-  .tile-footer .playmode {
-    margin-top: 4px;
-    width: 50%;
+  .tile-body {
+    font-size: 0.9em;
+  }
+}
+@media screen and (max-width: 1139.999px) {
+  .tile-header .playmode {
+    width: 32px;
     height: 14px;
   }
   .group {
@@ -263,21 +352,6 @@ pre.group {
   .tile {
     width: 150px;
     height: 10vh;
-  }
-  .tile-header pre {
-    font-size: 0.7em;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1499.999px) {
-  .tile-header pre {
-    font-size: 0.76em;
-  }
-}
-
-@media screen and (min-width: 992px) and (max-width: 1199.999px) {
-  .tile-header pre {
-    font-size: 0.7em;
   }
 }
 </style>

@@ -14,7 +14,7 @@ The current running version of the app is available here: [zyntracker.web.app](h
 
 ## Project State
 
-This webapp is in the _early stages of development_ (version 0.0.2), but basic features are working.
+This webapp is in the _early stages of development_ (version 0.0.4), but basic features are working.
 
 Currently implemented:
 

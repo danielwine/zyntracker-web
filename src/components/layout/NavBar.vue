@@ -111,7 +111,7 @@ p {
   font-size: 1em;
   font-weight: 300;
   line-height: 1.7em;
-  color: #999;
+  color: #bbb;
 }
 
 a.nav-item-auth,

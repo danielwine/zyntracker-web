@@ -1,8 +1,8 @@
 @import "./base.css";
 
 @font-face {
-  font-family: C64Pro_mono;
-  src: url("../fonts/C64_Pro_Mono-STYLE.woff");
+  font-family: 'Audiowide';
+  src: url("/fonts/Audiowide-Regular.ttf");
 }
 
 body {
