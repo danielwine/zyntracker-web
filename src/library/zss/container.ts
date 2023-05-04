@@ -101,18 +101,28 @@ export class ZynseqContainer extends ZynseqBuffer {
     this.pos = blockEnd;
   }
 
+  private getPatternEventLength() {
+    this.eventLength = "version" in this.object.header &&
+      this.object.header["version"] == "8"
+      ? 16
+      : 14;
+  }
+
   private readBlock(blockType: string, startIndex: number, endIndex: number) {
     switch (blockType) {
       case BlockType.Header:
         this.object.header = this.readVariables(
           ZynSeqFormat.version as IZynseqVariable[]
         );
+        this.getPatternEventLength()
         break;
       case BlockType.Pattern:
         let pattern = this.readVariables(
           ZynSeqFormat.pattern as IZynseqVariable[]
         ) as IZynseqPattern;
-        const eventQuantity = (endIndex - startIndex - 14) / 14;
+        console.debug(this.eventLength);
+        const eventQuantity =
+          (endIndex - startIndex - this.eventLength) / this.eventLength;
         pattern["events"] = this.readArrayOfVariables(
           ZynSeqFormat.patternEvents as IZynseqVariable[],
           eventQuantity

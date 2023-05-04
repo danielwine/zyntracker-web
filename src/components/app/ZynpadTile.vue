@@ -146,7 +146,7 @@ export default defineComponent({
 }
 
 .tile-header {
-  height: 30%;
+  height: 31%;
 }
 
 .tile-header-row {
@@ -160,7 +160,7 @@ export default defineComponent({
 
 .tile-body {
   /* font-family: "Audiowide"; */
-  height: 76%;
+  height: 72%;
   padding-top: 5px;
   padding-left: 5px;
 }
@@ -186,6 +186,13 @@ export default defineComponent({
   bottom: 2px;
 }
 
+.tile {
+  filter: brightness(0.9) contrast(1.4);
+  /* filter: brightness(0.9) contrast(1.3); */
+}
+
+.tile-body {
+}
 .group-header-0 {
   background-color: #662426;
 }
