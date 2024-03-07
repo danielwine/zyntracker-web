@@ -5,8 +5,7 @@ ZynTracker is a simple web-based music sketchbook, **sequence editor and player*
 ## About
 
 The application is written using VueJS and can natively read
-<code>ZSS snapshot files</code> (along with the encoded binary <code>RIFF</code> sequence data) and convert the extracted patterns into ToneJS sequences that can be played back (and edited) using the <code>Web Audio / ToneJS API</code>. This is
-the only third-party library used.
+<code>ZSS snapshot files</code> (along with the encoded binary <code>RIFF</code> sequence data) and convert the extracted patterns into ToneJS sequences that can be played back (and edited) using the <code>Web Audio / ToneJS API</code>. This is the only third-party library used.
 
 ## Web application
 
@@ -25,7 +24,7 @@ Currently implemented:
 ## Project Setup
 
 ```sh
-git clone --recurse-submodules http://github.com/danielwine/zyntracker
+git clone --recurse-submodules http://github.com/danielwine/zyntracker-web
 ```
 
 ```sh
@@ -46,6 +45,6 @@ npm run build
 
 ## Copyright and license
 
-Copyright 2022-2023 Daniel Vinkovics.
+Copyright 2022-2024 Daniel Vinkovics.
 
 Licensed under the **[AGPL-3 License](https://github.com/danielwine/zyntracker/blob/main/LICENSE)**.

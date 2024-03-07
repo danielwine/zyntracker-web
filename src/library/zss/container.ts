@@ -102,8 +102,9 @@ export class ZynseqContainer extends ZynseqBuffer {
   }
 
   private getPatternEventLength() {
-    this.eventLength = "version" in this.object.header &&
-      this.object.header["version"] == "8"
+    const header = this.object.header as IZynseqHeader
+    this.eventLength = "version" in header &&
+      header["version"] == 8
       ? 16
       : 14;
   }
