@@ -37,7 +37,7 @@ export default {
             v-if="togglerVisible"
             type="button"
             id="sidebarCollapse"
-            class="btn btn-info"
+            class="btn btn-logo"
             @click="togglerActive ? toggle() : {}"
             :disabled="!togglerActive"
           >
@@ -134,9 +134,7 @@ a.nav-item-page:focus {
 
 a.nav-item-auth:hover,
 a.nav-item-page:hover {
-  background-color: #444;
-  /* background-color: #018680; */
-  /* background-color: #474; */
+  filter: brightness(0.9);
 }
 
 .navbar {
@@ -156,6 +154,7 @@ a.router-link-active.nav-item-page {
 
 .nav-item-active {
   color: white !important;
+  background-color: var(--color-background-passive);
 }
 
 .nav-item-page {
@@ -164,6 +163,11 @@ a.router-link-active.nav-item-page {
 
 .bg-dark {
   background-color: #333 !important;
+}
+
+.btn-logo {
+  /* background-color: #006000!important; */
+  background-color:  var(--color-background-passive)!important;
 }
 
 #content {

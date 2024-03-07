@@ -404,7 +404,7 @@ export default defineComponent({
 }
 
 .p-active {
-  background-color: hsla(160, 100%, 37%, 1);
+  background-color: #508050;
 }
 
 .p-row .p-velocity.p-active,

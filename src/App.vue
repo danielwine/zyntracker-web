@@ -39,6 +39,7 @@ a {
 
 a.router-link-active {
   color: white;
+  /* background-color: var(--color-background-passive); */
   transition: 0.15s ease-in-out;
 }
 
