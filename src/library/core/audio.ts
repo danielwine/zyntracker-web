@@ -63,6 +63,8 @@ export class AudioService {
         console.debug("SAMPLERInstance: ", this.engines[idx]);
       } else this.engines[idx] = this.getSynthInstance(entry[1]);
     }
+    // Transport.bpm.value = this.song.tempo;
+    // console.log("Transport BPM: ", Transport.bpm.value);
   }
 
   getSynthInstance(tone: IZyntrackerTone) {
@@ -106,7 +108,7 @@ export class AudioService {
       noteMap = this.library.getNoteMap(tone.instrument.resolution);
     }
     let samplerParams = {
-      urls: noteMap ? noteMap : noteMaps.minimal,
+      urls: noteMap ? noteMap : noteMaps["12"],
       baseUrl,
     };
 
@@ -129,6 +131,7 @@ export class AudioService {
     // console.debug(pattern.id);
     let sequence = new ToneSequence();
     sequence.engine = engine;
+    console.debug("CREATING SEQ...");
     sequence.sequence = new Sequence((time, value) => {
       console.debug(time);
       value?.notes.forEach((note, idx) => {
@@ -141,12 +144,14 @@ export class AudioService {
         );
       });
     }, pattern.events);
+    console.debug("RETURNING SEQ");
     return sequence;
   }
 
   async addBasicPatterns() {
     console.debug("ENGINES: ", this.engines);
     this.song.sequences.forEach((sequence, index) => {
+      console.log(index);
       let firstPatternID = sequence.getFirstPatternID();
       // console.log(sequence, index, firstPatternID);
       let firstTrackChannel = sequence.tracks[0].midiChannel;

@@ -50,6 +50,8 @@ export class Song {
     success = await this.importZSSTones(zss);
     this.importZSSPatterns(zss);
     this.importZSSSequences(zss);
+    // this.tempo = data.header.tempo;
+    // this.beatsPerBar = data.header.beatsPerBar;
     return success;
   }
 

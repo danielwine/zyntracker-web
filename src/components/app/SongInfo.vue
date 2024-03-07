@@ -79,10 +79,13 @@ export default defineComponent({
 
   <div class="panel-content">
     <div class="container song-info-row row">
-      <div class="col-12 col-xxl-4">[{{ main.song.name.toLowerCase() }}]</div>
-      <div class="col-12 col-xxl-8 text-xxl-start">
+      <div class="col-12">[{{ main.song.name.toLowerCase() }}]</div>
+      <div class="col mt-2">
         <code class="song-info">
-          <span class="song-info-detail"
+          <span class="song-info-detail pe-3"
+            >BPM: {{ main.song?.tempo }}</span
+          >
+          <span class="song-info-detail pe-3"
             >#sequences: {{ main.song?.sequences.length }}</span
           >
           <span class="song-info-detail">
@@ -90,7 +93,7 @@ export default defineComponent({
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               :title="patterns"
-              >&nbsp;&nbsp;#patterns: {{ main.song?.patterns.length }}
+              >#patterns: {{ main.song?.patterns.length }}
             </span>
           </span>
         </code>

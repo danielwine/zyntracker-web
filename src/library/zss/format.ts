@@ -39,6 +39,8 @@ export const ZynSeqFormat = {
     ["value2_Start", 1],
     ["value1_End", 1],
     ["value2_End", 1],
+    ["?stutterCount", 1],
+    ["?stutterDuration", 1],
     ["_unused", 1],
   ],
   bank: [

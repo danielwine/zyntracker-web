@@ -5,6 +5,7 @@ export class ZynseqBuffer {
   dv!: DataView;
   currentObject: any;
   pos = 0;
+  protected eventLength = 16;
 
   struct: { [key: string]: string | [] } = {};
   constructor(blockBuffer: ArrayBuffer) {
@@ -70,6 +71,10 @@ export class ZynseqBuffer {
       target = {};
     }
     variables.forEach((variable) => {
+      if (variable[0].startsWith("?")) {
+        if (this.eventLength == 14) return;
+        else variable[0] = variable[0].slice(1);
+      }
       result = this.readVariable(variable[0], variable[1]);
       target[result[0]] = result[1];
     });

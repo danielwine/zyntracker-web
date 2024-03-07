@@ -51,12 +51,15 @@ export default defineComponent({
 }
 
 .panel-header-active {
-  background-color: #474;
+  /* background-color: #474; */
+  background-color: #508050;
+  /* filter: contrast(0.4); */
 }
 
 .panel-header-inactive {
   color: white;
   background-color: #555;
+  /* background-color: #006000; */
 }
 
 .panel-header-control {

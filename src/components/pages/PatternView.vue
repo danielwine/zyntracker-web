@@ -5,6 +5,7 @@ import { useUIStore } from "@/stores/ui";
 import { Panels } from "@/stores/model";
 import { storeToRefs } from "pinia";
 
+import { debug } from '@/composables/config'
 import { AudioService } from "@/library/core/audio";
 import type { ToneSequenceEvents } from "@/library/core/model/pattern";
 import * as keymap from "@/library/core/res/keymap";
@@ -40,6 +41,7 @@ export default defineComponent({
       currentPattern,
       audioService,
       Panels,
+      debug
     };
   },
   mounted() {
@@ -309,40 +311,41 @@ export default defineComponent({
     </template>
     <template #control>
       <Pager
-        @next="currentPattern += 1"
-        @previous="currentPattern -= 1"
-        title="pattern"
+      @next="currentPattern += 1"
+      @previous="currentPattern -= 1"
+      title="pattern"
         :value="currentPattern"
         :min="0"
         :max="lastPatternId"
-      ></Pager>
-    </template>
-  </PanelHeader>
-  <main>
-    <div class="pattern">
-      <div id="innerContent">
-        <div :class="'p-rows ' + (editMode ? 'p-editable' : '')">
-          <div
+        ></Pager>
+      </template>
+    </PanelHeader>
+    <main>
+      <div class="pattern">
+        <div id="innerContent">
+          <div :class="'p-rows ' + (editMode ? 'p-editable' : '')">
+            <div
             class="p-row d-flex"
             :class="isActiveRow(eventIdx + offset - padding)"
             v-for="(event, eventIdx) in view"
-          >
+            >
             <pre v-if="event != ''" :class="'p-index'"
-              >{{ formatIndex(eventIdx + offset - padding) }} </pre
+            >{{ formatIndex(eventIdx + offset - padding) }} </pre
             >
             <p v-if="event == ''" class="p-row-placeholder"></p>
             <pre
-              v-if="event == null"
-              class="p-row-empty"
-              v-for="x in polyphonyLevel"
+            v-if="event == null"
+            class="p-row-empty"
+            v-for="x in polyphonyLevel"
             > <span :ref="formatId(eventIdx + offset - padding, x, 1)" class="p-note">---</span> <span :ref="formatId(eventIdx + offset - padding, x, 2)" class="p-velocity">--</span> </pre>
             <pre
-              v-if="event"
-              v-for="noteIdx in polyphonyLevel"
+            v-if="event"
+            v-for="noteIdx in polyphonyLevel"
             > <span :id="formatId(eventIdx + offset - padding, noteIdx, 1)" :ref="formatId(eventIdx + offset - padding, noteIdx, 1)" :class="'p-note ' + ((events[eventIdx + offset - padding]?.notes[noteIdx - 1]) ? '' : 'p-empty')">{{ formatNote(events[eventIdx + offset - padding]?.notes[noteIdx - 1]) }}</span> <span :ref="formatId(eventIdx + offset - padding, noteIdx, 2)" class="p-velocity">{{ formatVelocity(events[eventIdx + offset - padding]?.velocities[noteIdx - 1]) }}</span> </pre>
           </div>
         </div>
       </div>
+      <span style="margin-left: 380px; color:grey;" v-if="debug">{{ main.song.patterns[currentPattern] }}</span>
     </div>
   </main>
 </template>
@@ -401,7 +404,7 @@ export default defineComponent({
 }
 
 .p-active {
-  background-color: hsla(160, 100%, 37%, 1);
+  background-color: #508050;
 }
 
 .p-row .p-velocity.p-active,

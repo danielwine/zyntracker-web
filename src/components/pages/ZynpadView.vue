@@ -150,7 +150,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <PanelHeader title="Bank" :id="0">
+  <PanelHeader title="Scene" :id="0">
     <template #option> 00 </template>
     <template #control>
       <Pager title="pattern" :value="0" :min="0" :max="0"></Pager>
@@ -173,4 +173,6 @@ export default defineComponent({
     >
     </Tile>
   </div>
+  <div class="mb-4"></div>
+  
 </template>
